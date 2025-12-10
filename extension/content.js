@@ -1,9 +1,99 @@
 /******/ (() => { // webpackBootstrap
-var __webpack_exports__ = {};
 /*!**********************!*\
   !*** ./src/index.js ***!
   \**********************/
 console.log("hello world!");
+function scanForMedia(document) {
+  var mediaTagSelector = 'video';
+
+  // ① 查找普通DOM中的video/audio标签
+  var regularMedia = document.querySelectorAll(mediaTagSelector);
+
+  //   // ② 递归查找Shadow DOM中的video标签
+  //   const shadowMedia = findShadowMedia(document, mediaTagSelector);
+
+  //   // ③ 查找网站特定的视频元素
+  //   const siteSpecificMedia = this.siteHandler.detectSpecialVideos(document);
+
+  //   // ④ 过滤掉需要忽略的视频
+  //   return filteredMedia;
+  return regularMedia;
+}
+medias = scanForMedia(document);
+
+// 输出找到的媒体元素
+console.log("Found media elements:", medias);
+
+// create a time element at the middle of top the media element
+// only show the time element when the media is fullscreen
+medias.forEach(function (media) {
+  var timeElement = document.createElement('div');
+  timeElement.style.backgroundColor = 'rgba(0, 0, 0, 0.5)';
+  timeElement.style.color = 'white';
+  timeElement.style.padding = '5px';
+  timeElement.style.borderRadius = '5px';
+  timeElement.style.zIndex = '999999';
+  timeElement.innerText = '00:00 / 00:00'; // Placeholder text
+
+  // hidden by default — will only be shown when this media is fullscreen
+  timeElement.style.display = 'none';
+  function showFullscreen() {
+    timeElement.style.position = 'absolute';
+    timeElement.style.top = '10px';
+    timeElement.style.left = '50%';
+    timeElement.style.transform = 'translateX(-50%)';
+    if (timeElement.parentElement !== media.parentElement) media.parentElement.appendChild(timeElement);
+    timeElement.style.display = 'block';
+    timeElement.style.zIndex = '999999';
+  }
+  function hide() {
+    timeElement.style.display = 'none';
+    if (timeElement.parentElement === media.parentElement) media.parentElement.removeChild(timeElement);
+  }
+  function updateVisibility() {
+    var fsEl = document.fullscreenElement || document.webkitFullscreenElement || document.mozFullScreenElement || document.msFullscreenElement;
+    var isFull = fsEl && (fsEl === media || fsEl.contains(media) || media.contains(fsEl));
+    if (isFull) showFullscreen();else hide();
+  }
+
+  // format time in seconds to mm:ss
+  function formatTime(seconds) {
+    if (isNaN(seconds)) return '00:00';
+    var mins = Math.floor(seconds / 60);
+    var secs = Math.floor(seconds % 60);
+    return "".concat(String(mins).padStart(2, '0'), ":").concat(String(secs).padStart(2, '0'));
+  }
+
+  // add a function to update the time element
+  function updateTime() {
+    var currentTime = media.currentTime;
+    var duration = media.duration;
+    timeElement.innerText = "".concat(formatTime(currentTime), " / ").concat(formatTime(duration));
+    // obtain the current system time
+    var now = new Date();
+    var hours = String(now.getHours()).padStart(2, '0');
+    var minutes = String(now.getMinutes()).padStart(2, '0');
+    var seconds = String(now.getSeconds()).padStart(2, '0');
+    var systemTime = "".concat(hours, ":").concat(minutes, ":").concat(seconds);
+    timeElement.innerText += " | ".concat(systemTime);
+  }
+
+  // update time every second if the media is fullscreen
+  setInterval(function () {
+    var fsEl = document.fullscreenElement || document.webkitFullscreenElement || document.mozFullScreenElement || document.msFullscreenElement;
+    var isFull = fsEl && (fsEl === media || fsEl.contains(media) || media.contains(fsEl));
+    if (isFull) updateTime();
+  }, 1000);
+
+  // initial check in case the media is already fullscreen
+  updateVisibility();
+  //   showFullscreen();
+  // standard and vendor-prefixed fullscreen change events
+  document.addEventListener('fullscreenchange', updateVisibility);
+  document.addEventListener('webkitfullscreenchange', updateVisibility);
+  document.addEventListener('mozfullscreenchange', updateVisibility);
+  document.addEventListener('MSFullscreenChange', updateVisibility);
+});
 /******/ })()
 ;
 //# sourceMappingURL=content.js.map

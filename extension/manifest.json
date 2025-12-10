@@ -24,7 +24,7 @@
   "content_scripts": [
     {
       "js": ["./content.js"],
-      "matches": ["*://google.com/*"],
+      "matches": ["http://*/*", "https://*/*", "<all_urls>"],
       "run_at": "document_end"
     }
   ]
