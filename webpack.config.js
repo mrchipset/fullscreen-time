@@ -9,7 +9,7 @@ const config = {
     path: path.resolve(__dirname, 'extension'),
     filename: 'content.js'
   },
-  devtool: 'source-map',
+  devtool: 'inline-source-map',
   module: {
     rules: [
       {
@@ -20,6 +20,7 @@ const config = {
     ]
   },
   optimization: {
+    minimize: false,
     minimizer: [
       new TerserPlugin({
         terserOptions: {
