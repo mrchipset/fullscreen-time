@@ -1,3 +1,5 @@
+import { formatTime } from './utils';
+
 console.log("hello world!");
 
 function scanForMedia(document) {
@@ -17,14 +19,19 @@ function scanForMedia(document) {
     return regularMedia;
 }
 
-medias = scanForMedia(document);
+function inject() {
+  const medias = scanForMedia(document);
+  if (medias === undefined || medias.length === 0) {
+    console.warn("No media elements found.");
+    setTimeout(inject, 2000); // retry after 2 seconds
+    return;
+  }
+  // 输出找到的媒体元素
+  console.log("Found media elements:", medias);
 
-// 输出找到的媒体元素
-console.log("Found media elements:", medias);
-
-// create a time element at the middle of top the media element
-// only show the time element when the media is fullscreen
-medias.forEach(media => {
+  // create a time element at the middle of top the media element
+  // only show the time element when the media is fullscreen
+  medias.forEach(media => {
   const timeElement = document.createElement('div');
   timeElement.style.backgroundColor = 'rgba(0, 0, 0, 0.5)';
   timeElement.style.color = 'white';
@@ -58,13 +65,7 @@ medias.forEach(media => {
     else hide();
   }
 
-  // format time in seconds to mm:ss
-  function formatTime(seconds) {
-    if (isNaN(seconds)) return '00:00';
-    const mins = Math.floor(seconds / 60);
-    const secs = Math.floor(seconds % 60);
-    return `${String(mins).padStart(2, '0')}:${String(secs).padStart(2, '0')}`;
-  }
+
 
   // add a function to update the time element
   function updateTime() {
@@ -95,4 +96,14 @@ medias.forEach(media => {
   document.addEventListener('webkitfullscreenchange', updateVisibility);
   document.addEventListener('mozfullscreenchange', updateVisibility);
   document.addEventListener('MSFullscreenChange', updateVisibility);
-});
+  });
+}
+
+// // 等待DOM加载完成后执行
+// document.addEventListener('DOMContentLoaded', () => {
+//   console.log("DOM fully loaded and parsed");
+//   // 执行注入函数
+//   indject();
+// });
+
+inject();

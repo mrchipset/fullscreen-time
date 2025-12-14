@@ -7,7 +7,8 @@ const config = {
   entry: './src/index.js',
   output: {
     path: path.resolve(__dirname, 'extension'),
-    filename: 'content.js'
+    filename: 'content.js',
+    // sourceMapFilename: 'content.js.map'
   },
   devtool: 'inline-source-map',
   module: {
@@ -17,6 +18,13 @@ const config = {
         use: 'babel-loader',
         exclude: /node_modules/
       }
+    ]
+  },
+  resolve: {
+    extensions: ['.js'],
+    modules: [
+      path.resolve(__dirname, 'src'),
+      'node_modules'
     ]
   },
   optimization: {
