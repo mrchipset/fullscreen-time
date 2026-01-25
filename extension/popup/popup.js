@@ -26,3 +26,8 @@ showOnFullscreenCheckbox.addEventListener('change', (event) => {
   chrome.storage.sync.set({ showOnFullscreen: event.target.checked });
   console.log('Show on fullscreen:', event.target.checked);
 });
+
+// 打开文档按钮
+document.getElementById('openDocButton').addEventListener('click', () => {
+  chrome.tabs.create({ url: chrome.runtime.getURL('doc.html') });
+});

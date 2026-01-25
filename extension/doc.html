@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Fullscreen Time - Documentation</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      max-width: 800px;
+      margin: 0 auto;
+      padding: 40px 20px;
+      background-color: #f5f7fa;
+      color: #333;
+      line-height: 1.6;
+    }
+    h1 {
+      color: #0066cc;
+      border-bottom: 3px solid #0066cc;
+      padding-bottom: 10px;
+    }
+    h2 {
+      color: #0052a3;
+      margin-top: 30px;
+    }
+    .feature {
+      background-color: white;
+      padding: 20px;
+      margin: 15px 0;
+      border-radius: 8px;
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    }
+    code {
+      background-color: #f0f0f0;
+      padding: 2px 6px;
+      border-radius: 3px;
+      font-family: 'Consolas', monospace;
+    }
+    .tip {
+      background-color: #fff3cd;
+      border-left: 4px solid #ffc107;
+      padding: 15px;
+      margin: 20px 0;
+    }
+  </style>
+</head>
+<body>
+  <h1>📺 Fullscreen Time Extension</h1>
+  
+  <div class="feature">
+    <h2>功能介绍</h2>
+    <p>这是一个浏览器扩展，用于在视频全屏时显示当前播放时间和系统时间。</p>
+    <ul>
+      <li>自动检测页面中的视频元素</li>
+      <li>在视频全屏时显示时间信息</li>
+      <li>显示格式：<code>当前时间 / 总时长 | 系统时间</code></li>
+      <li>支持自定义显示设置</li>
+    </ul>
+  </div>
+
+  <div class="feature">
+    <h2>如何使用</h2>
+    <ol>
+      <li>打开任何包含视频的网页（如 YouTube、Bilibili 等）</li>
+      <li>点击视频进入全屏模式</li>
+      <li>时间信息会自动显示在屏幕顶部中央</li>
+      <li>点击扩展图标可以打开设置面板</li>
+    </ol>
+  </div>
+
+  <div class="feature">
+    <h2>设置选项</h2>
+    <p><strong>在视频中显示时间：</strong> 控制是否启用时间显示功能</p>
+    <p><strong>在全屏时显示：</strong> 控制是否只在全屏时显示时间</p>
+  </div>
+
+  <div class="tip">
+    <strong>💡 提示：</strong> 如果时间显示没有出现，请尝试刷新页面或重新加载扩展。
+  </div>
+
+  <div class="feature">
+    <h2>技术栈</h2>
+    <ul>
+      <li>Webpack - 模块打包工具</li>
+      <li>Chrome Extension Manifest V3</li>
+      <li>ES6 Modules</li>
+      <li>Chrome Storage API</li>
+    </ul>
+  </div>
+
+  <div class="feature">
+    <h2>版本信息</h2>
+    <p>版本：1.0</p>
+    <p>更新日期：2026-01-25</p>
+  </div>
+</body>
+</html>

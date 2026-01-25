@@ -40,6 +40,20 @@
     .setting-item label:hover {
       color: #0066cc;
     }
+    .doc-button {
+      width: 100%;
+      margin-top: 15px;
+      padding: 8px 12px;
+      background-color: #0066cc;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      font-size: 14px;
+    }
+    .doc-button:hover {
+      background-color: #0052a3;
+    }
   </style>
 </head>
 <body>
@@ -55,6 +69,8 @@
       <input type="checkbox" id="showOnFullscreen" checked>
       <label for="showOnFullscreen">在全屏时显示</label>
     </div>
+
+    <button class="doc-button" id="openDocButton">Open Documentation</button>
   </div>
 
   <script src="popup.js"></script>
