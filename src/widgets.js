@@ -4,7 +4,26 @@ export class TimeDisplay {
   constructor(media) {
     this.media = media;
     this.timeElement = this.createTimeElement();
+    this.showWhenVideoFullscreen = true;
+    this.showOnFullscreen = true;
+    this.loadSettings();
     this.setupEventListeners();
+    this.setupSettingsListener();
+  }
+
+  loadSettings() {
+    // 从Chrome存储中读取设置
+    chrome.storage.sync.get(
+      {
+        showWhenVideoFullscreen: true,
+        showOnFullscreen: true
+      },
+      (items) => {
+        this.showWhenVideoFullscreen = items.showWhenVideoFullscreen;
+        this.showOnFullscreen = items.showOnFullscreen;
+        this.updateVisibility();
+      }
+    );
   }
 
   displayType() {
@@ -24,6 +43,10 @@ export class TimeDisplay {
   }
 
   checkIsToShow() {
+    if (!this.showWhenVideoFullscreen) {
+      return false;
+    }
+
     const fsEl = document.fullscreenElement ||
                  document.webkitFullscreenElement ||
                  document.mozFullScreenElement ||
@@ -52,6 +75,7 @@ export class TimeDisplay {
   }
 
   updateVisibility() {
+    // 检查是否在全屏且设置中启用了全屏显示
     if (this.checkIsToShow()) {
       this.show();
     } else {
@@ -73,8 +97,7 @@ export class TimeDisplay {
   }
 
   setupEventListeners() {
-    // Update visibility initially
-    this.updateVisibility();
+
 
     // Update time every second if media is fullscreen
     setInterval(() => {
@@ -83,7 +106,7 @@ export class TimeDisplay {
                    document.mozFullScreenElement ||
                    document.msFullscreenElement;
       const isFull = fsEl && (fsEl === this.media || fsEl.contains(this.media) || this.media.contains(fsEl));
-      if (isFull) {
+      if (isFull && this.showWhenVideoFullscreen) {
         this.updateTime();
       }
     }, 1000);
@@ -94,6 +117,21 @@ export class TimeDisplay {
     document.addEventListener('webkitfullscreenchange', updateVisibilityBound);
     document.addEventListener('mozfullscreenchange', updateVisibilityBound);
     document.addEventListener('MSFullscreenChange', updateVisibilityBound);
+  }
+
+  setupSettingsListener() {
+    // Listen to storage changes to update settings in real-time
+    chrome.storage.onChanged.addListener((changes, namespace) => {
+      if (namespace === 'sync') {
+        if ('showWhenVideoFullscreen' in changes) {
+          this.showWhenVideoFullscreen = changes.showWhenVideoFullscreen.newValue;
+        }
+        if ('showOnFullscreen' in changes) {
+          this.showOnFullscreen = changes.showOnFullscreen.newValue;
+        }
+        this.updateVisibility();
+      }
+    });
   }
 }
 
@@ -131,6 +169,10 @@ export class WindowOverlayTimeDisplay extends TimeDisplay {
     }
 
     checkIsToShow() {
+        if (!this.showOnFullscreen) {
+            return false;
+        }
+
         return document.fullscreenElement !== null || checkIsBrowserFullscreen();
     }
 

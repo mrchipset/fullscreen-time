@@ -41,13 +41,14 @@ injectForMedias();
 const overlayTimeDisp = new WindowOverlayTimeDisplay(document.body);
 
 window.addEventListener('resize', () => {
-  if (checkIsBrowserFullscreen()) {
-    overlayTimeDisp.show();
-    console.log('Browser is in fullscreen mode');
-  } else {
-    overlayTimeDisp.hide();
-    console.log('Browser is not in fullscreen mode');
-  }
+  // if (checkIsBrowserFullscreen()) {
+  //   overlayTimeDisp.show();
+  //   console.log('Browser is in fullscreen mode');
+  // } else {
+  //   overlayTimeDisp.hide();
+  //   console.log('Browser is not in fullscreen mode');
+  // }
+  overlayTimeDisp.updateVisibility();
 });
 
 

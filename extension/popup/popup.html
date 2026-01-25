@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <style>
+    body {
+      width: 300px;
+      padding: 15px;
+      font-family: Arial, sans-serif;
+      background-color: #f5f5f5;
+    }
+    .container {
+      background-color: white;
+      border-radius: 8px;
+      padding: 15px;
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    }
+    h1 {
+      margin: 0 0 15px 0;
+      font-size: 18px;
+      color: #333;
+    }
+    .setting-item {
+      display: flex;
+      align-items: center;
+      margin-bottom: 12px;
+    }
+    .setting-item input[type="checkbox"] {
+      width: 18px;
+      height: 18px;
+      margin-right: 10px;
+      cursor: pointer;
+    }
+    .setting-item label {
+      cursor: pointer;
+      font-size: 14px;
+      color: #333;
+      margin: 0;
+    }
+    .setting-item label:hover {
+      color: #0066cc;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>Fullscreen Time Settings</h1>
+    
+    <div class="setting-item">
+      <input type="checkbox" id="showWhenVideoFullscreen" checked>
+      <label for="showWhenVideoFullscreen">在视频中显示时间</label>
+    </div>
+    
+    <div class="setting-item">
+      <input type="checkbox" id="showOnFullscreen" checked>
+      <label for="showOnFullscreen">在全屏时显示</label>
+    </div>
+  </div>
+
+  <script src="popup.js"></script>
+</body>
+</html>
