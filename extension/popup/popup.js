@@ -2,6 +2,7 @@
 const showWhenVideoFullscreenCheckbox = document.getElementById('showWhenVideoFullscreen');
 const showOnFullscreenCheckbox = document.getElementById('showOnFullscreen');
 const showSecondsCheckbox = document.getElementById('showSeconds');
+const showProgressCheckbox = document.getElementById('showProgress');
 
 // 页面加载时，从存储中读取设置
 document.addEventListener('DOMContentLoaded', () => {
@@ -9,12 +10,14 @@ document.addEventListener('DOMContentLoaded', () => {
     {
       showWhenVideoFullscreen: true,
       showOnFullscreen: true,
-      showSeconds: true
+      showSeconds: true,
+      showProgress: true
     },
     (items) => {
       showWhenVideoFullscreenCheckbox.checked = items.showWhenVideoFullscreen;
       showOnFullscreenCheckbox.checked = items.showOnFullscreen;
       showSecondsCheckbox.checked = items.showSeconds;
+      showProgressCheckbox.checked = items.showProgress;
     }
   );
 });
@@ -33,6 +36,11 @@ showOnFullscreenCheckbox.addEventListener('change', (event) => {
 showSecondsCheckbox.addEventListener('change', (event) => {
   chrome.storage.sync.set({ showSeconds: event.target.checked });
   console.log('Show seconds:', event.target.checked);
+});
+
+showProgressCheckbox.addEventListener('change', (event) => {
+  chrome.storage.sync.set({ showProgress: event.target.checked });
+  console.log('Show progress:', event.target.checked);
 });
 
 // 打开文档按钮

@@ -7,6 +7,7 @@ export class TimeDisplay {
     this.showWhenVideoFullscreen = true;
     this.showOnFullscreen = true;
     this.showSeconds = true;
+    this.showProgress = true;
     this.loadSettings();
     this.setupEventListeners();
     this.setupSettingsListener();
@@ -18,12 +19,14 @@ export class TimeDisplay {
       {
         showWhenVideoFullscreen: true,
         showOnFullscreen: true,
-        showSeconds: true
+        showSeconds: true,
+        showProgress: true
       },
       (items) => {
         this.showWhenVideoFullscreen = items.showWhenVideoFullscreen;
         this.showOnFullscreen = items.showOnFullscreen;
         this.showSeconds = items.showSeconds;
+        this.showProgress = items.showProgress;
         this.updateVisibility();
       }
     );
@@ -87,17 +90,20 @@ export class TimeDisplay {
   }
 
   updateTime() {
-    const currentTime = this.media.currentTime;
-    const duration = this.media.duration;
-    this.timeElement.innerText = `${formatTime(currentTime)} / ${formatTime(duration)}`;
-    
     const now = new Date();
     const hours = String(now.getHours()).padStart(2, '0');
     const minutes = String(now.getMinutes()).padStart(2, '0');
     const systemTime = this.showSeconds
       ? `${hours}:${minutes}:${String(now.getSeconds()).padStart(2, '0')}`
       : `${hours}:${minutes}`;
-    this.timeElement.innerText += ` | ${systemTime}`;
+
+    if (this.showProgress) {
+      const currentTime = this.media.currentTime;
+      const duration = this.media.duration;
+      this.timeElement.innerText = `${formatTime(currentTime)} / ${formatTime(duration)} | ${systemTime}`;
+    } else {
+      this.timeElement.innerText = systemTime;
+    }
   }
 
   setupEventListeners() {
@@ -135,6 +141,9 @@ export class TimeDisplay {
         }
         if ('showSeconds' in changes) {
           this.showSeconds = changes.showSeconds.newValue;
+        }
+        if ('showProgress' in changes) {
+          this.showProgress = changes.showProgress.newValue;
         }
         this.updateVisibility();
       }
