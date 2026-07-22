@@ -6,6 +6,7 @@ export class TimeDisplay {
     this.timeElement = this.createTimeElement();
     this.showWhenVideoFullscreen = true;
     this.showOnFullscreen = true;
+    this.showSeconds = true;
     this.loadSettings();
     this.setupEventListeners();
     this.setupSettingsListener();
@@ -16,11 +17,13 @@ export class TimeDisplay {
     chrome.storage.sync.get(
       {
         showWhenVideoFullscreen: true,
-        showOnFullscreen: true
+        showOnFullscreen: true,
+        showSeconds: true
       },
       (items) => {
         this.showWhenVideoFullscreen = items.showWhenVideoFullscreen;
         this.showOnFullscreen = items.showOnFullscreen;
+        this.showSeconds = items.showSeconds;
         this.updateVisibility();
       }
     );
@@ -91,8 +94,9 @@ export class TimeDisplay {
     const now = new Date();
     const hours = String(now.getHours()).padStart(2, '0');
     const minutes = String(now.getMinutes()).padStart(2, '0');
-    const seconds = String(now.getSeconds()).padStart(2, '0');
-    const systemTime = `${hours}:${minutes}:${seconds}`;
+    const systemTime = this.showSeconds
+      ? `${hours}:${minutes}:${String(now.getSeconds()).padStart(2, '0')}`
+      : `${hours}:${minutes}`;
     this.timeElement.innerText += ` | ${systemTime}`;
   }
 
@@ -129,6 +133,9 @@ export class TimeDisplay {
         if ('showOnFullscreen' in changes) {
           this.showOnFullscreen = changes.showOnFullscreen.newValue;
         }
+        if ('showSeconds' in changes) {
+          this.showSeconds = changes.showSeconds.newValue;
+        }
         this.updateVisibility();
       }
     });
@@ -163,8 +170,9 @@ export class WindowOverlayTimeDisplay extends TimeDisplay {
         const now = new Date();
         const hours = String(now.getHours()).padStart(2, '0');
         const minutes = String(now.getMinutes()).padStart(2, '0');
-        const seconds = String(now.getSeconds()).padStart(2, '0');
-        const systemTime = `${hours}:${minutes}:${seconds}`;
+        const systemTime = this.showSeconds
+          ? `${hours}:${minutes}:${String(now.getSeconds()).padStart(2, '0')}`
+          : `${hours}:${minutes}`;
         this.timeElement.innerText = systemTime;
     }
 
