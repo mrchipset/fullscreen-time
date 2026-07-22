@@ -62,6 +62,7 @@ export class TimeDisplay {
   }
 
   show() {
+    this.updateTime();
     this.timeElement.style.position = 'absolute';
     this.timeElement.style.top = '10px';
     this.timeElement.style.left = '50%';
@@ -157,6 +158,7 @@ export class WindowOverlayTimeDisplay extends TimeDisplay {
     }
 
     show() {
+        this.updateTime();
         this.timeElement.style.position = 'fixed';
         this.timeElement.style.top = '10px';
         this.timeElement.style.left = '50%';
