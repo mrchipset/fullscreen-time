@@ -56,8 +56,8 @@ function setupShortcutRecorder(input, storageKey) {
 document.addEventListener('DOMContentLoaded', () => {
   chrome.storage.sync.get(
     {
-      keyToggleLayout: 'Alt+F4',
-      keyToggleVisibility: 'F5'
+      keyToggleLayout: 'F9',
+      keyToggleVisibility: 'F10'
     },
     (items) => {
       keyToggleLayoutInput.value = items.keyToggleLayout;
