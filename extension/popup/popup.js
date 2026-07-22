@@ -3,6 +3,7 @@ const showWhenVideoFullscreenCheckbox = document.getElementById('showWhenVideoFu
 const showOnFullscreenCheckbox = document.getElementById('showOnFullscreen');
 const showSecondsCheckbox = document.getElementById('showSeconds');
 const showProgressCheckbox = document.getElementById('showProgress');
+const autoHideCheckbox = document.getElementById('autoHide');
 
 // 页面加载时，从存储中读取设置
 document.addEventListener('DOMContentLoaded', () => {
@@ -11,13 +12,15 @@ document.addEventListener('DOMContentLoaded', () => {
       showWhenVideoFullscreen: true,
       showOnFullscreen: true,
       showSeconds: true,
-      showProgress: true
+      showProgress: true,
+      autoHide: false
     },
     (items) => {
       showWhenVideoFullscreenCheckbox.checked = items.showWhenVideoFullscreen;
       showOnFullscreenCheckbox.checked = items.showOnFullscreen;
       showSecondsCheckbox.checked = items.showSeconds;
       showProgressCheckbox.checked = items.showProgress;
+      autoHideCheckbox.checked = items.autoHide;
     }
   );
 });
@@ -41,6 +44,11 @@ showSecondsCheckbox.addEventListener('change', (event) => {
 showProgressCheckbox.addEventListener('change', (event) => {
   chrome.storage.sync.set({ showProgress: event.target.checked });
   console.log('Show progress:', event.target.checked);
+});
+
+autoHideCheckbox.addEventListener('change', (event) => {
+  chrome.storage.sync.set({ autoHide: event.target.checked });
+  console.log('Auto hide:', event.target.checked);
 });
 
 // 打开文档按钮

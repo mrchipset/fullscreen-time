@@ -8,6 +8,9 @@ export class TimeDisplay {
     this.showOnFullscreen = true;
     this.showSeconds = true;
     this.showProgress = true;
+    this.autoHide = false;
+    this.autoHideTimer = null;
+    this._boundMouseMoveHandler = null;
     this.loadSettings();
     this.setupEventListeners();
     this.setupSettingsListener();
@@ -20,13 +23,15 @@ export class TimeDisplay {
         showWhenVideoFullscreen: true,
         showOnFullscreen: true,
         showSeconds: true,
-        showProgress: true
+        showProgress: true,
+        autoHide: false
       },
       (items) => {
         this.showWhenVideoFullscreen = items.showWhenVideoFullscreen;
         this.showOnFullscreen = items.showOnFullscreen;
         this.showSeconds = items.showSeconds;
         this.showProgress = items.showProgress;
+        this.autoHide = items.autoHide;
         this.updateVisibility();
       }
     );
@@ -43,6 +48,7 @@ export class TimeDisplay {
     timeElement.style.padding = '5px';
     timeElement.style.borderRadius = '5px';
     timeElement.style.zIndex = '999999';
+    timeElement.style.transition = 'opacity 0.3s ease';
     timeElement.innerText = '00:00 / 00:00';
     timeElement.style.display = 'none';
     return timeElement;
@@ -72,9 +78,16 @@ export class TimeDisplay {
     }
     this.timeElement.style.display = 'block';
     this.timeElement.style.zIndex = '999999';
+    this.timeElement.style.opacity = '1';
+
+    if (this.autoHide) {
+      this.startAutoHide();
+    }
   }
 
   hide() {
+    this.clearAutoHideTimer();
+    this.teardownMouseListener();
     this.timeElement.style.display = 'none';
     if (this.timeElement.parentElement === this.media.parentElement) {
       this.media.parentElement.removeChild(this.timeElement);
@@ -88,6 +101,43 @@ export class TimeDisplay {
     } else {
       this.hide();
     }
+  }
+
+  startAutoHide() {
+    this.timeElement.style.opacity = '1';
+    this.clearAutoHideTimer();
+    this.setupMouseListener();
+    this.autoHideTimer = setTimeout(() => this.fadeOut(), 3000);
+  }
+
+  clearAutoHideTimer() {
+    if (this.autoHideTimer) {
+      clearTimeout(this.autoHideTimer);
+      this.autoHideTimer = null;
+    }
+  }
+
+  setupMouseListener() {
+    this.teardownMouseListener();
+    this._boundMouseMoveHandler = () => {
+      if (this.autoHide) {
+        this.timeElement.style.opacity = '1';
+        this.clearAutoHideTimer();
+        this.autoHideTimer = setTimeout(() => this.fadeOut(), 3000);
+      }
+    };
+    this.media.addEventListener('mousemove', this._boundMouseMoveHandler);
+  }
+
+  teardownMouseListener() {
+    if (this._boundMouseMoveHandler) {
+      this.media.removeEventListener('mousemove', this._boundMouseMoveHandler);
+      this._boundMouseMoveHandler = null;
+    }
+  }
+
+  fadeOut() {
+    this.timeElement.style.opacity = '0';
   }
 
   updateTime() {
@@ -145,6 +195,9 @@ export class TimeDisplay {
         }
         if ('showProgress' in changes) {
           this.showProgress = changes.showProgress.newValue;
+        }
+        if ('autoHide' in changes) {
+          this.autoHide = changes.autoHide.newValue;
         }
         this.updateVisibility();
       }
