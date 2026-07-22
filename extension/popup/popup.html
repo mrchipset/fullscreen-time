@@ -40,6 +40,32 @@
     .setting-item label:hover {
       color: #0066cc;
     }
+    .section-label {
+      font-size: 14px;
+      color: #333;
+      margin: 8px 0 6px 0;
+      font-weight: bold;
+    }
+    .radio-group {
+      padding-left: 10px;
+      margin-bottom: 12px;
+    }
+    .radio-item {
+      display: flex;
+      align-items: center;
+      margin-bottom: 6px;
+    }
+    .radio-item input[type="radio"] {
+      width: 16px;
+      height: 16px;
+      margin-right: 8px;
+      cursor: pointer;
+    }
+    .radio-item label {
+      cursor: pointer;
+      font-size: 13px;
+      color: #555;
+    }
     .doc-button {
       width: 100%;
       margin-top: 15px;
@@ -83,6 +109,18 @@
     <div class="setting-item">
       <input type="checkbox" id="autoHide">
       <label for="autoHide">空闲自动隐藏（3秒）</label>
+    </div>
+
+    <div class="section-label">布局模式</div>
+    <div class="radio-group">
+      <div class="radio-item">
+        <input type="radio" name="layoutMode" id="layoutSnap" value="snap" checked>
+        <label for="layoutSnap">磁吸（固定位置）</label>
+      </div>
+      <div class="radio-item">
+        <input type="radio" name="layoutMode" id="layoutFloat" value="float">
+        <label for="layoutFloat">浮动（可拖动）</label>
+      </div>
     </div>
 
     <button class="doc-button" id="openDocButton">Open Documentation</button>

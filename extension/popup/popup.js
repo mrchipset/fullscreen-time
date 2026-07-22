@@ -4,6 +4,8 @@ const showOnFullscreenCheckbox = document.getElementById('showOnFullscreen');
 const showSecondsCheckbox = document.getElementById('showSeconds');
 const showProgressCheckbox = document.getElementById('showProgress');
 const autoHideCheckbox = document.getElementById('autoHide');
+const layoutSnapRadio = document.getElementById('layoutSnap');
+const layoutFloatRadio = document.getElementById('layoutFloat');
 
 // 页面加载时，从存储中读取设置
 document.addEventListener('DOMContentLoaded', () => {
@@ -13,7 +15,8 @@ document.addEventListener('DOMContentLoaded', () => {
       showOnFullscreen: true,
       showSeconds: true,
       showProgress: true,
-      autoHide: false
+      autoHide: false,
+      layoutMode: 'snap'
     },
     (items) => {
       showWhenVideoFullscreenCheckbox.checked = items.showWhenVideoFullscreen;
@@ -21,6 +24,11 @@ document.addEventListener('DOMContentLoaded', () => {
       showSecondsCheckbox.checked = items.showSeconds;
       showProgressCheckbox.checked = items.showProgress;
       autoHideCheckbox.checked = items.autoHide;
+      if (items.layoutMode === 'float') {
+        layoutFloatRadio.checked = true;
+      } else {
+        layoutSnapRadio.checked = true;
+      }
     }
   );
 });
@@ -49,6 +57,20 @@ showProgressCheckbox.addEventListener('change', (event) => {
 autoHideCheckbox.addEventListener('change', (event) => {
   chrome.storage.sync.set({ autoHide: event.target.checked });
   console.log('Auto hide:', event.target.checked);
+});
+
+layoutSnapRadio.addEventListener('change', () => {
+  if (layoutSnapRadio.checked) {
+    chrome.storage.sync.set({ layoutMode: 'snap' });
+    console.log('Layout mode: snap');
+  }
+});
+
+layoutFloatRadio.addEventListener('change', () => {
+  if (layoutFloatRadio.checked) {
+    chrome.storage.sync.set({ layoutMode: 'float' });
+    console.log('Layout mode: float');
+  }
 });
 
 // 打开文档按钮

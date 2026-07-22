@@ -11,6 +11,13 @@ export class TimeDisplay {
     this.autoHide = false;
     this.autoHideTimer = null;
     this._boundMouseMoveHandler = null;
+    this.layoutMode = 'snap';
+    this.floatPosition = null;
+    this._isDragging = false;
+    this._dragOffset = { x: 0, y: 0 };
+    this._boundMouseDownStart = null;
+    this._boundMouseMoveDuring = null;
+    this._boundMouseUpEnd = null;
     this.loadSettings();
     this.setupEventListeners();
     this.setupSettingsListener();
@@ -24,7 +31,9 @@ export class TimeDisplay {
         showOnFullscreen: true,
         showSeconds: true,
         showProgress: true,
-        autoHide: false
+        autoHide: false,
+        layoutMode: 'snap',
+        floatPosition: null
       },
       (items) => {
         this.showWhenVideoFullscreen = items.showWhenVideoFullscreen;
@@ -32,6 +41,8 @@ export class TimeDisplay {
         this.showSeconds = items.showSeconds;
         this.showProgress = items.showProgress;
         this.autoHide = items.autoHide;
+        this.layoutMode = items.layoutMode || 'snap';
+        this.floatPosition = items.floatPosition || null;
         this.updateVisibility();
       }
     );
@@ -49,6 +60,7 @@ export class TimeDisplay {
     timeElement.style.borderRadius = '5px';
     timeElement.style.zIndex = '999999';
     timeElement.style.transition = 'opacity 0.3s ease';
+    timeElement.style.pointerEvents = 'auto';
     timeElement.innerText = '00:00 / 00:00';
     timeElement.style.display = 'none';
     return timeElement;
@@ -69,16 +81,28 @@ export class TimeDisplay {
 
   show() {
     this.updateTime();
-    this.timeElement.style.position = 'absolute';
-    this.timeElement.style.top = '10px';
-    this.timeElement.style.left = '50%';
-    this.timeElement.style.transform = 'translateX(-50%)';
-    if (this.timeElement.parentElement !== this.media.parentElement) {
-      this.media.parentElement.appendChild(this.timeElement);
-    }
     this.timeElement.style.display = 'block';
     this.timeElement.style.zIndex = '999999';
     this.timeElement.style.opacity = '1';
+
+    if (this.layoutMode === 'float') {
+      this.teardownDragging();
+      const floatParent = document.fullscreenElement || document.body;
+      if (this.timeElement.parentElement !== floatParent) {
+        floatParent.appendChild(this.timeElement);
+      }
+      this.applyFloatPosition();
+      this.setupDragging();
+    } else {
+      this.teardownDragging();
+      this.timeElement.style.position = 'absolute';
+      this.timeElement.style.top = '10px';
+      this.timeElement.style.left = '50%';
+      this.timeElement.style.transform = 'translateX(-50%)';
+      if (this.timeElement.parentElement !== this.media.parentElement) {
+        this.media.parentElement.appendChild(this.timeElement);
+      }
+    }
 
     if (this.autoHide) {
       this.startAutoHide();
@@ -88,6 +112,7 @@ export class TimeDisplay {
   hide() {
     this.clearAutoHideTimer();
     this.teardownMouseListener();
+    this.teardownDragging();
     this.timeElement.style.display = 'none';
     if (this.timeElement.parentElement === this.media.parentElement) {
       this.media.parentElement.removeChild(this.timeElement);
@@ -138,6 +163,78 @@ export class TimeDisplay {
 
   fadeOut() {
     this.timeElement.style.opacity = '0';
+  }
+
+  applyFloatPosition() {
+    // 视频全屏时用 absolute（挂在全屏元素下），否则用 fixed（挂在 body 下）
+    this.timeElement.style.position = document.fullscreenElement ? 'absolute' : 'fixed';
+    this.timeElement.style.transform = 'none';
+    if (this.floatPosition) {
+      this.timeElement.style.left = `${this.floatPosition.x}px`;
+      this.timeElement.style.top = `${this.floatPosition.y}px`;
+    } else {
+      this.timeElement.style.left = '50%';
+      this.timeElement.style.top = '20px';
+      this.timeElement.style.transform = 'translateX(-50%)';
+    }
+  }
+
+  setupDragging() {
+    this.teardownDragging();
+    this._isDragging = false;
+    this.timeElement.style.cursor = 'move';
+    this.timeElement.style.userSelect = 'none';
+
+    this._boundMouseDownStart = (e) => this._onDragStart(e);
+    this._boundMouseUpEnd = () => this._onDragEnd();
+
+    this.timeElement.addEventListener('mousedown', this._boundMouseDownStart);
+    document.addEventListener('mouseup', this._boundMouseUpEnd);
+  }
+
+  teardownDragging() {
+    this.timeElement.style.cursor = '';
+    this.timeElement.style.userSelect = '';
+    if (this._boundMouseDownStart) {
+      this.timeElement.removeEventListener('mousedown', this._boundMouseDownStart);
+      this._boundMouseDownStart = null;
+    }
+    if (this._boundMouseMoveDuring) {
+      document.removeEventListener('mousemove', this._boundMouseMoveDuring);
+      this._boundMouseMoveDuring = null;
+    }
+    if (this._boundMouseUpEnd) {
+      document.removeEventListener('mouseup', this._boundMouseUpEnd);
+      this._boundMouseUpEnd = null;
+    }
+    this._isDragging = false;
+  }
+
+  _onDragStart(e) {
+    this._isDragging = true;
+    const rect = this.timeElement.getBoundingClientRect();
+    this._dragOffset = { x: e.clientX - rect.left, y: e.clientY - rect.top };
+    this._boundMouseMoveDuring = (e) => this._onDragMove(e);
+    document.addEventListener('mousemove', this._boundMouseMoveDuring);
+  }
+
+  _onDragMove(e) {
+    if (!this._isDragging) return;
+    this.timeElement.style.position = 'fixed';
+    this.timeElement.style.transform = 'none';
+    this.timeElement.style.left = `${e.clientX - this._dragOffset.x}px`;
+    this.timeElement.style.top = `${e.clientY - this._dragOffset.y}px`;
+  }
+
+  _onDragEnd() {
+    if (!this._isDragging) return;
+    this._isDragging = false;
+    document.removeEventListener('mousemove', this._boundMouseMoveDuring);
+    this._boundMouseMoveDuring = null;
+
+    const rect = this.timeElement.getBoundingClientRect();
+    this.floatPosition = { x: Math.round(rect.left), y: Math.round(rect.top) };
+    chrome.storage.sync.set({ floatPosition: this.floatPosition });
   }
 
   updateTime() {
@@ -199,6 +296,9 @@ export class TimeDisplay {
         if ('autoHide' in changes) {
           this.autoHide = changes.autoHide.newValue;
         }
+        if ('layoutMode' in changes) {
+          this.layoutMode = changes.layoutMode.newValue;
+        }
         this.updateVisibility();
       }
     });
@@ -212,18 +312,31 @@ export class WindowOverlayTimeDisplay extends TimeDisplay {
 
     show() {
         this.updateTime();
-        this.timeElement.style.position = 'fixed';
-        this.timeElement.style.top = '10px';
-        this.timeElement.style.left = '50%';
-        this.timeElement.style.transform = 'translateX(-50%)';
-        if (this.timeElement.parentElement !== document.body) {
-            document.body.appendChild(this.timeElement);
-        }
         this.timeElement.style.display = 'block';
         this.timeElement.style.zIndex = '999999';
+
+        if (this.layoutMode === 'float') {
+            this.teardownDragging();
+            const floatParent = document.fullscreenElement || document.body;
+            if (this.timeElement.parentElement !== floatParent) {
+                floatParent.appendChild(this.timeElement);
+            }
+            this.applyFloatPosition();
+            this.setupDragging();
+        } else {
+            this.teardownDragging();
+            this.timeElement.style.position = 'fixed';
+            this.timeElement.style.top = '10px';
+            this.timeElement.style.left = '50%';
+            this.timeElement.style.transform = 'translateX(-50%)';
+            if (this.timeElement.parentElement !== document.body) {
+                document.body.appendChild(this.timeElement);
+            }
+        }
     }
 
     hide() {
+        this.teardownDragging();
         this.timeElement.style.display = 'none';
         if (this.timeElement.parentElement === document.body) {
             document.body.removeChild(this.timeElement);
@@ -245,7 +358,13 @@ export class WindowOverlayTimeDisplay extends TimeDisplay {
             return false;
         }
 
-        return document.fullscreenElement !== null || checkIsBrowserFullscreen();
+        // 元素全屏（视频全屏）时：如果视频专用显示已开启，不再重复显示
+        if (document.fullscreenElement !== null) {
+            return !this.showWhenVideoFullscreen;
+        }
+
+        // 浏览器全屏（F11）时显示
+        return checkIsBrowserFullscreen();
     }
 
     setupEventListeners() {
