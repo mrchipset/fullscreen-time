@@ -1,76 +1,63 @@
-# Chrome Extension Boilerplate with Manifest 3
-This is a basic boilerplate for creating a Chrome Extension with Manifest 3. It includes the necessary files and folder structure to get started quickly.
+# Fullscreen Time
 
-## Folder Structure
-The folder structure is as follows:
+Chrome 扩展（Manifest V3），在视频全屏或浏览器全屏时叠加显示系统时间浮层，支持快捷键操作。
 
-```
-my-extension/
-├── extension/
-│   ├── background.js
-│   ├── content.js
-│   ├── icons/
-│   │   ├── icon16.png
-│   │   ├── icon32.png
-│   │   ├── icon48.png
-│   │   └── icon128.png
-│   ├── popup/
-│   │   ├── popup.html
-│   │   └── popup.js
-│   └── manifest.json
-├── src/
-│   └── // source files for the extension
-├── webpack.config.js
-├── babel.config.js
-├── package.json
-└── node_modules/
-    └── // dependencies installed by npm
+## 功能
 
+- 视频全屏时显示：`当前播放时间 / 总时长 | HH:MM:SS`
+- 浏览器全屏（F11）时显示：`HH:MM:SS`
+- 磁吸 / 浮动两种布局模式，浮动模式支持拖拽
+- 可配置快捷键：切换布局模式、切换显示/隐藏
+- 自定义显示：秒数、播放进度、闲置自动隐藏
+
+## 安装
+
+1. 打开 `chrome://extensions`
+2. 开启右上角的「开发者模式」
+3. 点击「加载已解压的扩展程序」
+4. 选择 `extension/` 目录
+
+## 构建
+
+```bash
+pnpm run build-dev    # 开发构建（未压缩，含 sourcemap）
+pnpm run build-prod   # 生产构建（压缩）
+pnpm run watch        # 开发 + 监听模式
+pnpm run clean        # 清理构建产物
 ```
 
-## Getting Started
-To use this boilerplate, follow these steps:
+> 使用 `pnpm`，不要用 `npm` 或 `yarn`。
 
-- Clone the repository or download the ZIP file.
-- Edit manifest.json file to add the required information about the extension.
-- Customize popup.html as per your needs.
-- Add your own JavaScript code in src/index.js.
-- Load the extension in Chrome by navigating to chrome://extensions, enabling "Developer mode" in the top right corner, and then clicking on "Load unpacked" and selecting the folder that contains the extension files.
+## 项目结构
 
-### Manifest.json
-The manifest.json file is the main configuration file for the extension. It contains information such as the extension's name, version, description, icons, permissions, and background scripts.
+```
+extension/
+├── manifest.json       # MV3 清单
+├── content.js          # 构建产物（Git 跟踪）
+├── background.js       # Service Worker（预留）
+├── popup/
+│   ├── popup.html      # 弹出设置面板
+│   └── popup.js        # 设置读写逻辑
+├── settings/
+│   ├── settings.html   # 快捷键设置页
+│   └── settings.js     # 快捷键录制逻辑
+└── icons/              # 图标资源
 
-Make sure to update the fields in manifest.json with the appropriate values for your extension.
+src/
+├── index.js            # Webpack 入口 — 内容脚本
+├── utils.js            # 工具函数
+└── widgets.js          # 时间浮层组件
+```
 
-### Popup.html
-The popup.html file is the HTML file for the extension's popup window. You can customize this file as per your needs, adding any HTML, CSS, or JavaScript code required.
+## 快捷键
 
-### JavaScript and CSS
-The js/script.js file is where you can add your own JavaScript code. Similarly, the css/style.css file is where you can add your own CSS styles.
+默认快捷键可通过扩展图标 → 快捷键设置页面自定义。
 
-## Webpack
+| 功能 | 默认键 | 说明 |
+|------|--------|------|
+| 切换布局模式 | Alt+F4 | snap ↔ float |
+| 切换显示/隐藏 | F5 | 临时切换，退出全屏自动恢复 |
 
-This boilerplate also includes Webpack, a popular module bundler for JavaScript applications. Webpack is used to bundle all the JavaScript code and dependencies into a single file, making it easier to manage and deploy the code.
+## 调试
 
-In this boilerplate, Webpack is configured to take src/index.js as the entry point and output the bundle to content.js. This means that all the JavaScript code written in src/index.js as well as any dependencies imported into that file will be bundled together into a single file called content.js.
-
-By using Webpack, you can take advantage of its features such as code splitting, hot module replacement, and tree shaking to optimize your code and improve the performance of your extension.
-
-To configure Webpack for your own needs, you can edit the webpack.config.js file included in this boilerplate. You can customize the entry point, output file name, and various other settings to suit your specific requirements.
-
-## NPM Scripts
-
-This boilerplate also includes a set of npm scripts that you can use to build and manage your extension. The following scripts are available:
-
-- `npm run build-dev`: Builds the extension in development mode, using Webpack's development settings.
-- `npm run build-prod`: Builds the extension in production mode, using Webpack's production settings for code optimization and minification.
-- `npm run clean`: Removes the content.js file. All the other files of the extension are not removed.
-- `npm run watch`: Starts a Webpack watch process, automatically rebuilding the extension whenever changes are made to the source files.
-
-These scripts provide a convenient way to build and manage your extension, and can be customized to suit your specific needs. You can also add your own scripts to the package.json file to automate other tasks related to your extension development.
-
-
-## Conclusion
-This boilerplate provides a basic structure for creating a Chrome Extension with Manifest 3. It includes the necessary files and folder structure to get started quickly, and you can customize it as per your needs.
-
-
+VSCode 中按 F5 启动「Debug Chrome Extension」配置，自动加载插件并打开 `https://www.baidu.com`，支持 source map 调试。

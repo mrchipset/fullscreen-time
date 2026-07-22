@@ -22,7 +22,7 @@ function setupShortcutRecorder(input, storageKey) {
 
   input.addEventListener('click', () => {
     recording = true;
-    input.value = '请按键...';
+    input.value = '请按快捷键...';
     input.classList.add('recording');
   });
 

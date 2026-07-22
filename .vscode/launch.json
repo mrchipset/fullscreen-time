@@ -14,7 +14,7 @@
                 // "--disable-extensions-except=${workspaceFolder}\\extension"
             ],
             "sourceMapPathOverrides": {
-                "webpack://empty-project/*": "${webRoot}/*"
+                "webpack://fullscreen-time/*": "${webRoot}/*"
             }
         }
     ]

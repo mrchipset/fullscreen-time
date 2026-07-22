@@ -1,7 +1,7 @@
 import { formatTime, checkIsBrowserFullscreen } from './utils';
 import { TimeDisplay, WindowOverlayTimeDisplay } from './widgets';
 
-console.log("Fullscreen Time loaded");
+console.log("Fullscreen Time 已加载");
 
 function scanForMedia(document) {
   const mediaTagSelector = 'video';
@@ -114,7 +114,7 @@ document.addEventListener('keydown', (e) => {
         const currentMode = overlayTimeDisp.layoutMode;
         const newMode = currentMode === 'float' ? 'snap' : 'float';
         tempToggle('layoutMode', newMode, currentMode);
-        console.log(`[Shortcut] Layout toggled (temp): ${newMode}`);
+        console.log(`[快捷键] 布局模式切换为: ${newMode === 'float' ? '浮动' : '磁吸'}`);
       }
 
       if (pressed === items.keyToggleVisibility) {
@@ -127,7 +127,7 @@ document.addEventListener('keydown', (e) => {
           ? overlayTimeDisp.showWhenVideoFullscreen
           : overlayTimeDisp.showOnFullscreen;
         tempToggle(settingKey, !currentVal, currentVal);
-        console.log(`[Shortcut] ${settingKey} toggled (temp): ${!currentVal}`);
+        console.log(`[快捷键] 显示${!currentVal ? '开启' : '关闭'}`);
       }
     }
   );

@@ -1,13 +1,12 @@
 {
-  "name": "empty-project",
+  "name": "fullscreen-time",
   "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
-  "keywords": [],
+  "description": "Chrome 扩展：在全屏时显示时间浮层，支持快捷键操作",
+  "keywords": ["chrome-extension", "fullscreen", "time-overlay", "video"],
   "author": "",
   "license": "ISC",
   "scripts": {
-    "clean": "rm extension/content.js extension/content.js.map",
+    "clean": "if (Test-Path 'extension/content.js') { Remove-Item 'extension/content.js' }; if (Test-Path 'extension/content.js.map') { Remove-Item 'extension/content.js.map' }",
     "build-dev": "webpack --mode development",
     "build-prod": "webpack --mode production",
     "watch": "webpack --mode development --watch"

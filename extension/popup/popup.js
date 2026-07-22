@@ -36,40 +36,40 @@ document.addEventListener('DOMContentLoaded', () => {
 // 监听checkbox变化
 showWhenVideoFullscreenCheckbox.addEventListener('change', (event) => {
   chrome.storage.sync.set({ showWhenVideoFullscreen: event.target.checked });
-  console.log('Show when video fullscreen:', event.target.checked);
+  console.log('视频全屏显示时间:', event.target.checked);
 });
 
 showOnFullscreenCheckbox.addEventListener('change', (event) => {
   chrome.storage.sync.set({ showOnFullscreen: event.target.checked });
-  console.log('Show on fullscreen:', event.target.checked);
+  console.log('全屏时显示:', event.target.checked);
 });
 
 showSecondsCheckbox.addEventListener('change', (event) => {
   chrome.storage.sync.set({ showSeconds: event.target.checked });
-  console.log('Show seconds:', event.target.checked);
+  console.log('显示秒数:', event.target.checked);
 });
 
 showProgressCheckbox.addEventListener('change', (event) => {
   chrome.storage.sync.set({ showProgress: event.target.checked });
-  console.log('Show progress:', event.target.checked);
+  console.log('显示播放进度:', event.target.checked);
 });
 
 autoHideCheckbox.addEventListener('change', (event) => {
   chrome.storage.sync.set({ autoHide: event.target.checked });
-  console.log('Auto hide:', event.target.checked);
+  console.log('空闲自动隐藏:', event.target.checked);
 });
 
 layoutSnapRadio.addEventListener('change', () => {
   if (layoutSnapRadio.checked) {
     chrome.storage.sync.set({ layoutMode: 'snap' });
-    console.log('Layout mode: snap');
+    console.log('布局模式: 磁吸');
   }
 });
 
 layoutFloatRadio.addEventListener('change', () => {
   if (layoutFloatRadio.checked) {
     chrome.storage.sync.set({ layoutMode: 'float' });
-    console.log('Layout mode: float');
+    console.log('布局模式: 浮动');
   }
 });
 
