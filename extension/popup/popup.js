@@ -73,6 +73,11 @@ layoutFloatRadio.addEventListener('change', () => {
   }
 });
 
+// 打开设置页面
+document.getElementById('openSettingsButton').addEventListener('click', () => {
+  chrome.tabs.create({ url: chrome.runtime.getURL('settings/settings.html') });
+});
+
 // 打开文档按钮
 document.getElementById('openDocButton').addEventListener('click', () => {
   chrome.tabs.create({ url: chrome.runtime.getURL('doc.html') });
