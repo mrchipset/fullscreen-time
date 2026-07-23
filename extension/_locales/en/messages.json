@@ -250,5 +250,17 @@
   "labelLanguage": {
     "message": "Language",
     "description": "Popup label for language selector"
+  },
+  "docPrivacyTitle": {
+    "message": "Privacy Policy",
+    "description": "Privacy policy section title in documentation page"
+  },
+  "docPrivacyPara": {
+    "message": "Fullscreen Time does not collect, store, or transmit any personal data. The extension only reads video element information to display playback time while you are in fullscreen mode. All settings are stored locally via Chrome Storage API. No data is sent to any server.",
+    "description": "Privacy policy paragraph in documentation page"
+  },
+  "btnPrivacy": {
+    "message": "Privacy Policy",
+    "description": "Popup button to open privacy section in documentation"
   }
 }

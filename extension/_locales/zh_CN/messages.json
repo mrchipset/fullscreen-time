@@ -250,5 +250,17 @@
   "labelLanguage": {
     "message": "语言",
     "description": "Popup label for language selector"
+  },
+  "docPrivacyTitle": {
+    "message": "隐私政策",
+    "description": "Privacy policy section title in documentation page"
+  },
+  "docPrivacyPara": {
+    "message": "Fullscreen Time 不会收集、存储或传输任何个人数据。该扩展仅在您进入全屏模式时读取视频元素信息以显示播放时间。所有设置均通过 Chrome Storage API 本地存储。不会向任何服务器发送数据。",
+    "description": "Privacy policy paragraph in documentation page"
+  },
+  "btnPrivacy": {
+    "message": "隐私政策",
+    "description": "Popup button to open privacy section in documentation"
   }
 }

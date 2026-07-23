@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>__MSG_docHtmlTitle__</title>
+  <title data-i18n="docHtmlTitle"></title>
   <style>
     body {
       font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
@@ -42,56 +42,70 @@
       padding: 15px;
       margin: 20px 0;
     }
+    .privacy {
+      background-color: #e8f5e9;
+      border-left: 4px solid #4caf50;
+      padding: 15px;
+      margin: 20px 0;
+    }
   </style>
 </head>
 <body>
-  <h1>__MSG_docH1Title__</h1>
+  <h1 data-i18n="docH1Title"></h1>
   
   <div class="feature">
-    <h2>__MSG_docFeatureTitle__</h2>
-    <p>__MSG_docFeaturePara__</p>
+    <h2 data-i18n="docFeatureTitle"></h2>
+    <p data-i18n="docFeaturePara"></p>
     <ul>
-      <li>__MSG_docFeatureItem1__</li>
-      <li>__MSG_docFeatureItem2__</li>
-      <li>__MSG_docFeatureItem3__</li>
-      <li>__MSG_docFeatureItem4__</li>
+      <li data-i18n="docFeatureItem1"></li>
+      <li data-i18n="docFeatureItem2"></li>
+      <li data-i18n="docFeatureItem3"></li>
+      <li data-i18n="docFeatureItem4"></li>
     </ul>
   </div>
 
   <div class="feature">
-    <h2>__MSG_docHowToTitle__</h2>
+    <h2 data-i18n="docHowToTitle"></h2>
     <ol>
-      <li>__MSG_docHowToStep1__</li>
-      <li>__MSG_docHowToStep2__</li>
-      <li>__MSG_docHowToStep3__</li>
-      <li>__MSG_docHowToStep4__</li>
+      <li data-i18n="docHowToStep1"></li>
+      <li data-i18n="docHowToStep2"></li>
+      <li data-i18n="docHowToStep3"></li>
+      <li data-i18n="docHowToStep4"></li>
     </ol>
   </div>
 
   <div class="feature">
-    <h2>__MSG_docSettingsTitle__</h2>
-    <p>__MSG_docSettingShowVideo__</p>
-    <p>__MSG_docSettingShowFullscreen__</p>
+    <h2 data-i18n="docSettingsTitle"></h2>
+    <p data-i18n="docSettingShowVideo"></p>
+    <p data-i18n="docSettingShowFullscreen"></p>
   </div>
 
   <div class="tip">
-    __MSG_docTip__
+    <span data-i18n="docTip"></span>
   </div>
 
   <div class="feature">
-    <h2>__MSG_docTechTitle__</h2>
+    <h2 data-i18n="docTechTitle"></h2>
     <ul>
-      <li>__MSG_docTechItem1__</li>
-      <li>__MSG_docTechItem2__</li>
-      <li>__MSG_docTechItem3__</li>
-      <li>__MSG_docTechItem4__</li>
+      <li data-i18n="docTechItem1"></li>
+      <li data-i18n="docTechItem2"></li>
+      <li data-i18n="docTechItem3"></li>
+      <li data-i18n="docTechItem4"></li>
     </ul>
   </div>
 
-  <div class="feature">
-    <h2>__MSG_docVersionTitle__</h2>
-    <p>__MSG_docVersionLabel__</p>
-    <p>__MSG_docDateLabel__</p>
+  <div id="privacy" class="feature privacy">
+    <h2 data-i18n="docPrivacyTitle"></h2>
+    <p data-i18n="docPrivacyPara"></p>
   </div>
+
+  <div class="feature">
+    <h2 data-i18n="docVersionTitle"></h2>
+    <p data-i18n="docVersionLabel"></p>
+    <p data-i18n="docDateLabel"></p>
+  </div>
+
+  <script src="shared/i18n.js"></script>
+  <script src="doc.js"></script>
 </body>
 </html>

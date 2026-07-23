@@ -94,3 +94,8 @@ document.getElementById('openSettingsButton').addEventListener('click', () => {
 document.getElementById('openDocButton').addEventListener('click', () => {
   chrome.tabs.create({ url: chrome.runtime.getURL('doc.html') });
 });
+
+// 打开隐私政策
+document.getElementById('openPrivacyButton').addEventListener('click', () => {
+  chrome.tabs.create({ url: chrome.runtime.getURL('doc.html#privacy') });
+});
