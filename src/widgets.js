@@ -61,9 +61,72 @@ export class TimeDisplay {
     timeElement.style.zIndex = '999999';
     timeElement.style.transition = 'opacity 0.3s ease';
     timeElement.style.pointerEvents = 'auto';
-    timeElement.innerText = '00:00 / 00:00';
     timeElement.style.display = 'none';
+
+    // 独立文字容器（与 × 按钮并列，避免 updateTime 误删按钮）
+    const textSpan = document.createElement('span');
+    textSpan.textContent = '00:00 / 00:00';
+    this._timeTextSpan = textSpan;
+    timeElement.appendChild(textSpan);
+
+    const closeBtn = this._createCloseButton();
+    this._closeBtn = closeBtn;
+
+    // 使用 mouseover/mouseout + relatedTarget 处理 hover，避免绝对定位子元素导致的事件问题
+    timeElement.addEventListener('mouseenter', () => { closeBtn.style.display = 'block'; });
+    timeElement.addEventListener('mouseleave', () => {
+      // 当鼠标离开 timeElement 且未进入 closeBtn 时才隐藏
+      // 延迟让 mouseenter closeBtn 有机会触发
+      setTimeout(() => {
+        if (closeBtn.style.display !== 'none' && !closeBtn.matches(':hover')) {
+          closeBtn.style.display = 'none';
+        }
+      }, 50);
+    });
+    closeBtn.addEventListener('mouseleave', () => { closeBtn.style.display = 'none'; });
+
+    timeElement.appendChild(closeBtn);
     return timeElement;
+  }
+
+  // 创建右上角关闭按钮 ×（位于 timeElement 内部右上角）
+  _createCloseButton() {
+    const btn = document.createElement('span');
+    btn.textContent = '×';
+    btn.title = '关闭';
+    Object.assign(btn.style, {
+      position: 'absolute',
+      top: '1px',
+      right: '1px',
+      width: '18px',
+      height: '18px',
+      lineHeight: '18px',
+      textAlign: 'center',
+      fontSize: '14px',
+      fontWeight: 'bold',
+      color: '#fff',
+      backgroundColor: 'rgba(0,0,0,0.7)',
+      borderRadius: '50%',
+      cursor: 'pointer',
+      display: 'none',
+      zIndex: '1000000',
+      boxShadow: '0 1px 3px rgba(0,0,0,0.3)',
+      userSelect: 'none'
+    });
+
+    btn.addEventListener('mousedown', (e) => e.stopPropagation()); // 阻止拖拽
+    btn.addEventListener('click', (e) => {
+      e.stopPropagation();
+      this.handleDismiss();
+    });
+
+    return btn;
+  }
+
+  handleDismiss() {
+    document.dispatchEvent(new CustomEvent('fs-time-dismiss', {
+      detail: { displayType: this.displayType() }
+    }));
   }
 
   checkIsToShow() {
@@ -79,11 +142,16 @@ export class TimeDisplay {
     return isFull;
   }
 
+  _resetCloseButton() {
+    if (this._closeBtn) this._closeBtn.style.display = 'none';
+  }
+
   show() {
     this.updateTime();
     this.timeElement.style.display = 'block';
     this.timeElement.style.zIndex = '999999';
     this.timeElement.style.opacity = '1';
+    this._resetCloseButton();
 
     if (this.layoutMode === 'float') {
       this.teardownDragging();
@@ -248,9 +316,9 @@ export class TimeDisplay {
     if (this.showProgress) {
       const currentTime = this.media.currentTime;
       const duration = this.media.duration;
-      this.timeElement.innerText = `${formatTime(currentTime)} / ${formatTime(duration)} | ${systemTime}`;
+      this._timeTextSpan.textContent = `${formatTime(currentTime)} / ${formatTime(duration)} | ${systemTime}`;
     } else {
-      this.timeElement.innerText = systemTime;
+      this._timeTextSpan.textContent = systemTime;
     }
   }
 
@@ -314,6 +382,7 @@ export class WindowOverlayTimeDisplay extends TimeDisplay {
         this.updateTime();
         this.timeElement.style.display = 'block';
         this.timeElement.style.zIndex = '999999';
+        this._resetCloseButton();
 
         if (this.layoutMode === 'float') {
             this.teardownDragging();
@@ -350,7 +419,7 @@ export class WindowOverlayTimeDisplay extends TimeDisplay {
         const systemTime = this.showSeconds
           ? `${hours}:${minutes}:${String(now.getSeconds()).padStart(2, '0')}`
           : `${hours}:${minutes}`;
-        this.timeElement.innerText = systemTime;
+        this._timeTextSpan.textContent = systemTime;
     }
 
     checkIsToShow() {

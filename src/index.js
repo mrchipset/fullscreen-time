@@ -94,6 +94,19 @@ function checkFullscreenExit() {
 document.addEventListener('fullscreenchange', checkFullscreenExit);
 window.addEventListener('resize', checkFullscreenExit);
 
+// 关闭按钮 × → 临时隐藏（同快捷键 hide 行为）
+document.addEventListener('fs-time-dismiss', (e) => {
+  const settingKey = e.detail.displayType === 'window-overlay'
+    ? 'showOnFullscreen'
+    : 'showWhenVideoFullscreen';
+  const currentVal = settingKey === 'showWhenVideoFullscreen'
+    ? overlayTimeDisp.showWhenVideoFullscreen
+    : overlayTimeDisp.showOnFullscreen;
+  if (currentVal === false) return; // 已经隐藏
+  tempToggle(settingKey, false, currentVal);
+  console.log(`[关闭] ${settingKey} 临时关闭`);
+});
+
 document.addEventListener('keydown', (e) => {
   const isFs = document.fullscreenElement || checkIsBrowserFullscreen();
   if (!isFs) return;
