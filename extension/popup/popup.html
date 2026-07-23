@@ -80,53 +80,68 @@
     .doc-button:hover {
       background-color: #0052a3;
     }
+    .divider {
+      height: 1px;
+      background: #eee;
+      margin: 12px 0;
+    }
   </style>
 </head>
 <body>
   <div class="container">
-    <h1>Fullscreen Time Settings</h1>
+    <h1 data-i18n="popupTitle"></h1>
     
     <div class="setting-item">
       <input type="checkbox" id="showWhenVideoFullscreen" checked>
-      <label for="showWhenVideoFullscreen">在视频中显示时间</label>
+      <label for="showWhenVideoFullscreen" data-i18n="labelShowWhenVideoFullscreen"></label>
     </div>
     
     <div class="setting-item">
       <input type="checkbox" id="showOnFullscreen" checked>
-      <label for="showOnFullscreen">在全屏时显示</label>
+      <label for="showOnFullscreen" data-i18n="labelShowOnFullscreen"></label>
     </div>
 
     <div class="setting-item">
       <input type="checkbox" id="showSeconds" checked>
-      <label for="showSeconds">显示秒数</label>
+      <label for="showSeconds" data-i18n="labelShowSeconds"></label>
     </div>
 
     <div class="setting-item">
       <input type="checkbox" id="showProgress" checked>
-      <label for="showProgress">显示播放进度</label>
+      <label for="showProgress" data-i18n="labelShowProgress"></label>
     </div>
 
     <div class="setting-item">
       <input type="checkbox" id="autoHide">
-      <label for="autoHide">空闲自动隐藏（3秒）</label>
+      <label for="autoHide" data-i18n="labelAutoHide"></label>
     </div>
 
-    <div class="section-label">布局模式</div>
+    <div class="section-label" data-i18n="labelLayoutSection"></div>
     <div class="radio-group">
       <div class="radio-item">
         <input type="radio" name="layoutMode" id="layoutSnap" value="snap" checked>
-        <label for="layoutSnap">磁吸（固定位置）</label>
+        <label for="layoutSnap" data-i18n="labelLayoutSnap"></label>
       </div>
       <div class="radio-item">
         <input type="radio" name="layoutMode" id="layoutFloat" value="float">
-        <label for="layoutFloat">浮动（可拖动）</label>
+        <label for="layoutFloat" data-i18n="labelLayoutFloat"></label>
       </div>
     </div>
 
-    <button class="doc-button" id="openSettingsButton" style="margin-top:0;">快捷键设置</button>
-    <button class="doc-button" id="openDocButton">使用说明</button>
+    <div class="divider"></div>
+    <div class="setting-item">
+      <label data-i18n="labelLanguage"></label>
+      <select id="langSelector" style="margin-left:auto;padding:4px 8px;border:1px solid #ccc;border-radius:4px;font-size:13px;">
+        <option value="en" data-i18n="langEn"></option>
+        <option value="zh_CN" data-i18n="langZhCn"></option>
+      </select>
+    </div>
+
+    <button class="doc-button" id="openSettingsButton" style="margin-top:0;" data-i18n="btnShortcutSettings"></button>
+    <button class="doc-button" id="openDocButton" data-i18n="btnDoc"></button>
   </div>
 
+  <script src="../shared/i18n.js"></script>
   <script src="popup.js"></script>
 </body>
 </html>

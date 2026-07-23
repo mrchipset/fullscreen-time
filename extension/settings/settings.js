@@ -7,7 +7,6 @@ function keyEventToString(e) {
   if (e.ctrlKey) parts.push('Ctrl');
   if (e.altKey) parts.push('Alt');
   if (e.shiftKey) parts.push('Shift');
-  // e.key 可能为 'Control', 'Alt', 'Shift' 单独按下时忽略修饰键本身
   const key = e.key;
   if (key === 'Control' || key === 'Alt' || key === 'Shift' || key === 'Meta') {
     return null;
@@ -22,7 +21,7 @@ function setupShortcutRecorder(input, storageKey) {
 
   input.addEventListener('click', () => {
     recording = true;
-    input.value = '请按快捷键...';
+    input.value = i18n.t('placeholderRecording');
     input.classList.add('recording');
   });
 
@@ -30,7 +29,6 @@ function setupShortcutRecorder(input, storageKey) {
     if (recording) {
       recording = false;
       input.classList.remove('recording');
-      // 失去焦点时重新显示当前值
       chrome.storage.sync.get(storageKey, (items) => {
         input.value = items[storageKey] || '';
       });
@@ -43,7 +41,7 @@ function setupShortcutRecorder(input, storageKey) {
     e.stopPropagation();
 
     const keyStr = keyEventToString(e);
-    if (!keyStr) return; // 忽略单独的修饰键
+    if (!keyStr) return;
 
     recording = false;
     input.classList.remove('recording');
@@ -54,6 +52,9 @@ function setupShortcutRecorder(input, storageKey) {
 
 // 加载存储值
 document.addEventListener('DOMContentLoaded', () => {
+  // 初始化自定义 i18n
+  i18n.init();
+
   chrome.storage.sync.get(
     {
       keyToggleLayout: 'F9',

@@ -1,0 +1,254 @@
+{
+  "extName": {
+    "message": "Fullscreen Time",
+    "description": "Extension name in Chrome Web Store"
+  },
+  "extDesc": {
+    "message": "Display a system time overlay when videos or the browser enter fullscreen. Supports customizable shortcuts.",
+    "description": "Extension description in Chrome Web Store"
+  },
+  "popupTitle": {
+    "message": "Fullscreen Time Settings",
+    "description": "Title of the popup settings panel"
+  },
+  "labelShowWhenVideoFullscreen": {
+    "message": "Show time on video",
+    "description": "Popup checkbox label"
+  },
+  "labelShowOnFullscreen": {
+    "message": "Show on fullscreen",
+    "description": "Popup checkbox label"
+  },
+  "labelShowSeconds": {
+    "message": "Show seconds",
+    "description": "Popup checkbox label"
+  },
+  "labelShowProgress": {
+    "message": "Show progress",
+    "description": "Popup checkbox label"
+  },
+  "labelAutoHide": {
+    "message": "Auto-hide when idle (3s)",
+    "description": "Popup checkbox label"
+  },
+  "labelLayoutSection": {
+    "message": "Layout Mode",
+    "description": "Popup section header for layout mode"
+  },
+  "labelLayoutSnap": {
+    "message": "Snap (fixed position)",
+    "description": "Popup radio button label for snap layout"
+  },
+  "labelLayoutFloat": {
+    "message": "Float (draggable)",
+    "description": "Popup radio button label for float layout"
+  },
+  "btnShortcutSettings": {
+    "message": "Shortcut Settings",
+    "description": "Popup button to open shortcut settings page"
+  },
+  "btnDoc": {
+    "message": "Help",
+    "description": "Popup button to open documentation page"
+  },
+  "msgVideoFullscreenChanged": {
+    "message": "Video fullscreen time:",
+    "description": "Console log when video fullscreen setting changes"
+  },
+  "msgFullscreenChanged": {
+    "message": "Fullscreen display:",
+    "description": "Console log when fullscreen display setting changes"
+  },
+  "msgSecondsChanged": {
+    "message": "Show seconds:",
+    "description": "Console log when seconds display setting changes"
+  },
+  "msgProgressChanged": {
+    "message": "Show progress:",
+    "description": "Console log when progress display setting changes"
+  },
+  "msgAutoHideChanged": {
+    "message": "Auto-hide:",
+    "description": "Console log when auto-hide setting changes"
+  },
+  "msgLayoutSnapped": {
+    "message": "Layout: Snap",
+    "description": "Console log when layout changes to snap mode"
+  },
+  "msgLayoutFloated": {
+    "message": "Layout: Float",
+    "description": "Console log when layout changes to float mode"
+  },
+  "settingsTitle": {
+    "message": "Shortcut Settings",
+    "description": "Title of the shortcut settings page"
+  },
+  "labelToggleLayout": {
+    "message": "Toggle Layout Mode",
+    "description": "Shortcut settings label for toggling layout mode"
+  },
+  "labelToggleVisibility": {
+    "message": "Toggle Visibility",
+    "description": "Shortcut settings label for toggling visibility"
+  },
+  "placeholderRecording": {
+    "message": "Press shortcut...",
+    "description": "Placeholder text in shortcut recorder input"
+  },
+  "docHtmlTitle": {
+    "message": "Fullscreen Time - Documentation",
+    "description": "Title of the documentation HTML page"
+  },
+  "docH1Title": {
+    "message": "\ud83d\udcfa Fullscreen Time",
+    "description": "Main heading on the documentation page"
+  },
+  "docFeatureTitle": {
+    "message": "Features",
+    "description": "Documentation section heading for features"
+  },
+  "docFeaturePara": {
+    "message": "A browser extension that displays the current playback time and system time when videos play in fullscreen.",
+    "description": "Documentation paragraph describing the extension"
+  },
+  "docFeatureItem1": {
+    "message": "Auto-detect video elements on the page",
+    "description": "Documentation feature list item"
+  },
+  "docFeatureItem2": {
+    "message": "Display time info during video fullscreen",
+    "description": "Documentation feature list item"
+  },
+  "docFeatureItem3": {
+    "message": "Format: <code>Current / Duration | System Time</code>",
+    "description": "Documentation feature list item with HTML"
+  },
+  "docFeatureItem4": {
+    "message": "Customizable display settings",
+    "description": "Documentation feature list item"
+  },
+  "docHowToTitle": {
+    "message": "How to Use",
+    "description": "Documentation section heading for usage instructions"
+  },
+  "docHowToStep1": {
+    "message": "Open any webpage containing a video (YouTube, Bilibili, etc.)",
+    "description": "Documentation usage step"
+  },
+  "docHowToStep2": {
+    "message": "Click the video to enter fullscreen",
+    "description": "Documentation usage step"
+  },
+  "docHowToStep3": {
+    "message": "Time info will automatically appear at the top center of the screen",
+    "description": "Documentation usage step"
+  },
+  "docHowToStep4": {
+    "message": "Click the extension icon to open the settings panel",
+    "description": "Documentation usage step"
+  },
+  "docSettingsTitle": {
+    "message": "Settings",
+    "description": "Documentation section heading for settings"
+  },
+  "docSettingShowVideo": {
+    "message": "<strong>Show time on video:</strong> Controls whether time display is enabled",
+    "description": "Documentation description of show-on-video setting"
+  },
+  "docSettingShowFullscreen": {
+    "message": "<strong>Show on fullscreen:</strong> Controls whether time only shows in fullscreen",
+    "description": "Documentation description of show-on-fullscreen setting"
+  },
+  "docTip": {
+    "message": "<strong>\ud83d\udca1 Tip:</strong> If the time display doesn't appear, try refreshing the page or reloading the extension.",
+    "description": "Documentation tip paragraph"
+  },
+  "docTechTitle": {
+    "message": "Tech Stack",
+    "description": "Documentation section heading for tech stack"
+  },
+  "docTechItem1": {
+    "message": "Webpack - Module Bundler",
+    "description": "Documentation tech stack list item"
+  },
+  "docTechItem2": {
+    "message": "Chrome Extension Manifest V3",
+    "description": "Documentation tech stack list item"
+  },
+  "docTechItem3": {
+    "message": "ES6 Modules",
+    "description": "Documentation tech stack list item"
+  },
+  "docTechItem4": {
+    "message": "Chrome Storage API",
+    "description": "Documentation tech stack list item"
+  },
+  "docVersionTitle": {
+    "message": "Version Info",
+    "description": "Documentation section heading for version info"
+  },
+  "docVersionLabel": {
+    "message": "Version: 1.0",
+    "description": "Documentation version label"
+  },
+  "docDateLabel": {
+    "message": "Updated: 2026-01-25",
+    "description": "Documentation update date label"
+  },
+  "msgLoaded": {
+    "message": "Fullscreen Time loaded",
+    "description": "Console log when content script loads"
+  },
+  "msgNoMedia": {
+    "message": "No video elements found.",
+    "description": "Console log when no video elements found"
+  },
+  "msgFoundMedia": {
+    "message": "Found video elements:",
+    "description": "Console log when video elements are found"
+  },
+  "msgLayoutToggle": {
+    "message": "Layout switched to",
+    "description": "Console log when layout mode is toggled"
+  },
+  "msgFloat": {
+    "message": "Float",
+    "description": "Console log label for float layout mode"
+  },
+  "msgSnap": {
+    "message": "Snap",
+    "description": "Console log label for snap layout mode"
+  },
+  "msgVisibilityOn": {
+    "message": "Visibility on",
+    "description": "Console log when visibility is turned on"
+  },
+  "msgVisibilityOff": {
+    "message": "Visibility off",
+    "description": "Console log when visibility is turned off"
+  },
+  "msgDismissLabel": {
+    "message": "Dismiss",
+    "description": "Button label for dismissing the overlay"
+  },
+  "msgDismissed": {
+    "message": "dismissed",
+    "description": "Console log when overlay is dismissed"
+  },
+  "closeBtnTitle": {
+    "message": "Close",
+    "description": "Tooltip/title for the close button on the widget"
+  },
+  "langEn": {
+    "message": "English",
+    "description": "Language name for English"
+  },
+  "langZhCn": {
+    "message": "中文",
+    "description": "Language name for Chinese"
+  },
+  "labelLanguage": {
+    "message": "Language",
+    "description": "Popup label for language selector"
+  }
+}

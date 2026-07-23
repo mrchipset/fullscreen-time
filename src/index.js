@@ -1,7 +1,11 @@
 import { formatTime, checkIsBrowserFullscreen } from './utils';
 import { TimeDisplay, WindowOverlayTimeDisplay } from './widgets';
+import { t, init } from './i18n';
 
-console.log("Fullscreen Time 已加载");
+// 初始化自定义 i18n（异步加载翻译）
+init();
+
+console.log(t('msgLoaded'));
 
 function scanForMedia(document) {
   const mediaTagSelector = 'video';
@@ -16,11 +20,11 @@ const _timeDisplays = [];
 function injectForMedias() {
   const medias = scanForMedia(document);
   if (medias === undefined || medias.length === 0) {
-    console.warn("No media elements found.");
+    console.warn(t('msgNoMedia'));
     setTimeout(injectForMedias, 2000);
     return;
   }
-  console.log("Found media elements:", medias);
+  console.log(t('msgFoundMedia'), medias);
 
   medias.forEach(media => {
     _timeDisplays.push(new TimeDisplay(media));
@@ -104,7 +108,7 @@ document.addEventListener('fs-time-dismiss', (e) => {
     : overlayTimeDisp.showOnFullscreen;
   if (currentVal === false) return; // 已经隐藏
   tempToggle(settingKey, false, currentVal);
-  console.log(`[关闭] ${settingKey} 临时关闭`);
+  console.log(`[${t('msgDismissLabel')}] ${settingKey} ${t('msgDismissed')}`);
 });
 
 document.addEventListener('keydown', (e) => {
@@ -127,7 +131,7 @@ document.addEventListener('keydown', (e) => {
         const currentMode = overlayTimeDisp.layoutMode;
         const newMode = currentMode === 'float' ? 'snap' : 'float';
         tempToggle('layoutMode', newMode, currentMode);
-        console.log(`[快捷键] 布局模式切换为: ${newMode === 'float' ? '浮动' : '磁吸'}`);
+        console.log(`[${t('msgLayoutToggle')}] ${newMode === 'float' ? t('msgFloat') : t('msgSnap')}`);
       }
 
       if (pressed === items.keyToggleVisibility) {
@@ -140,7 +144,7 @@ document.addEventListener('keydown', (e) => {
           ? overlayTimeDisp.showWhenVideoFullscreen
           : overlayTimeDisp.showOnFullscreen;
         tempToggle(settingKey, !currentVal, currentVal);
-        console.log(`[快捷键] 显示${!currentVal ? '开启' : '关闭'}`);
+        console.log(t(!currentVal ? 'msgVisibilityOn' : 'msgVisibilityOff'));
       }
     }
   );

@@ -1,4 +1,5 @@
 import { checkIsBrowserFullscreen, formatTime } from './utils';
+import { t, init } from './i18n';
 
 export class TimeDisplay {
   constructor(media) {
@@ -93,7 +94,7 @@ export class TimeDisplay {
   _createCloseButton() {
     const btn = document.createElement('span');
     btn.textContent = '×';
-    btn.title = '关闭';
+    btn.title = t('closeBtnTitle');
     Object.assign(btn.style, {
       position: 'absolute',
       top: '1px',
@@ -366,6 +367,12 @@ export class TimeDisplay {
         }
         if ('layoutMode' in changes) {
           this.layoutMode = changes.layoutMode.newValue;
+        }
+        if ('language' in changes) {
+          // Re-translate close button title
+          if (this._closeBtn) {
+            this._closeBtn.title = t('closeBtnTitle');
+          }
         }
         this.updateVisibility();
       }

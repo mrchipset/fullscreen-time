@@ -6,9 +6,16 @@ const showProgressCheckbox = document.getElementById('showProgress');
 const autoHideCheckbox = document.getElementById('autoHide');
 const layoutSnapRadio = document.getElementById('layoutSnap');
 const layoutFloatRadio = document.getElementById('layoutFloat');
+const langSelector = document.getElementById('langSelector');
 
-// 页面加载时，从存储中读取设置
+// 页面加载时
 document.addEventListener('DOMContentLoaded', () => {
+  // 初始化自定义 i18n（异步加载翻译）
+  i18n.init().then(() => {
+    // 设置语言选择器的值为当前语言
+    langSelector.value = i18n.getCurrentLang();
+  });
+
   chrome.storage.sync.get(
     {
       showWhenVideoFullscreen: true,
@@ -33,43 +40,48 @@ document.addEventListener('DOMContentLoaded', () => {
   );
 });
 
+// 语言切换
+langSelector.addEventListener('change', (e) => {
+  i18n.switchLang(e.target.value);
+});
+
 // 监听checkbox变化
 showWhenVideoFullscreenCheckbox.addEventListener('change', (event) => {
   chrome.storage.sync.set({ showWhenVideoFullscreen: event.target.checked });
-  console.log('视频全屏显示时间:', event.target.checked);
+  console.log(i18n.t('msgVideoFullscreenChanged'), event.target.checked);
 });
 
 showOnFullscreenCheckbox.addEventListener('change', (event) => {
   chrome.storage.sync.set({ showOnFullscreen: event.target.checked });
-  console.log('全屏时显示:', event.target.checked);
+  console.log(i18n.t('msgFullscreenChanged'), event.target.checked);
 });
 
 showSecondsCheckbox.addEventListener('change', (event) => {
   chrome.storage.sync.set({ showSeconds: event.target.checked });
-  console.log('显示秒数:', event.target.checked);
+  console.log(i18n.t('msgSecondsChanged'), event.target.checked);
 });
 
 showProgressCheckbox.addEventListener('change', (event) => {
   chrome.storage.sync.set({ showProgress: event.target.checked });
-  console.log('显示播放进度:', event.target.checked);
+  console.log(i18n.t('msgProgressChanged'), event.target.checked);
 });
 
 autoHideCheckbox.addEventListener('change', (event) => {
   chrome.storage.sync.set({ autoHide: event.target.checked });
-  console.log('空闲自动隐藏:', event.target.checked);
+  console.log(i18n.t('msgAutoHideChanged'), event.target.checked);
 });
 
 layoutSnapRadio.addEventListener('change', () => {
   if (layoutSnapRadio.checked) {
     chrome.storage.sync.set({ layoutMode: 'snap' });
-    console.log('布局模式: 磁吸');
+    console.log(i18n.t('msgLayoutSnapped'));
   }
 });
 
 layoutFloatRadio.addEventListener('change', () => {
   if (layoutFloatRadio.checked) {
     chrome.storage.sync.set({ layoutMode: 'float' });
-    console.log('布局模式: 浮动');
+    console.log(i18n.t('msgLayoutFloated'));
   }
 });
 

@@ -1,0 +1,254 @@
+{
+  "extName": {
+    "message": "Fullscreen Time",
+    "description": "Extension name in Chrome Web Store"
+  },
+  "extDesc": {
+    "message": "在视频全屏或浏览器全屏时显示系统时间浮层，支持快捷键自定义",
+    "description": "Extension description in Chrome Web Store"
+  },
+  "popupTitle": {
+    "message": "Fullscreen Time 设置",
+    "description": "Title of the popup settings panel"
+  },
+  "labelShowWhenVideoFullscreen": {
+    "message": "在视频中显示时间",
+    "description": "Popup checkbox label"
+  },
+  "labelShowOnFullscreen": {
+    "message": "在全屏时显示",
+    "description": "Popup checkbox label"
+  },
+  "labelShowSeconds": {
+    "message": "显示秒数",
+    "description": "Popup checkbox label"
+  },
+  "labelShowProgress": {
+    "message": "显示播放进度",
+    "description": "Popup checkbox label"
+  },
+  "labelAutoHide": {
+    "message": "空闲自动隐藏（3秒）",
+    "description": "Popup checkbox label"
+  },
+  "labelLayoutSection": {
+    "message": "布局模式",
+    "description": "Popup section header for layout mode"
+  },
+  "labelLayoutSnap": {
+    "message": "磁吸（固定位置）",
+    "description": "Popup radio button label for snap layout"
+  },
+  "labelLayoutFloat": {
+    "message": "浮动（可拖动）",
+    "description": "Popup radio button label for float layout"
+  },
+  "btnShortcutSettings": {
+    "message": "快捷键设置",
+    "description": "Popup button to open shortcut settings page"
+  },
+  "btnDoc": {
+    "message": "使用说明",
+    "description": "Popup button to open documentation page"
+  },
+  "msgVideoFullscreenChanged": {
+    "message": "视频全屏显示时间:",
+    "description": "Console log when video fullscreen setting changes"
+  },
+  "msgFullscreenChanged": {
+    "message": "全屏时显示:",
+    "description": "Console log when fullscreen display setting changes"
+  },
+  "msgSecondsChanged": {
+    "message": "显示秒数:",
+    "description": "Console log when seconds display setting changes"
+  },
+  "msgProgressChanged": {
+    "message": "显示播放进度:",
+    "description": "Console log when progress display setting changes"
+  },
+  "msgAutoHideChanged": {
+    "message": "空闲自动隐藏:",
+    "description": "Console log when auto-hide setting changes"
+  },
+  "msgLayoutSnapped": {
+    "message": "布局模式: 磁吸",
+    "description": "Console log when layout changes to snap mode"
+  },
+  "msgLayoutFloated": {
+    "message": "布局模式: 浮动",
+    "description": "Console log when layout changes to float mode"
+  },
+  "settingsTitle": {
+    "message": "快捷键设置",
+    "description": "Title of the shortcut settings page"
+  },
+  "labelToggleLayout": {
+    "message": "切换布局模式",
+    "description": "Shortcut settings label for toggling layout mode"
+  },
+  "labelToggleVisibility": {
+    "message": "切换显示/隐藏",
+    "description": "Shortcut settings label for toggling visibility"
+  },
+  "placeholderRecording": {
+    "message": "请按快捷键...",
+    "description": "Placeholder text in shortcut recorder input"
+  },
+  "docHtmlTitle": {
+    "message": "Fullscreen Time - 使用说明",
+    "description": "Title of the documentation HTML page"
+  },
+  "docH1Title": {
+    "message": "\ud83d\udcfa Fullscreen Time",
+    "description": "Main heading on the documentation page"
+  },
+  "docFeatureTitle": {
+    "message": "功能介绍",
+    "description": "Documentation section heading for features"
+  },
+  "docFeaturePara": {
+    "message": "这是一个浏览器扩展，用于在视频全屏时显示当前播放时间和系统时间。",
+    "description": "Documentation paragraph describing the extension"
+  },
+  "docFeatureItem1": {
+    "message": "自动检测页面中的视频元素",
+    "description": "Documentation feature list item"
+  },
+  "docFeatureItem2": {
+    "message": "在视频全屏时显示时间信息",
+    "description": "Documentation feature list item"
+  },
+  "docFeatureItem3": {
+    "message": "显示格式：<code>当前时间 / 总时长 | 系统时间</code>",
+    "description": "Documentation feature list item with HTML"
+  },
+  "docFeatureItem4": {
+    "message": "支持自定义显示设置",
+    "description": "Documentation feature list item"
+  },
+  "docHowToTitle": {
+    "message": "如何使用",
+    "description": "Documentation section heading for usage instructions"
+  },
+  "docHowToStep1": {
+    "message": "打开任何包含视频的网页（如 YouTube、Bilibili 等）",
+    "description": "Documentation usage step"
+  },
+  "docHowToStep2": {
+    "message": "点击视频进入全屏模式",
+    "description": "Documentation usage step"
+  },
+  "docHowToStep3": {
+    "message": "时间信息会自动显示在屏幕顶部中央",
+    "description": "Documentation usage step"
+  },
+  "docHowToStep4": {
+    "message": "点击扩展图标可以打开设置面板",
+    "description": "Documentation usage step"
+  },
+  "docSettingsTitle": {
+    "message": "设置选项",
+    "description": "Documentation section heading for settings"
+  },
+  "docSettingShowVideo": {
+    "message": "<strong>在视频中显示时间：</strong> 控制是否启用时间显示功能",
+    "description": "Documentation description of show-on-video setting"
+  },
+  "docSettingShowFullscreen": {
+    "message": "<strong>在全屏时显示：</strong> 控制是否只在全屏时显示时间",
+    "description": "Documentation description of show-on-fullscreen setting"
+  },
+  "docTip": {
+    "message": "<strong>\ud83d\udca1 提示：</strong> 如果时间显示没有出现，请尝试刷新页面或重新加载扩展。",
+    "description": "Documentation tip paragraph"
+  },
+  "docTechTitle": {
+    "message": "技术栈",
+    "description": "Documentation section heading for tech stack"
+  },
+  "docTechItem1": {
+    "message": "Webpack - 模块打包工具",
+    "description": "Documentation tech stack list item"
+  },
+  "docTechItem2": {
+    "message": "Chrome Extension Manifest V3",
+    "description": "Documentation tech stack list item"
+  },
+  "docTechItem3": {
+    "message": "ES6 Modules",
+    "description": "Documentation tech stack list item"
+  },
+  "docTechItem4": {
+    "message": "Chrome Storage API",
+    "description": "Documentation tech stack list item"
+  },
+  "docVersionTitle": {
+    "message": "版本信息",
+    "description": "Documentation section heading for version info"
+  },
+  "docVersionLabel": {
+    "message": "版本：1.0",
+    "description": "Documentation version label"
+  },
+  "docDateLabel": {
+    "message": "更新日期：2026-01-25",
+    "description": "Documentation update date label"
+  },
+  "msgLoaded": {
+    "message": "Fullscreen Time 已加载",
+    "description": "Console log when content script loads"
+  },
+  "msgNoMedia": {
+    "message": "未找到视频元素。",
+    "description": "Console log when no video elements found"
+  },
+  "msgFoundMedia": {
+    "message": "找到视频元素:",
+    "description": "Console log when video elements are found"
+  },
+  "msgLayoutToggle": {
+    "message": "布局模式切换为",
+    "description": "Console log when layout mode is toggled"
+  },
+  "msgFloat": {
+    "message": "浮动",
+    "description": "Console log label for float layout mode"
+  },
+  "msgSnap": {
+    "message": "磁吸",
+    "description": "Console log label for snap layout mode"
+  },
+  "msgVisibilityOn": {
+    "message": "显示开启",
+    "description": "Console log when visibility is turned on"
+  },
+  "msgVisibilityOff": {
+    "message": "显示关闭",
+    "description": "Console log when visibility is turned off"
+  },
+  "msgDismissLabel": {
+    "message": "关闭",
+    "description": "Button label for dismissing the overlay"
+  },
+  "msgDismissed": {
+    "message": "临时关闭",
+    "description": "Console log when overlay is dismissed"
+  },
+  "closeBtnTitle": {
+    "message": "关闭",
+    "description": "Tooltip/title for the close button on the widget"
+  },
+  "langEn": {
+    "message": "English",
+    "description": "Language name for English"
+  },
+  "langZhCn": {
+    "message": "中文",
+    "description": "Language name for Chinese"
+  },
+  "labelLanguage": {
+    "message": "语言",
+    "description": "Popup label for language selector"
+  }
+}

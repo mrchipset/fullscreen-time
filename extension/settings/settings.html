@@ -85,20 +85,21 @@
 </head>
 <body>
   <div class="container">
-    <h1>快捷键设置</h1>
+    <h1 data-i18n="settingsTitle"></h1>
 
     <div class="shortcut-row">
-      <span class="shortcut-label">切换布局模式</span>
+      <span class="shortcut-label" data-i18n="labelToggleLayout"></span>
       <input class="shortcut-input" id="keyToggleLayoutInput" readonly>
     </div>
 
     <div class="shortcut-row">
-      <span class="shortcut-label">切换显示/隐藏</span>
+      <span class="shortcut-label" data-i18n="labelToggleVisibility"></span>
       <input class="shortcut-input" id="keyToggleVisibilityInput" readonly>
     </div>
 
   </div>
 
+  <script src="../shared/i18n.js"></script>
   <script src="settings.js"></script>
 </body>
 </html>
