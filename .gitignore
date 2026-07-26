@@ -6,6 +6,9 @@ dist/*
 node_modules/
 *.log
 
+# Python virtual environments
+.venv*/
+
 # OS generated files
 .DS_Store
 .DS_Store?

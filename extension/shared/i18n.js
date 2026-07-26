@@ -108,7 +108,7 @@
    */
   function translateUI() {
     document.querySelectorAll('[data-i18n]').forEach(el => {
-      el.textContent = t(el.dataset.i18n);
+      el.innerHTML = t(el.dataset.i18n);
     });
   }
 })();
