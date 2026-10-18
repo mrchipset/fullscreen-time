@@ -9,6 +9,9 @@ node_modules/
 # Python virtual environments
 .venv*/
 
+# Deepwork local session state
+.slim/deepwork/
+
 # OS generated files
 .DS_Store
 .DS_Store?
