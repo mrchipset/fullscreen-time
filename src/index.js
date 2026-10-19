@@ -5,7 +5,7 @@ import {
   getFullscreenElement,
   FULLSCREEN_EVENTS
 } from './widgets';
-import { t, init, reloadFromStorage } from './i18n';
+import { init, reloadFromStorage } from './i18n';
 import {
   DEFAULT_KEY_TOGGLE_LAYOUT,
   DEFAULT_KEY_TOGGLE_VISIBILITY,
@@ -22,12 +22,6 @@ init().then(() => {
   // resolved. Re-apply settings so localized labels are refreshed.
   distributeSettings();
 });
-
-function logTop(...args) {
-  if (IS_TOP_FRAME) console.log(...args);
-}
-
-logTop(t('msgLoaded'));
 
 // --- centralized settings ------------------------------------------------
 
@@ -265,17 +259,13 @@ let scanRetries = 0;
 function initialScan() {
   const found = scanForMedia(document);
   if (found > 0) {
-    logTop(t('msgFoundMedia'), found);
     return;
   }
 
   if (scanRetries < MAX_SCAN_RETRIES) {
     scanRetries++;
     scheduleTimeout(initialScan, 1000);
-    return;
   }
-
-  logTop(t('msgNoMedia'));
 }
 
 initialScan();
@@ -446,7 +436,6 @@ function handleDismiss(e) {
   const currentVal = settings[settingKey];
   if (currentVal === false) return; // 已经隐藏
   tempToggle(settingKey, false, currentVal);
-  logTop(`[${t('msgDismissLabel')}] ${settingKey} ${t('msgDismissed')}`);
 }
 
 document.addEventListener('fs-time-dismiss', handleDismiss);
@@ -504,7 +493,6 @@ function handleKeydown(e) {
     const currentMode = settings.layoutMode;
     const newMode = currentMode === 'float' ? 'snap' : 'float';
     tempToggle('layoutMode', newMode, currentMode);
-    logTop(`[${t('msgLayoutToggle')}] ${newMode === 'float' ? t('msgFloat') : t('msgSnap')}`);
     return;
   }
 
@@ -522,7 +510,6 @@ function handleKeydown(e) {
     // 从集中设置读取当前状态（storage 从未被 shortcut 写过）
     const currentVal = settings[settingKey];
     tempToggle(settingKey, !currentVal, currentVal);
-    logTop(t(!currentVal ? 'msgVisibilityOn' : 'msgVisibilityOff'));
   }
 }
 

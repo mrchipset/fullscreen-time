@@ -76,40 +76,33 @@ langSelector.addEventListener('change', (e) => {
 // 监听checkbox变化
 showWhenVideoFullscreenCheckbox.addEventListener('change', (event) => {
   chrome.storage.sync.set({ showWhenVideoFullscreen: event.target.checked });
-  console.log(i18n.t('msgVideoFullscreenChanged'), event.target.checked);
 });
 
 showOnFullscreenCheckbox.addEventListener('change', (event) => {
   chrome.storage.sync.set({ showOnFullscreen: event.target.checked });
-  console.log(i18n.t('msgFullscreenChanged'), event.target.checked);
 });
 
 showSecondsCheckbox.addEventListener('change', (event) => {
   chrome.storage.sync.set({ showSeconds: event.target.checked });
-  console.log(i18n.t('msgSecondsChanged'), event.target.checked);
 });
 
 showProgressCheckbox.addEventListener('change', (event) => {
   chrome.storage.sync.set({ showProgress: event.target.checked });
-  console.log(i18n.t('msgProgressChanged'), event.target.checked);
 });
 
 autoHideCheckbox.addEventListener('change', (event) => {
   chrome.storage.sync.set({ autoHide: event.target.checked });
-  console.log(i18n.t('msgAutoHideChanged'), event.target.checked);
 });
 
 layoutSnapRadio.addEventListener('change', () => {
   if (layoutSnapRadio.checked) {
     chrome.storage.sync.set({ layoutMode: 'snap' });
-    console.log(i18n.t('msgLayoutSnapped'));
   }
 });
 
 layoutFloatRadio.addEventListener('change', () => {
   if (layoutFloatRadio.checked) {
     chrome.storage.sync.set({ layoutMode: 'float' });
-    console.log(i18n.t('msgLayoutFloated'));
   }
 });
 
