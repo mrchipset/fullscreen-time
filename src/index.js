@@ -17,7 +17,11 @@ const IS_TOP_FRAME = window.top === window;
 const MAX_SCAN_RETRIES = 5;
 
 // 初始化自定义 i18n（异步加载翻译）
-init();
+init().then(() => {
+  // Widgets may have been created with fallback labels before translations
+  // resolved. Re-apply settings so localized labels are refreshed.
+  distributeSettings();
+});
 
 function logTop(...args) {
   if (IS_TOP_FRAME) console.log(...args);
@@ -327,6 +331,7 @@ const ticker = setInterval(() => {
 
 function updateAllVisibility() {
   const fsEl = getFullscreenElement();
+  let winnerWidget = null;
 
   if (fsEl) {
     // Only one clock may win inside a fullscreen container. Prefer the video
@@ -347,7 +352,7 @@ function updateAllVisibility() {
                candidates[0];
     }
 
-    const winnerWidget = winner ? winner.widget : null;
+    winnerWidget = winner ? winner.widget : null;
     trackedVideos.forEach((video) => {
       const widget = videoWidgets.get(video);
       if (widget && widget !== winnerWidget && widget.isShowing()) {
@@ -362,7 +367,12 @@ function updateAllVisibility() {
     });
   }
 
-  if (overlayTimeDisp) overlayTimeDisp.updateVisibility();
+  if (overlayTimeDisp) {
+    // Contract with the overlay: a video/embedded fullscreen owns the view,
+    // regardless of whether its clock is currently visible.
+    overlayTimeDisp.videoOverlayActive = isVideoContentFullscreen();
+    overlayTimeDisp.updateVisibility();
+  }
 }
 
 function handleResize() {
@@ -441,6 +451,38 @@ function handleDismiss(e) {
 
 document.addEventListener('fs-time-dismiss', handleDismiss);
 
+function isVideoContentFullscreen() {
+  const fsEl = getFullscreenElement();
+  if (!fsEl) return false;
+
+  // Native video fullscreen.
+  if (typeof HTMLVideoElement !== 'undefined' && fsEl instanceof HTMLVideoElement) {
+    return true;
+  }
+
+  // Embedded content owns the fullscreen view; the child frame handles its own
+  // video clock, so the top frame must not also render one.
+  const embeddedConstructors = [
+    typeof HTMLIFrameElement !== 'undefined' ? HTMLIFrameElement : null,
+    typeof HTMLFrameElement !== 'undefined' ? HTMLFrameElement : null,
+    typeof HTMLEmbedElement !== 'undefined' ? HTMLEmbedElement : null,
+    typeof HTMLObjectElement !== 'undefined' ? HTMLObjectElement : null
+  ];
+  for (let i = 0; i < embeddedConstructors.length; i += 1) {
+    const Constructor = embeddedConstructors[i];
+    if (Constructor && fsEl instanceof Constructor) return true;
+  }
+
+  // Player-container fullscreen containing a tracked video.
+  let containsTrackedVideo = false;
+  trackedVideos.forEach((video) => {
+    if (!containsTrackedVideo && fsEl.contains(video)) {
+      containsTrackedVideo = true;
+    }
+  });
+  return containsTrackedVideo;
+}
+
 function handleKeydown(e) {
   // Reserved browser key / key-repeat / IME composition.
   if (e.key === 'Escape' || e.repeat || e.isComposing) return;
@@ -469,8 +511,14 @@ function handleKeydown(e) {
   if (pressed === shortcutKeys.keyToggleVisibility) {
     e.preventDefault();
     e.stopPropagation();
-    const inVideoFs = !!getFullscreenElement();
-    const settingKey = inVideoFs ? 'showWhenVideoFullscreen' : 'showOnFullscreen';
+
+    // Video context is based on the fullscreen element itself, not on whether
+    // the video clock is currently visible. This lets F10 restore a hidden
+    // video overlay and prevents it from turning the window overlay on.
+    const settingKey = isVideoContentFullscreen()
+      ? 'showWhenVideoFullscreen'
+      : 'showOnFullscreen';
+
     // 从集中设置读取当前状态（storage 从未被 shortcut 写过）
     const currentVal = settings[settingKey];
     tempToggle(settingKey, !currentVal, currentVal);

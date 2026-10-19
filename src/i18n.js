@@ -9,6 +9,7 @@ const STORAGE_KEY = 'language';
 let _currentLang = null;
 let _translations = {};
 let _initPromise = null;
+let _loadToken = 0;
 
 /**
  * Translate a message key.
@@ -57,6 +58,9 @@ export function reloadFromStorage() {
       if (lang !== _currentLang) {
         loadLang(lang).then(() => resolve(true));
       } else {
+        // Invalidate any older in-flight load, even when the requested
+        // language is already the current one.
+        _loadToken += 1;
         resolve(false);
       }
     });
@@ -67,9 +71,16 @@ export function reloadFromStorage() {
  * Load translations for a given language from _locales/{lang}/messages.json.
  */
 function loadLang(lang) {
+  // Bump before the cache check so even a cached no-op invalidates any older
+  // in-flight request.
+  _loadToken += 1;
+  const token = _loadToken;
+
   if (lang === _currentLang && Object.keys(_translations).length > 0) {
     return Promise.resolve();
   }
+
+  // Slow initial loads must not overwrite a newer language request.
   const url = chrome.runtime.getURL(`_locales/${lang}/messages.json`);
   return fetch(url)
     .then(resp => {
@@ -77,10 +88,12 @@ function loadLang(lang) {
       return resp.json();
     })
     .then(data => {
+      if (token !== _loadToken) return;
       _translations = data;
       _currentLang = lang;
     })
     .catch(() => {
+      if (token !== _loadToken) return;
       if (lang !== 'en') return loadLang('en');
       _translations = {};
       _currentLang = 'en';
