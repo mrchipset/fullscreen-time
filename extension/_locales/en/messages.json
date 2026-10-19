@@ -188,11 +188,11 @@
     "description": "Documentation section heading for version info"
   },
   "docVersionLabel": {
-    "message": "Version: 1.0",
+    "message": "Version: 1.0.0",
     "description": "Documentation version label"
   },
   "docDateLabel": {
-    "message": "Updated: 2026-07-26",
+    "message": "Updated: 2026-10-19",
     "description": "Documentation update date label"
   },
   "msgLoaded": {
@@ -398,5 +398,21 @@
   "dismissHint": {
     "message": "Clock hidden. Exit fullscreen to restore.",
     "description": "Transient toast shown after the user hides the overlay"
+  },
+  "docAboutTitle": {
+    "message": "About",
+    "description": "About section heading on the documentation page"
+  },
+  "docAboutText": {
+    "message": "Fullscreen Time is an open-source Chrome extension that shows playback progress and system time when a video or the browser is fullscreen. Features are described in this manual; the software has no developer server and does not collect data.",
+    "description": "About paragraph on the documentation page"
+  },
+  "docAboutRepoLabel": {
+    "message": "Source code:",
+    "description": "Label before the source repository link"
+  },
+  "docAboutIssuesLabel": {
+    "message": "Issues:",
+    "description": "Label before the issue tracker link"
   }
 }

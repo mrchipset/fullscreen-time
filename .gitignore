@@ -12,6 +12,9 @@ node_modules/
 # Deepwork local session state
 .slim/deepwork/
 
+# Project-local agent skills (installed per machine)
+.agents/
+
 # OS generated files
 .DS_Store
 .DS_Store?
@@ -20,3 +23,5 @@ node_modules/
 .Trashes
 ehthumbs.db
 Thumbs.db
+
+copyright/*

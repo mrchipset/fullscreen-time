@@ -188,11 +188,11 @@
     "description": "Documentation section heading for version info"
   },
   "docVersionLabel": {
-    "message": "版本：1.0",
+    "message": "版本：1.0.0",
     "description": "Documentation version label"
   },
   "docDateLabel": {
-    "message": "更新日期：2026-07-26",
+    "message": "更新日期：2026-10-19",
     "description": "Documentation update date label"
   },
   "msgLoaded": {
@@ -398,5 +398,21 @@
   "dismissHint": {
     "message": "时钟已隐藏，退出全屏后恢复。",
     "description": "Transient toast shown after the user hides the overlay"
+  },
+  "docAboutTitle": {
+    "message": "关于",
+    "description": "About section heading on the documentation page"
+  },
+  "docAboutText": {
+    "message": "Fullscreen Time 是一款开源 Chrome 扩展，可在视频或浏览器全屏时显示播放进度与系统时间。完整功能见本说明书；软件没有开发者服务器，也不会收集数据。",
+    "description": "About paragraph on the documentation page"
+  },
+  "docAboutRepoLabel": {
+    "message": "开源仓库：",
+    "description": "Label before the source repository link"
+  },
+  "docAboutIssuesLabel": {
+    "message": "问题反馈：",
+    "description": "Label before the issue tracker link"
   }
 }

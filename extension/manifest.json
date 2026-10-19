@@ -3,12 +3,14 @@
   "default_locale": "en",
   "name": "__MSG_extName__",
   "description": "__MSG_extDesc__",
-  "version": "1.0",
+  "version": "1.0.0",
+  "minimum_chrome_version": "114",
+  "homepage_url": "https://github.com/mrchipset/fullscreen-time",
   "icons": {
-    "16": "icons/icon.png",
-    "32": "icons/icon.png",
-    "48": "icons/icon.png",
-    "128": "icons/icon.png"
+    "16": "icons/icon16.png",
+    "32": "icons/icon32.png",
+    "48": "icons/icon48.png",
+    "128": "icons/icon128.png"
   },
   "background": {
     "service_worker": "background.js"
@@ -16,10 +18,10 @@
   "permissions": ["storage"],
   "action": {
     "default_icon": {
-      "16": "icons/icon.png",
-      "32": "icons/icon.png",
-      "48": "icons/icon.png",
-      "128": "icons/icon.png"
+      "16": "icons/icon16.png",
+      "32": "icons/icon32.png",
+      "48": "icons/icon48.png",
+      "128": "icons/icon128.png"
     },
     "default_popup": "popup/popup.html"
   },
