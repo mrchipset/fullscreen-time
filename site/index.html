@@ -48,17 +48,23 @@
       box-shadow: 0 18px 50px rgba(20, 36, 70, 0.08);
     }
     .mark {
-      display: inline-grid;
-      place-items: center;
+      display: block;
       width: 46px;
       height: 46px;
+      padding: 7px;
+      border: 1px solid rgba(20, 45, 90, 0.12);
       border-radius: 14px;
-      background: linear-gradient(145deg, #3a6cf0, #1d43b4);
-      color: #fff;
-      font-family: "Cascadia Code", Consolas, monospace;
-      font-size: 13px;
-      font-weight: 700;
-      letter-spacing: 0.04em;
+      background: #eef3fb;
+      box-shadow:
+        inset 0 1px 0 rgba(255, 255, 255, 0.85),
+        0 4px 12px rgba(20, 36, 70, 0.08);
+      object-fit: contain;
+    }
+    @media (prefers-color-scheme: dark) {
+      .mark {
+        background: #e8edf6;
+        border-color: rgba(255, 255, 255, 0.18);
+      }
     }
     h1 { margin: 18px 0 6px; font-size: clamp(30px, 6vw, 42px); line-height: 1.2; }
     .en { color: var(--muted); font-size: 13px; letter-spacing: 0.1em; text-transform: uppercase; }
@@ -82,7 +88,7 @@
 </head>
 <body>
   <main>
-    <span class="mark">FT</span>
+    <img class="mark" src="icon.svg" alt="Fullscreen Time" width="46" height="46">
     <h1>全屏时间显示</h1>
     <div class="en">Fullscreen Time</div>
     <p>在视频全屏、浏览器全屏或非视频元素全屏时，显示播放进度和系统时钟。</p>
