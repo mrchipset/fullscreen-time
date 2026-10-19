@@ -88,9 +88,9 @@ Manual: `chrome://extensions` → Developer mode → Load unpacked → select `e
 
 - **No tests, no linter, no typechecker configured.** Use `docs/testing-sop.md` for
   manual acceptance; add automated checks before significant changes.
-- **README.md is stale boilerplate** from a Chrome Extension template — do not trust it as documentation.
-- `popup.js` / `popup.html` use Chinese labels (extension targets Chinese users). Keep or adjust based on audience.
-- **Shortcut keys**: all shortcuts toggle settings temporarily and revert on fullscreen exit. Only the popup settings persist to `chrome.storage.sync`.
+- **README.md documents the current feature set**; AGENTS.md is the deeper engineering reference.
+- Popup/settings/doc use bilingual copy (EN + zh_CN) with a language selector; keep both locale files in sync.
+- **Shortcut keys**: shortcut presses toggle settings temporarily and revert on fullscreen exit. Popup settings and recorded shortcut bindings persist to `chrome.storage.sync`.
 - **Shortcut settings page**: `extension/settings/settings.html` + `settings.js` provide a key-recorder UI, opened from the popup. Escape cancels, Delete unbinds, reserved browser keys are rejected, and defaults are `F9`/`F10`.
 - Fullscreen detection uses the Fullscreen API plus a dimension-based ±2px check for browser-level fullscreen (F11). Native video-element fullscreen uses the Popover API top layer; frame/embed/object fullscreen is treated as child-owned to avoid duplicate clocks.
 - `Ctrl+W` / `Ctrl+T` and similar browser-reserved shortcuts cannot be intercepted; the recorder rejects them.
