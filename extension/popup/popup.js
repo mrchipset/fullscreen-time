@@ -9,6 +9,7 @@ const layoutFloatRadio = document.getElementById('layoutFloat');
 const langSelector = document.getElementById('langSelector');
 const resetFloatButton = document.getElementById('resetFloatButton');
 const resetFloatStatus = document.getElementById('resetFloatStatus');
+const PRIVACY_POLICY_URL = 'https://mrchipset.github.io/fullscreen-time/privacy-policy.html';
 
 let resetStatusTimer = null;
 
@@ -126,7 +127,7 @@ document.getElementById('openDocButton').addEventListener('click', () => {
   chrome.tabs.create({ url: chrome.runtime.getURL('doc.html') });
 });
 
-// 打开隐私政策
+// 打开隐私政策（公开页面，供商店审核与安装前查看）
 document.getElementById('openPrivacyButton').addEventListener('click', () => {
-  chrome.tabs.create({ url: chrome.runtime.getURL('doc.html#privacy') });
+  chrome.tabs.create({ url: PRIVACY_POLICY_URL });
 });
