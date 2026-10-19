@@ -26,6 +26,174 @@ const POPOVER_SUPPORTED = typeof HTMLElement !== 'undefined' &&
   typeof HTMLElement.prototype.showPopover === 'function' &&
   typeof HTMLElement.prototype.hidePopover === 'function';
 
+const OVERLAY_STYLE_ID = 'fs-time-overlay-styles';
+
+const OVERLAY_STYLES = `
+  .fs-time-overlay {
+    position: fixed;
+    overflow: visible;
+    box-sizing: border-box;
+    background: rgba(0, 0, 0, 0.72);
+    color: #fff;
+    border: 1px solid rgba(255, 255, 255, 0.18);
+    border-radius: 8px;
+    padding: 6px 10px;
+    font-family: system-ui, -apple-system, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    font-size: 15px;
+    font-weight: 600;
+    line-height: 1.3;
+    font-variant-numeric: tabular-nums;
+    white-space: nowrap;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.35);
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.65);
+    transition: opacity 180ms ease;
+  }
+
+  [popover].fs-time-overlay {
+    inset: auto;
+    margin: 0;
+    width: max-content;
+    max-width: none;
+    max-height: none;
+    overflow: visible;
+  }
+
+  .fs-time-overlay::backdrop {
+    background: transparent;
+    pointer-events: none;
+  }
+
+  .fs-time-overlay.is-faded {
+    opacity: 0;
+    pointer-events: none;
+  }
+
+  .fs-time-close {
+    position: absolute;
+    top: -9px;
+    right: -9px;
+    box-sizing: border-box;
+    display: grid;
+    place-items: center;
+    width: 24px;
+    height: 24px;
+    padding: 0;
+    border: 1px solid rgba(255, 255, 255, 0.4);
+    border-radius: 50%;
+    background: rgba(10, 12, 16, 0.92);
+    color: #fff;
+    font: 600 16px/1 system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+    cursor: pointer;
+    opacity: 0;
+    pointer-events: none;
+    transform: scale(0.92);
+    transition: opacity 140ms ease, transform 140ms ease, background-color 140ms ease;
+  }
+
+  .fs-time-overlay:hover .fs-time-close,
+  .fs-time-overlay:focus-within .fs-time-close,
+  .fs-time-overlay.is-close-forced .fs-time-close,
+  .fs-time-overlay[popover] .fs-time-close {
+    opacity: 1;
+    pointer-events: auto;
+    transform: scale(1);
+  }
+
+  .fs-time-close:hover {
+    background: rgba(40, 44, 52, 0.98);
+  }
+
+  .fs-time-close:focus-visible {
+    outline: 2px solid #fff;
+    outline-offset: 2px;
+  }
+
+  .fs-time-overlay.is-faded .fs-time-close {
+    opacity: 0;
+    pointer-events: none;
+  }
+
+  .fs-time-dismiss-hint {
+    position: fixed;
+    top: 14px;
+    left: 50%;
+    z-index: 2147483647;
+    box-sizing: border-box;
+    max-width: min(92vw, 520px);
+    padding: 8px 14px;
+    transform: translateX(-50%);
+    background: rgba(0, 0, 0, 0.82);
+    color: #fff;
+    border: 1px solid rgba(255, 255, 255, 0.18);
+    border-radius: 999px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
+    font-family: system-ui, -apple-system, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    font-size: 13px;
+    font-weight: 600;
+    line-height: 1.35;
+    letter-spacing: 0.01em;
+    text-align: center;
+    white-space: normal;
+    pointer-events: none;
+    animation: fs-time-hint-in 180ms ease-out;
+  }
+
+  [popover].fs-time-dismiss-hint {
+    inset: auto;
+    top: 14px;
+    left: 50%;
+    margin: 0;
+    width: max-content;
+    max-width: min(92vw, 520px);
+    max-height: none;
+    overflow: visible;
+    transform: translateX(-50%);
+  }
+
+  .fs-time-dismiss-hint::backdrop {
+    background: transparent;
+    pointer-events: none;
+  }
+
+  @keyframes fs-time-hint-in {
+    from {
+      opacity: 0;
+      transform: translate(-50%, -4px);
+    }
+    to {
+      opacity: 1;
+      transform: translate(-50%, 0);
+    }
+  }
+
+  @media (pointer: coarse) {
+    .fs-time-overlay .fs-time-close {
+      opacity: 1;
+      pointer-events: auto;
+      transform: scale(1);
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .fs-time-overlay,
+    .fs-time-close,
+    .fs-time-dismiss-hint {
+      transition: none !important;
+      animation: none !important;
+    }
+  }
+`;
+
+function injectOverlayStyles() {
+  if (typeof document === 'undefined' || !document.head) return;
+  if (document.getElementById(OVERLAY_STYLE_ID)) return;
+
+  const style = document.createElement('style');
+  style.id = OVERLAY_STYLE_ID;
+  style.textContent = OVERLAY_STYLES;
+  document.head.appendChild(style);
+}
+
 const DEFAULT_SETTINGS = {
   showWhenVideoFullscreen: true,
   showOnFullscreen: true,
@@ -43,6 +211,8 @@ function hasOwn(object, key) {
 
 export class TimeDisplay {
   constructor(media) {
+    injectOverlayStyles();
+
     this.media = media;
     this.timeElement = this.createTimeElement();
     this._timeTextSpan = this._timeTextSpan || null;
@@ -62,6 +232,11 @@ export class TimeDisplay {
 
     this._popoverRetryTimer = null;
     this._popoverRetryCount = 0;
+
+    this.videoOverlayActive = false;
+    this._dismissHintElement = null;
+    this._dismissHintTimer = null;
+    this._boundDismissHintFullscreenExit = null;
 
     this._boundPointerDown = null;
     this._boundPointerMove = null;
@@ -99,10 +274,16 @@ export class TimeDisplay {
       this.floatPositionWindow = settings.floatPositionWindow || null;
     }
 
-    // Re-translate the close button title when settings/language are re-applied.
-    if (this._closeBtn) {
-      this._closeBtn.title = t('closeBtnTitle');
-    }
+    // Re-translate the close button when settings/language are re-applied.
+    this._refreshCloseButtonLabel();
+  }
+
+  _refreshCloseButtonLabel() {
+    if (!this._closeBtn) return;
+
+    const label = t('closeBtnTitle');
+    this._closeBtn.title = label;
+    this._closeBtn.setAttribute('aria-label', label);
   }
 
   displayType() {
@@ -138,15 +319,10 @@ export class TimeDisplay {
 
   createTimeElement() {
     const timeElement = document.createElement('div');
-    timeElement.style.backgroundColor = 'rgba(0, 0, 0, 0.5)';
-    timeElement.style.color = 'white';
-    timeElement.style.padding = '5px';
-    timeElement.style.borderRadius = '5px';
+    timeElement.className = 'fs-time-overlay';
     timeElement.style.zIndex = '999999';
-    timeElement.style.transition = 'opacity 0.3s ease';
     timeElement.style.pointerEvents = 'auto';
     timeElement.style.display = 'none';
-    timeElement.style.boxSizing = 'border-box';
 
     // 独立文字容器（与 × 按钮并列，避免 updateTime 误删按钮）
     const textSpan = document.createElement('span');
@@ -156,22 +332,7 @@ export class TimeDisplay {
 
     const closeBtn = this._createCloseButton();
     this._closeBtn = closeBtn;
-
-    // 使用 mouseover/mouseout + relatedTarget 处理 hover，避免绝对定位子元素导致的事件问题
-    timeElement.addEventListener('mouseenter', () => { closeBtn.style.display = 'block'; });
-    timeElement.addEventListener('mouseleave', () => {
-      // 当鼠标离开 timeElement 且未进入 closeBtn 时才隐藏
-      // 延迟让 mouseenter closeBtn 有机会触发
-      setTimeout(() => {
-        if (this._forceCloseVisible) return;
-        if (closeBtn.style.display !== 'none' && !closeBtn.matches(':hover')) {
-          closeBtn.style.display = 'none';
-        }
-      }, 50);
-    });
-    closeBtn.addEventListener('mouseleave', () => {
-      if (!this._forceCloseVisible) closeBtn.style.display = 'none';
-    });
+    this._refreshCloseButtonLabel();
 
     timeElement.appendChild(closeBtn);
     return timeElement;
@@ -179,29 +340,10 @@ export class TimeDisplay {
 
   // 创建右上角关闭按钮 ×（位于 timeElement 内部右上角）
   _createCloseButton() {
-    const btn = document.createElement('span');
+    const btn = document.createElement('button');
+    btn.type = 'button';
+    btn.className = 'fs-time-close';
     btn.textContent = '×';
-    btn.title = t('closeBtnTitle');
-    Object.assign(btn.style, {
-      position: 'absolute',
-      top: '1px',
-      right: '1px',
-      width: '18px',
-      height: '18px',
-      lineHeight: '18px',
-      textAlign: 'center',
-      fontSize: '14px',
-      fontWeight: 'bold',
-      color: '#fff',
-      backgroundColor: 'rgba(0,0,0,0.7)',
-      borderRadius: '50%',
-      cursor: 'pointer',
-      display: 'none',
-      zIndex: '1000000',
-      boxShadow: '0 1px 3px rgba(0,0,0,0.3)',
-      userSelect: 'none',
-      pointerEvents: 'auto'
-    });
 
     btn.addEventListener('pointerdown', (e) => e.stopPropagation()); // 阻止拖拽
     btn.addEventListener('mousedown', (e) => e.stopPropagation());
@@ -217,6 +359,80 @@ export class TimeDisplay {
     document.dispatchEvent(new CustomEvent('fs-time-dismiss', {
       detail: { displayType: this.displayType() }
     }));
+
+    this._showDismissHint();
+  }
+
+  _showDismissHint() {
+    this._hideDismissHint();
+
+    if (!document.body) return;
+
+    const hint = document.createElement('div');
+    hint.className = 'fs-time-dismiss-hint';
+    hint.setAttribute('role', 'status');
+    hint.setAttribute('aria-live', 'polite');
+    hint.setAttribute('aria-atomic', 'true');
+    document.body.appendChild(hint);
+
+    if (getFullscreenElement() && POPOVER_SUPPORTED) {
+      try {
+        hint.setAttribute('popover', 'manual');
+        hint.showPopover();
+      } catch (e) {
+        hint.removeAttribute('popover');
+      }
+    }
+
+    // Set the text after the live region is connected so it is announced.
+    hint.textContent = t('dismissHint');
+    this._dismissHintElement = hint;
+
+    this._boundDismissHintFullscreenExit = () => {
+      if (!getFullscreenElement()) {
+        this._hideDismissHint();
+      }
+    };
+
+    FULLSCREEN_EVENTS.forEach((eventName) => {
+      document.addEventListener(eventName, this._boundDismissHintFullscreenExit);
+    });
+    window.addEventListener('resize', this._boundDismissHintFullscreenExit);
+
+    this._dismissHintTimer = setTimeout(() => this._hideDismissHint(), 3000);
+  }
+
+  _hideDismissHint() {
+    if (this._dismissHintTimer) {
+      clearTimeout(this._dismissHintTimer);
+      this._dismissHintTimer = null;
+    }
+
+    if (this._boundDismissHintFullscreenExit) {
+      FULLSCREEN_EVENTS.forEach((eventName) => {
+        document.removeEventListener(eventName, this._boundDismissHintFullscreenExit);
+      });
+      window.removeEventListener('resize', this._boundDismissHintFullscreenExit);
+      this._boundDismissHintFullscreenExit = null;
+    }
+
+    const hint = this._dismissHintElement;
+    if (!hint) return;
+
+    if (hint.hasAttribute('popover')) {
+      try {
+        hint.hidePopover();
+      } catch (e) {
+        // not currently open / unsupported state
+      }
+      hint.removeAttribute('popover');
+    }
+
+    if (hint.parentElement) {
+      hint.parentElement.removeChild(hint);
+    }
+
+    this._dismissHintElement = null;
   }
 
   // --- visibility ---------------------------------------------------------
@@ -244,7 +460,7 @@ export class TimeDisplay {
 
   _resetCloseButton() {
     if (!this._closeBtn) return;
-    this._closeBtn.style.display = this._forceCloseVisible ? 'block' : 'none';
+    this._closeBtn.classList.toggle('is-close-forced', this._forceCloseVisible);
   }
 
   _getDomParent(fsEl) {
@@ -272,6 +488,7 @@ export class TimeDisplay {
 
     this.timeElement.style.zIndex = '999999';
     this.timeElement.style.opacity = '1';
+    this.timeElement.classList.remove('is-faded');
     this._applyPointerMode(usePopover);
     this._resetCloseButton();
 
@@ -335,7 +552,7 @@ export class TimeDisplay {
       this.timeElement.style.display = 'none';
       this.timeElement.style.opacity = '1';
       this.timeElement.style.pointerEvents = 'auto';
-      if (this._closeBtn) this._closeBtn.style.pointerEvents = 'auto';
+      this.timeElement.classList.remove('is-faded');
       this._forceCloseVisible = false;
       this._resetCloseButton();
       if (this.timeElement.parentElement) {
@@ -408,7 +625,6 @@ export class TimeDisplay {
     style.margin = '0';
     style.right = 'auto';
     style.bottom = 'auto';
-    style.border = 'none';
     style.transform = 'none';
 
     if (this.layoutMode === 'float') {
@@ -431,14 +647,26 @@ export class TimeDisplay {
     const element = this.timeElement;
     const width = element ? (element.offsetWidth || 0) : 0;
     const height = element ? (element.offsetHeight || 0) : 0;
-    const maxX = Math.max(0, window.innerWidth - width);
-    const maxY = Math.max(0, window.innerHeight - height);
+    const inset = 12;
+
+    // Leave room for the close button and a visible margin. If the viewport
+    // is too small for the inset, fall back to the edge instead of inverting.
+    const canInsetX = window.innerWidth >= width + inset * 2;
+    const canInsetY = window.innerHeight >= height + inset * 2;
+    const minX = canInsetX ? inset : 0;
+    const minY = canInsetY ? inset : 0;
+    const maxX = canInsetX
+      ? window.innerWidth - width - inset
+      : Math.max(0, window.innerWidth - width);
+    const maxY = canInsetY
+      ? window.innerHeight - height - inset
+      : Math.max(0, window.innerHeight - height);
     const rawX = Number(position && position.x);
     const rawY = Number(position && position.y);
 
     return {
-      x: Math.round(Math.min(Math.max(0, Number.isFinite(rawX) ? rawX : 0), maxX)),
-      y: Math.round(Math.min(Math.max(0, Number.isFinite(rawY) ? rawY : 0), maxY))
+      x: Math.round(Math.min(Math.max(minX, Number.isFinite(rawX) ? rawX : 0), maxX)),
+      y: Math.round(Math.min(Math.max(minY, Number.isFinite(rawY) ? rawY : 0), maxY))
     };
   }
 
@@ -504,18 +732,13 @@ export class TimeDisplay {
     // display-only; the close button is best-effort interactive.
     this._forceCloseVisible = usePopover;
     this.timeElement.style.pointerEvents = usePopover ? 'none' : 'auto';
-    if (this._closeBtn) {
-      this._closeBtn.style.pointerEvents = 'auto';
-      this._resetCloseButton();
-    }
+    this._resetCloseButton();
   }
 
   _restorePointerEvents() {
     if (!this.timeElement) return;
+    this.timeElement.classList.remove('is-faded');
     this.timeElement.style.pointerEvents = this._popoverMode ? 'none' : 'auto';
-    if (this._closeBtn) {
-      this._closeBtn.style.pointerEvents = 'auto';
-    }
   }
 
   setupDragging() {
@@ -685,9 +908,9 @@ export class TimeDisplay {
 
   fadeOut() {
     if (!this.timeElement) return;
+    this.timeElement.classList.add('is-faded');
     this.timeElement.style.opacity = '0';
     this.timeElement.style.pointerEvents = 'none';
-    if (this._closeBtn) this._closeBtn.style.pointerEvents = 'none';
     this.autoHideTimer = null;
   }
 
@@ -725,6 +948,7 @@ export class TimeDisplay {
     this.teardownWakeListener();
     this.teardownDragging();
     this._teardownPopover();
+    this._hideDismissHint();
 
     if (this.timeElement && this.timeElement.parentElement) {
       this.timeElement.parentElement.removeChild(this.timeElement);
@@ -749,13 +973,17 @@ export class WindowOverlayTimeDisplay extends TimeDisplay {
 
     const fsEl = getFullscreenElement();
 
-    // 元素全屏（视频全屏）时：如果视频专用显示已开启，不再重复显示
-    if (fsEl !== null) {
-      return !this.showWhenVideoFullscreen;
+    if (!fsEl) {
+      return checkIsBrowserFullscreen();
     }
 
-    // 浏览器全屏（F11）时显示
-    return checkIsBrowserFullscreen();
+    // Native video fullscreen is handled by the video widget's top-layer
+    // popover; the window overlay must not duplicate it.
+    if (isVideoElement(fsEl)) {
+      return false;
+    }
+
+    return !this.videoOverlayActive;
   }
 
   updateTime() {
