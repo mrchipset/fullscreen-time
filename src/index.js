@@ -1,43 +1,322 @@
-import { formatTime, checkIsBrowserFullscreen } from './utils';
-import { TimeDisplay, WindowOverlayTimeDisplay } from './widgets';
-import { t, init } from './i18n';
+import { checkIsBrowserFullscreen } from './utils';
+import {
+  TimeDisplay,
+  WindowOverlayTimeDisplay,
+  getFullscreenElement,
+  FULLSCREEN_EVENTS
+} from './widgets';
+import { t, init, reloadFromStorage } from './i18n';
+
+const IS_TOP_FRAME = window.top === window;
+const MAX_SCAN_RETRIES = 5;
 
 // 初始化自定义 i18n（异步加载翻译）
 init();
 
-console.log(t('msgLoaded'));
-
-function scanForMedia(document) {
-  const mediaTagSelector = 'video';
-  
-  const regularMedia = document.querySelectorAll(mediaTagSelector);
-    return regularMedia;
+function logTop(...args) {
+  if (IS_TOP_FRAME) console.log(...args);
 }
 
-// 收集所有 TimeDisplay 实例，供非持久快捷键直接操作
-const _timeDisplays = [];
+logTop(t('msgLoaded'));
 
-function injectForMedias() {
-  const medias = scanForMedia(document);
-  if (medias === undefined || medias.length === 0) {
-    console.warn(t('msgNoMedia'));
-    setTimeout(injectForMedias, 2000);
+// --- centralized settings ------------------------------------------------
+
+const DEFAULT_SETTINGS = {
+  showWhenVideoFullscreen: true,
+  showOnFullscreen: true,
+  showSeconds: true,
+  showProgress: true,
+  autoHide: false,
+  layoutMode: 'snap',
+  floatPositionVideo: null,
+  floatPositionWindow: null
+};
+
+const settings = Object.assign({}, DEFAULT_SETTINGS);
+
+const SETTING_KEYS = [
+  'showWhenVideoFullscreen',
+  'showOnFullscreen',
+  'showSeconds',
+  'showProgress',
+  'autoHide',
+  'layoutMode',
+  'floatPositionVideo',
+  'floatPositionWindow'
+];
+
+// video -> widget (prevents duplicate binding)
+const videoWidgets = new WeakMap();
+// iterable companion to the WeakMap (WeakMap is not iterable)
+const trackedVideos = new Set();
+
+let overlayTimeDisp = IS_TOP_FRAME
+  ? new WindowOverlayTimeDisplay(document.body || document.documentElement)
+  : null;
+
+// All timers created by index are tracked so teardown can clear them.
+const pendingTimeouts = new Set();
+
+function scheduleTimeout(callback, delay) {
+  const id = setTimeout(() => {
+    pendingTimeouts.delete(id);
+    callback();
+  }, delay);
+  pendingTimeouts.add(id);
+  return id;
+}
+
+function clearPendingTimeouts() {
+  pendingTimeouts.forEach((id) => clearTimeout(id));
+  pendingTimeouts.clear();
+}
+
+function distributeSettings() {
+  trackedVideos.forEach((video) => {
+    const widget = videoWidgets.get(video);
+    if (widget) widget.applySettings(settings);
+  });
+  if (overlayTimeDisp) overlayTimeDisp.applySettings(settings);
+  // applySettings is pure; visibility (and single-widget selection) is
+  // centralized so multiple matching videos never stack clocks.
+  updateAllVisibility();
+}
+
+function loadSettings() {
+  chrome.storage.sync.get(
+    Object.assign({ floatPosition: null }, DEFAULT_SETTINGS),
+    (items) => {
+      const legacy = items.floatPosition;
+
+      settings.showWhenVideoFullscreen = items.showWhenVideoFullscreen !== false;
+      settings.showOnFullscreen = items.showOnFullscreen !== false;
+      settings.showSeconds = items.showSeconds !== false;
+      settings.showProgress = items.showProgress !== false;
+      settings.autoHide = items.autoHide === true;
+      settings.layoutMode = items.layoutMode === 'float' ? 'float' : 'snap';
+      settings.floatPositionVideo = items.floatPositionVideo || null;
+      settings.floatPositionWindow = items.floatPositionWindow || null;
+
+      // One-time migration of the legacy shared float position. Use it for
+      // both widget types, then remove the old key.
+      let migrated = false;
+      if (legacy && typeof legacy === 'object') {
+        if (!settings.floatPositionVideo) {
+          settings.floatPositionVideo = legacy;
+          migrated = true;
+        }
+        if (!settings.floatPositionWindow) {
+          settings.floatPositionWindow = legacy;
+          migrated = true;
+        }
+      }
+
+      distributeSettings();
+
+      if (legacy !== null && legacy !== undefined) {
+        if (migrated) {
+          chrome.storage.sync.set({
+            floatPositionVideo: settings.floatPositionVideo,
+            floatPositionWindow: settings.floatPositionWindow
+          });
+        }
+        chrome.storage.sync.remove('floatPosition');
+      }
+    }
+  );
+}
+
+loadSettings();
+
+// Single storage listener for the whole page / frame.
+function handleStorageChanged(changes, namespace) {
+  if (namespace !== 'sync') return;
+
+  let changed = false;
+  SETTING_KEYS.forEach((key) => {
+    if (Object.prototype.hasOwnProperty.call(changes, key)) {
+      settings[key] = changes[key].newValue;
+      changed = true;
+    }
+  });
+
+  const languageChanged = Object.prototype.hasOwnProperty.call(changes, 'language');
+
+  // Language change must not swallow co-changed settings.
+  if (languageChanged) {
+    reloadFromStorage().then(() => distributeSettings());
+  }
+  if (changed) distributeSettings();
+}
+
+chrome.storage.onChanged.addListener(handleStorageChanged);
+
+// --- media discovery / binding ------------------------------------------
+
+function bindVideo(video) {
+  if (!video || video.tagName !== 'VIDEO') return;
+  if (videoWidgets.has(video)) return;
+
+  const widget = new TimeDisplay(video);
+  videoWidgets.set(video, widget);
+  trackedVideos.add(video);
+
+  widget.applySettings(settings);
+  updateAllVisibility();
+}
+
+function destroyVideo(video) {
+  const widget = videoWidgets.get(video);
+  if (widget) widget.destroy();
+  videoWidgets.delete(video);
+  trackedVideos.delete(video);
+}
+
+function scanForMedia(root) {
+  const videos = (root || document).querySelectorAll('video');
+  let found = 0;
+  videos.forEach((video) => {
+    if (!videoWidgets.has(video)) {
+      bindVideo(video);
+      found++;
+    }
+  });
+  return found;
+}
+
+// Scan immediately; if no videos exist yet, retry a bounded number of times
+// (5 x 1s) rather than polling forever.
+let scanRetries = 0;
+
+function initialScan() {
+  const found = scanForMedia(document);
+  if (found > 0) {
+    logTop(t('msgFoundMedia'), found);
     return;
   }
-  console.log(t('msgFoundMedia'), medias);
 
-  medias.forEach(media => {
-    _timeDisplays.push(new TimeDisplay(media));
+  if (scanRetries < MAX_SCAN_RETRIES) {
+    scanRetries++;
+    scheduleTimeout(initialScan, 1000);
+    return;
+  }
+
+  logTop(t('msgNoMedia'));
+}
+
+initialScan();
+
+// Dynamic videos: bind newly added videos and destroy widgets for removed ones.
+const mediaObserver = new MutationObserver((mutations) => {
+  let sawRemoval = false;
+
+  mutations.forEach((mutation) => {
+    mutation.addedNodes.forEach((node) => {
+      if (!node || node.nodeType !== 1) return;
+      if (node.tagName === 'VIDEO') {
+        bindVideo(node);
+      }
+      if (node.querySelectorAll) {
+        node.querySelectorAll('video').forEach((video) => bindVideo(video));
+      }
+    });
+
+    if (mutation.removedNodes && mutation.removedNodes.length > 0) {
+      sawRemoval = true;
+    }
+  });
+
+  if (sawRemoval) {
+    // Defer so a moved video (removed + re-added) is not destroyed.
+    scheduleTimeout(cleanupRemovedVideos, 0);
+  }
+});
+
+mediaObserver.observe(document.documentElement, {
+  childList: true,
+  subtree: true
+});
+
+function cleanupRemovedVideos() {
+  trackedVideos.forEach((video) => {
+    if (!video.isConnected) destroyVideo(video);
   });
 }
 
+// --- centralized scheduling / visibility --------------------------------
 
-injectForMedias();
-const overlayTimeDisp = new WindowOverlayTimeDisplay(document.body);
+const ticker = setInterval(() => {
+  trackedVideos.forEach((video) => {
+    const widget = videoWidgets.get(video);
+    if (widget && widget.isShowing()) widget.updateTime();
+  });
+  if (overlayTimeDisp && overlayTimeDisp.isShowing()) {
+    overlayTimeDisp.updateTime();
+  }
+}, 1000);
 
-window.addEventListener('resize', () => {
-  overlayTimeDisp.updateVisibility();
+function updateAllVisibility() {
+  const fsEl = getFullscreenElement();
+
+  if (fsEl) {
+    // Only one clock may win inside a fullscreen container. Prefer the video
+    // that is actually playing, then the exact fullscreen element, then the
+    // first matching widget.
+    const candidates = [];
+    trackedVideos.forEach((video) => {
+      const widget = videoWidgets.get(video);
+      if (widget && widget.checkIsToShow()) {
+        candidates.push({ video, widget });
+      }
+    });
+
+    let winner = null;
+    if (candidates.length > 0) {
+      winner = candidates.find((c) => !c.video.paused && !c.video.ended) ||
+               candidates.find((c) => c.video === fsEl) ||
+               candidates[0];
+    }
+
+    const winnerWidget = winner ? winner.widget : null;
+    trackedVideos.forEach((video) => {
+      const widget = videoWidgets.get(video);
+      if (widget && widget !== winnerWidget && widget.isShowing()) {
+        widget.hide();
+      }
+    });
+    if (winnerWidget) winnerWidget.updateVisibility();
+  } else {
+    trackedVideos.forEach((video) => {
+      const widget = videoWidgets.get(video);
+      if (widget) widget.updateVisibility();
+    });
+  }
+
+  if (overlayTimeDisp) overlayTimeDisp.updateVisibility();
+}
+
+function handleResize() {
+  updateAllVisibility();
+  trackedVideos.forEach((video) => {
+    const widget = videoWidgets.get(video);
+    if (widget) widget.handleResize();
+  });
+  if (overlayTimeDisp) overlayTimeDisp.handleResize();
+}
+
+function handleFullscreenChange() {
+  if (!getFullscreenElement() && !checkIsBrowserFullscreen()) {
+    restoreTempValues();
+  }
+  updateAllVisibility();
+}
+
+// Single set of global fullscreen/resize listeners.
+FULLSCREEN_EVENTS.forEach((eventName) => {
+  document.addEventListener(eventName, handleFullscreenChange);
 });
+window.addEventListener('resize', handleResize);
+window.addEventListener('orientationchange', handleResize);
 
 // --- 快捷键处理（均为临时切换，不写 storage） ---
 
@@ -56,18 +335,9 @@ function buildKeyString(e) {
 
 // 将某个设置值应用到所有 widget 实例（不写 storage）
 function applySettingToWidgets(settingKey, value) {
-  if (settingKey === 'showWhenVideoFullscreen') {
-    _timeDisplays.forEach(d => { d.showWhenVideoFullscreen = value; d.updateVisibility(); });
-    overlayTimeDisp.showWhenVideoFullscreen = value;
-    overlayTimeDisp.updateVisibility();
-  } else if (settingKey === 'showOnFullscreen') {
-    overlayTimeDisp.showOnFullscreen = value;
-    overlayTimeDisp.updateVisibility();
-  } else if (settingKey === 'layoutMode') {
-    _timeDisplays.forEach(d => { d.layoutMode = value; d.updateVisibility(); });
-    overlayTimeDisp.layoutMode = value;
-    overlayTimeDisp.updateVisibility();
-  }
+  if (!Object.prototype.hasOwnProperty.call(settings, settingKey)) return;
+  settings[settingKey] = value;
+  distributeSettings();
 }
 
 // 快捷键临时切换：记录原始值 → 写入 widget
@@ -90,29 +360,29 @@ function restoreTempValues() {
 
 // 检测退出全屏（含 F11）
 function checkFullscreenExit() {
-  const isFs = document.fullscreenElement || checkIsBrowserFullscreen();
+  const isFs = getFullscreenElement() || checkIsBrowserFullscreen();
   if (!isFs) {
     restoreTempValues();
   }
 }
-document.addEventListener('fullscreenchange', checkFullscreenExit);
+
 window.addEventListener('resize', checkFullscreenExit);
 
 // 关闭按钮 × → 临时隐藏（同快捷键 hide 行为）
-document.addEventListener('fs-time-dismiss', (e) => {
-  const settingKey = e.detail.displayType === 'window-overlay'
+function handleDismiss(e) {
+  const settingKey = e.detail && e.detail.displayType === 'window-overlay'
     ? 'showOnFullscreen'
     : 'showWhenVideoFullscreen';
-  const currentVal = settingKey === 'showWhenVideoFullscreen'
-    ? overlayTimeDisp.showWhenVideoFullscreen
-    : overlayTimeDisp.showOnFullscreen;
+  const currentVal = settings[settingKey];
   if (currentVal === false) return; // 已经隐藏
   tempToggle(settingKey, false, currentVal);
-  console.log(`[${t('msgDismissLabel')}] ${settingKey} ${t('msgDismissed')}`);
-});
+  logTop(`[${t('msgDismissLabel')}] ${settingKey} ${t('msgDismissed')}`);
+}
 
-document.addEventListener('keydown', (e) => {
-  const isFs = document.fullscreenElement || checkIsBrowserFullscreen();
+document.addEventListener('fs-time-dismiss', handleDismiss);
+
+function handleKeydown(e) {
+  const isFs = getFullscreenElement() || checkIsBrowserFullscreen();
   if (!isFs) return;
 
   // ESC 有浏览器退出全屏的默认行为，不应进入快捷键逻辑
@@ -127,27 +397,65 @@ document.addEventListener('keydown', (e) => {
       if (pressed === items.keyToggleLayout) {
         e.preventDefault();
         e.stopPropagation();
-        // 从 widget 实例读取当前布局模式（storage 未被 shortcut 写过）
-        const currentMode = overlayTimeDisp.layoutMode;
+        // 从集中设置读取当前布局模式（storage 未被 shortcut 写过）
+        const currentMode = settings.layoutMode;
         const newMode = currentMode === 'float' ? 'snap' : 'float';
         tempToggle('layoutMode', newMode, currentMode);
-        console.log(`[${t('msgLayoutToggle')}] ${newMode === 'float' ? t('msgFloat') : t('msgSnap')}`);
+        logTop(`[${t('msgLayoutToggle')}] ${newMode === 'float' ? t('msgFloat') : t('msgSnap')}`);
       }
 
       if (pressed === items.keyToggleVisibility) {
         e.preventDefault();
         e.stopPropagation();
-        const inVideoFs = !!document.fullscreenElement;
+        const inVideoFs = !!getFullscreenElement();
         const settingKey = inVideoFs ? 'showWhenVideoFullscreen' : 'showOnFullscreen';
-        // 从 widget 实例读取当前状态（storage 从未被 shortcut 写过）
-        const currentVal = settingKey === 'showWhenVideoFullscreen'
-          ? overlayTimeDisp.showWhenVideoFullscreen
-          : overlayTimeDisp.showOnFullscreen;
+        // 从集中设置读取当前状态（storage 从未被 shortcut 写过）
+        const currentVal = settings[settingKey];
         tempToggle(settingKey, !currentVal, currentVal);
-        console.log(t(!currentVal ? 'msgVisibilityOn' : 'msgVisibilityOff'));
+        logTop(t(!currentVal ? 'msgVisibilityOn' : 'msgVisibilityOff'));
       }
     }
   );
-});
+}
 
+document.addEventListener('keydown', handleKeydown);
 
+// --- teardown ------------------------------------------------------------
+
+function teardown() {
+  clearInterval(ticker);
+  clearPendingTimeouts();
+  mediaObserver.disconnect();
+
+  FULLSCREEN_EVENTS.forEach((eventName) => {
+    document.removeEventListener(eventName, handleFullscreenChange);
+  });
+  window.removeEventListener('resize', handleResize);
+  window.removeEventListener('orientationchange', handleResize);
+  window.removeEventListener('resize', checkFullscreenExit);
+
+  chrome.storage.onChanged.removeListener(handleStorageChanged);
+  document.removeEventListener('keydown', handleKeydown);
+  document.removeEventListener('fs-time-dismiss', handleDismiss);
+
+  trackedVideos.forEach((video) => {
+    const widget = videoWidgets.get(video);
+    if (widget) widget.destroy();
+    videoWidgets.delete(video);
+  });
+  trackedVideos.clear();
+
+  if (overlayTimeDisp) {
+    overlayTimeDisp.destroy();
+    overlayTimeDisp = null;
+  }
+}
+
+// bfcache: pagehide fires when entering the back/forward cache too; only tear
+// down on a real unload.
+function handlePageHide(event) {
+  if (event.persisted) return;
+  teardown();
+}
+
+window.addEventListener('pagehide', handlePageHide);
