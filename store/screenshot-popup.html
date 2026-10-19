@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<title>全屏时间显示 — 弹窗</title>
+<style>
+  * { box-sizing: border-box; }
+  html, body { margin: 0; width: 1280px; height: 800px; overflow: hidden; }
+  body {
+    font-family: "Microsoft YaHei", "PingFang SC", "Noto Sans SC", "Segoe UI", system-ui, sans-serif;
+    color: #f7faff;
+    background:
+      radial-gradient(780px 620px at 82% 16%, rgba(64, 108, 255, 0.24), transparent 64%),
+      radial-gradient(700px 520px at 8% 92%, rgba(23, 57, 138, 0.28), transparent 62%),
+      linear-gradient(145deg, #0a1424 0%, #08111e 58%, #070e19 100%);
+    -webkit-font-smoothing: antialiased;
+  }
+  .stage { position: relative; width: 1280px; height: 800px; overflow: hidden; }
+  .stage::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background-image:
+      linear-gradient(rgba(255, 255, 255, 0.035) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(255, 255, 255, 0.035) 1px, transparent 1px);
+    background-size: 56px 56px;
+    mask-image: linear-gradient(180deg, rgba(0, 0, 0, 0.7), transparent 62%);
+    pointer-events: none;
+  }
+  .brand {
+    position: absolute;
+    top: 44px;
+    left: 72px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+  .mark {
+    display: grid;
+    place-items: center;
+    width: 40px;
+    height: 40px;
+    border-radius: 12px;
+    background: linear-gradient(145deg, #3a6cf0, #1d43b4);
+    box-shadow: 0 10px 26px rgba(23, 69, 196, 0.4);
+    font-family: "Cascadia Code", Consolas, monospace;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.04em;
+  }
+  .brand-name { font-size: 16px; font-weight: 700; letter-spacing: 0.02em; }
+  .brand-en { margin-left: 9px; color: #9fb1cc; font-size: 10px; letter-spacing: 0.1em; text-transform: uppercase; }
+
+  .copy {
+    position: absolute;
+    top: 150px;
+    left: 72px;
+    width: 690px;
+  }
+  .eyebrow {
+    display: inline-flex;
+    align-items: center;
+    gap: 9px;
+    margin: 0 0 20px;
+    padding: 7px 12px;
+    border: 1px solid rgba(126, 162, 255, 0.28);
+    border-radius: 999px;
+    background: rgba(22, 44, 84, 0.5);
+    color: #a9c4ff;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+  }
+  .eyebrow::before {
+    content: "";
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: #6f97ff;
+    box-shadow: 0 0 0 4px rgba(111, 151, 255, 0.12);
+  }
+  h1 {
+    margin: 0;
+    font-size: 66px;
+    line-height: 1.06;
+    font-weight: 700;
+    letter-spacing: -0.04em;
+  }
+  .en-title {
+    margin: 12px 0 0;
+    color: #8fa4c2;
+    font-size: 13px;
+    font-weight: 600;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+  }
+  .lead {
+    margin: 22px 0 0;
+    max-width: 600px;
+    color: #b8c9e2;
+    font-size: 18px;
+    line-height: 1.7;
+  }
+  .features {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px 24px;
+    margin-top: 34px;
+    width: 620px;
+  }
+  .feature {
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+    padding: 13px 14px;
+    border: 1px solid rgba(126, 162, 255, 0.14);
+    border-radius: 11px;
+    background: rgba(14, 29, 54, 0.5);
+  }
+  .dot {
+    flex: 0 0 auto;
+    width: 7px;
+    height: 7px;
+    margin-top: 7px;
+    border-radius: 50%;
+    background: #5d8cff;
+    box-shadow: 0 0 0 4px rgba(93, 140, 255, 0.12);
+  }
+  .feature-title { margin: 0; color: #eef4ff; font-size: 14px; font-weight: 700; line-height: 1.4; }
+  .feature-desc { margin: 2px 0 0; color: #95a8c3; font-size: 11.5px; line-height: 1.45; }
+  .bottom-note {
+    position: absolute;
+    left: 74px;
+    bottom: 44px;
+    color: #7f94b0;
+    font-size: 11.5px;
+    letter-spacing: 0.04em;
+  }
+
+  .device {
+    position: absolute;
+    top: 30px;
+    right: 70px;
+    width: 326px;
+    height: 740px;
+    padding: 16px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid rgba(184, 205, 255, 0.2);
+    border-radius: 24px;
+    background: linear-gradient(180deg, #f4f7fd, #e9eff9);
+    box-shadow:
+      0 36px 90px rgba(0, 0, 0, 0.5),
+      0 10px 30px rgba(0, 0, 0, 0.28),
+      inset 0 1px 0 rgba(255, 255, 255, 0.85);
+  }
+  .popup-shot {
+    display: block;
+    width: auto;
+    height: 100%;
+    max-width: 100%;
+    object-fit: contain;
+    border-radius: 12px;
+    box-shadow: 0 4px 18px rgba(21, 39, 72, 0.12);
+  }
+</style>
+</head>
+<body>
+  <div class="stage">
+    <div class="brand">
+      <span class="mark" aria-hidden="true">FT</span>
+      <span class="brand-name">全屏时间显示</span>
+      <span class="brand-en">Fullscreen Time</span>
+    </div>
+
+    <div class="copy">
+      <div class="eyebrow">Chrome Extension</div>
+      <h1>全屏时间显示</h1>
+      <p class="en-title">Fullscreen Time</p>
+      <p class="lead">在视频或浏览器全屏时，把播放进度、总时长与系统时钟留在视野里。</p>
+
+      <div class="features">
+        <div class="feature">
+          <span class="dot"></span>
+          <div>
+            <p class="feature-title">视频浮层</p>
+            <p class="feature-desc">播放进度与系统时钟</p>
+          </div>
+        </div>
+        <div class="feature">
+          <span class="dot"></span>
+          <div>
+            <p class="feature-title">窗口浮层</p>
+            <p class="feature-desc">浏览器 / 非视频全屏</p>
+          </div>
+        </div>
+        <div class="feature">
+          <span class="dot"></span>
+          <div>
+            <p class="feature-title">F9 / F10</p>
+            <p class="feature-desc">布局与显示切换</p>
+          </div>
+        </div>
+        <div class="feature">
+          <span class="dot"></span>
+          <div>
+            <p class="feature-title">中英双语</p>
+            <p class="feature-desc">界面同步切换</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="bottom-note">Chrome 扩展 · Manifest V3 · 设置通过 Chrome Sync 同步</div>
+    <div class="device">
+      <img class="popup-shot" src="source/popup.png" alt="全屏时间显示软件弹窗设置界面">
+    </div>
+  </div>
+</body>
+</html>

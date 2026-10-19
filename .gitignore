@@ -25,3 +25,6 @@ ehthumbs.db
 Thumbs.db
 
 copyright/*
+
+# Chrome Web Store build artifact
+store/*.zip

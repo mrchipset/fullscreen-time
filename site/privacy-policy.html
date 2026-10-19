@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>隐私政策 — 全屏时间显示 / Privacy Policy — Fullscreen Time</title>
+  <style>
+    :root {
+      color-scheme: light dark;
+      --bg: #f4f7fc;
+      --surface: #ffffff;
+      --text: #172033;
+      --muted: #5c6b82;
+      --border: #dbe3f0;
+      --accent: #2f63e8;
+      --accent-soft: #eaf0ff;
+      --radius: 14px;
+    }
+    @media (prefers-color-scheme: dark) {
+      :root {
+        --bg: #0b1220;
+        --surface: #121c2e;
+        --text: #e8eefb;
+        --muted: #9aabc5;
+        --border: #263550;
+        --accent: #8fb0ff;
+        --accent-soft: #18294d;
+      }
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      padding: 32px 18px 56px;
+      background: var(--bg);
+      color: var(--text);
+      font-family: "Segoe UI", "Microsoft YaHei", "PingFang SC", system-ui, sans-serif;
+      line-height: 1.75;
+    }
+    main {
+      max-width: 860px;
+      margin: 0 auto;
+      padding: clamp(24px, 4vw, 48px);
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      box-shadow: 0 18px 50px rgba(20, 36, 70, 0.08);
+    }
+    .eyebrow {
+      display: inline-block;
+      padding: 4px 10px;
+      border-radius: 999px;
+      background: var(--accent-soft);
+      color: var(--accent);
+      font-size: 12px;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+    h1 { margin: 14px 0 8px; font-size: clamp(28px, 5vw, 40px); line-height: 1.2; }
+    h2 { margin: 34px 0 10px; font-size: 20px; line-height: 1.35; }
+    h3 { margin: 24px 0 8px; font-size: 15px; color: var(--muted); font-weight: 600; }
+    p, ul { margin: 10px 0; }
+    ul { padding-left: 22px; }
+    li { margin: 5px 0; }
+    .meta { color: var(--muted); font-size: 14px; }
+    .notice {
+      margin: 20px 0;
+      padding: 14px 16px;
+      border-left: 4px solid var(--accent);
+      border-radius: 8px;
+      background: var(--accent-soft);
+    }
+    a { color: var(--accent); }
+    code {
+      padding: 1px 5px;
+      border-radius: 5px;
+      background: var(--accent-soft);
+      font-family: "Cascadia Code", Consolas, monospace;
+      font-size: 0.92em;
+    }
+    hr { margin: 36px 0; border: 0; border-top: 1px solid var(--border); }
+    footer { margin-top: 36px; color: var(--muted); font-size: 13px; }
+  </style>
+</head>
+<body>
+  <main>
+    <span class="eyebrow">Fullscreen Time</span>
+    <h1>隐私政策 / Privacy Policy</h1>
+    <p class="meta">
+      软件名称 / Software: 全屏时间显示（Fullscreen Time）<br>
+      版本 / Version: V1.0.0<br>
+      生效日期 / Effective date: 2026-10-19
+    </p>
+
+    <div class="notice">
+      本软件不收集、不出售、不向开发者或第三方发送个人数据。设置通过 Chrome Sync 保存，可能随登录同一账户的设备同步。
+    </div>
+
+    <h2>1. 适用范围 / Scope</h2>
+    <p>本隐私政策适用于“全屏时间显示”（Fullscreen Time）Chrome / Edge 扩展。本软件在视频全屏、浏览器全屏或非视频元素全屏时显示播放进度和系统时间。</p>
+    <p>This policy applies to the Fullscreen Time Chrome/Edge extension, which shows playback progress and the system clock while a video, the browser, or a non-video element is fullscreen.</p>
+
+    <h2>2. 不收集的数据 / Data we do not collect</h2>
+    <p>本软件不收集、不出售、不向开发者或第三方传输以下数据：</p>
+    <ul>
+      <li>个人身份信息、联系方式、账号信息；</li>
+      <li>网页正文、表单内容、搜索记录、浏览历史；</li>
+      <li>Cookie、广告标识符、设备标识符、IP 地址或位置信息；</li>
+      <li>视频文件、视频画面、音频或视频内容；</li>
+      <li>使用统计、崩溃日志或分析数据。</li>
+    </ul>
+    <p>We do not collect, sell, or transmit personal data, page content, forms, browsing history, cookies, device identifiers, IP addresses, location data, video content, analytics, or crash logs.</p>
+
+    <h2>3. 本地读取的数据 / Data read locally</h2>
+    <p>为了在全屏时显示播放进度，本软件会在用户进入全屏播放期间读取当前页面中 <code>&lt;video&gt;</code> 元素的以下信息：</p>
+    <ul>
+      <li>当前播放时间；</li>
+      <li>视频总时长（直播或未加载完成时可能不可用）；</li>
+      <li>当前系统时间。</li>
+    </ul>
+    <p>这些信息仅在浏览器本地用于计算浮层显示内容，不会被上传、保存到开发者服务器或与第三方共享。</p>
+    <p>While a video is fullscreen, the extension reads the current playback time, duration (when available), and system time locally. These values are not uploaded, stored on a developer server, or shared with third parties.</p>
+
+    <h2>4. 设置的保存与同步 / Settings and Chrome Sync</h2>
+    <p>本软件使用 <code>chrome.storage.sync</code> 保存显示开关、布局模式与浮动位置、界面语言和快捷键绑定。如果用户登录 Chrome 并启用同步，这些设置可能通过 Google Chrome Sync 在登录同一账户的设备之间同步。</p>
+    <p>Chrome Sync 由用户账户与 Google 管理，开发者无法访问其中的数据。用户可以在 Chrome 同步设置中管理或清除这些数据；卸载扩展或清除扩展数据也会删除本地设置。</p>
+    <p>Settings (display options, layout, float positions, language, shortcut bindings) are stored in <code>chrome.storage.sync</code>. If Chrome Sync is enabled, settings may sync across devices signed into the same Chrome account. Chrome Sync is managed by the user and Google; the developer cannot access it.</p>
+
+    <h2>5. 权限说明 / Permissions</h2>
+    <ul>
+      <li><strong>storage</strong>：保存上述设置 / saves the settings above.</li>
+      <li><strong>所有网站的内容脚本 / content script on all sites</strong>：检测页面视频与全屏状态，以显示浮层；不读取或上传网页正文、表单、浏览历史或视频内容。Detects videos and fullscreen state; does not read or upload page text, forms, browsing history, or video content.</li>
+      <li><strong>all_frames / match_about_blank / match_origin_as_fallback</strong>：支持 iframe、frame、embed、object 中的播放器 / supports players inside frames and embeds.</li>
+      <li><strong>web_accessible_resources 的 _locales/*</strong>：内容脚本读取扩展本地语言包 / the content script loads local locale files.</li>
+      <li><strong>file:///*</strong>：支持本地视频文件全屏；用户需在扩展详情中手动允许访问文件网址 / supports local video files only when the user explicitly allows file URL access.</li>
+    </ul>
+
+    <h2>6. 第三方服务 / Third parties</h2>
+    <p>本软件运行时不调用开发者服务器，不加载远程脚本，不集成第三方统计、广告或数据分析服务。Chrome Sync 属于浏览器提供的可选同步功能，受 Google 的隐私政策约束。</p>
+    <p>There is no developer server, remote code, advertising SDK, third-party analytics, or tracking script. Chrome Sync is an optional browser feature governed by Google's privacy policy.</p>
+
+    <h2>7. 儿童隐私 / Children's privacy</h2>
+    <p>本软件不面向儿童收集任何个人信息，也不包含广告或社交功能。</p>
+    <p>The extension does not collect personal information from children and contains no ads or social features.</p>
+
+    <h2>8. 数据保留与删除 / Retention and deletion</h2>
+    <p>本软件不保留开发者侧数据。设置保存在用户浏览器的 <code>chrome.storage.sync</code> 中；用户可通过 Chrome 同步设置清除，或通过卸载扩展删除本地数据。</p>
+    <p>No developer-side data is retained. Settings live in the user's browser storage and can be cleared through Chrome Sync settings or by uninstalling the extension.</p>
+
+    <h2>9. 政策变更 / Changes</h2>
+    <p>如果未来版本增加网络请求、数据处理或新的权限，我们会在扩展页面和本政策中明确说明，并在必要时更新版本号与生效日期。</p>
+    <p>If a future version adds network requests, data processing, or new permissions, the extension pages and this policy will be updated, along with the version and effective date where appropriate.</p>
+
+    <h2>10. 联系方式 / Contact</h2>
+    <p>如有隐私相关问题，请通过 GitHub Issues 提交：</p>
+    <p><a href="https://github.com/mrchipset/fullscreen-time/issues" rel="noopener noreferrer">https://github.com/mrchipset/fullscreen-time/issues</a></p>
+    <p>For privacy questions, please open an issue at the address above.</p>
+
+    <hr>
+    <footer>
+      全屏时间显示 / Fullscreen Time · V1.0.0 · 2026-10-19<br>
+      源代码 / Source: <a href="https://github.com/mrchipset/fullscreen-time" rel="noopener noreferrer">github.com/mrchipset/fullscreen-time</a>
+    </footer>
+  </main>
+</body>
+</html>
