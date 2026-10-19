@@ -1,103 +1,101 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
   <meta charset="UTF-8">
-  <style>
-    body {
-      width: 360px;
-      padding: 15px;
-      font-family: Arial, sans-serif;
-      background-color: #f5f5f5;
-    }
-    .container {
-      background-color: white;
-      border-radius: 8px;
-      padding: 15px;
-      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-    }
-    h1 {
-      margin: 0 0 15px 0;
-      font-size: 18px;
-      color: #333;
-    }
-    .shortcut-row {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      margin-bottom: 14px;
-    }
-    .shortcut-label {
-      font-size: 14px;
-      color: #333;
-      flex-shrink: 0;
-      margin-right: 12px;
-    }
-    .shortcut-input {
-      width: 130px;
-      padding: 6px 10px;
-      border: 1px solid #ccc;
-      border-radius: 4px;
-      font-size: 14px;
-      text-align: center;
-      background: #fafafa;
-      cursor: pointer;
-      user-select: none;
-      outline: none;
-      color: #333;
-    }
-    .shortcut-input.recording {
-      border-color: #0066cc;
-      background: #e8f0fe;
-      color: #0066cc;
-    }
-    .shortcut-input:hover {
-      border-color: #999;
-    }
-    .setting-item {
-      display: flex;
-      align-items: center;
-      margin-top: 12px;
-      margin-bottom: 4px;
-    }
-    .setting-item input[type="checkbox"] {
-      width: 18px;
-      height: 18px;
-      margin-right: 10px;
-      cursor: pointer;
-    }
-    .setting-item label {
-      cursor: pointer;
-      font-size: 14px;
-      color: #333;
-      margin: 0;
-    }
-    .setting-hint {
-      font-size: 12px;
-      color: #888;
-      margin: 0 0 6px 28px;
-    }
-    .divider {
-      height: 1px;
-      background: #eee;
-      margin: 14px 0;
-    }
-  </style>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title data-i18n="settingsTitle">Shortcut Settings</title>
+  <link rel="stylesheet" href="../shared/ui.css">
 </head>
 <body>
-  <div class="container">
-    <h1 data-i18n="settingsTitle"></h1>
+  <main class="settings-page">
+    <article class="settings-card" aria-labelledby="settingsTitle">
+      <header class="settings-header">
+        <span class="settings-mark" aria-hidden="true">FT</span>
+        <div class="settings-heading">
+          <p class="settings-eyebrow" data-i18n="settingsEyebrow">Keyboard shortcuts</p>
+          <h1 class="settings-title" id="settingsTitle" data-i18n="settingsTitle">Shortcut Settings</h1>
+        </div>
+        <p class="settings-intro" data-i18n="settingsIntro">
+          Choose the keys that control Fullscreen Time while a video or the browser is fullscreen.
+        </p>
+      </header>
 
-    <div class="shortcut-row">
-      <span class="shortcut-label" data-i18n="labelToggleLayout"></span>
-      <input class="shortcut-input" id="keyToggleLayoutInput" readonly>
-    </div>
+      <section class="settings-section" aria-labelledby="shortcutsHeading">
+        <h2 class="settings-section__title" id="shortcutsHeading" data-i18n="settingsSectionShortcuts">Your shortcuts</h2>
+        <p class="settings-section__hint" id="shortcutHelp" data-i18n="settingsShortcutHelp">
+          Click or focus a field to record a shortcut. Esc cancels, Delete unbinds, and Tab moves to the next control.
+        </p>
+        <p class="settings-section__hint settings-section__hint--subtle" data-i18n="settingsReservedHint">
+          F5, F11, F12, and common browser shortcuts can't be used.
+        </p>
 
-    <div class="shortcut-row">
-      <span class="shortcut-label" data-i18n="labelToggleVisibility"></span>
-      <input class="shortcut-input" id="keyToggleVisibilityInput" readonly>
-    </div>
+        <div class="shortcut-list">
+          <div class="shortcut-row">
+            <div class="shortcut-copy">
+              <div class="shortcut-label-row">
+                <label class="shortcut-label" for="keyToggleLayoutInput" data-i18n="labelToggleLayout">Toggle Layout Mode</label>
+                <span class="shortcut-badge" id="keyToggleLayoutBadge" hidden aria-hidden="true"></span>
+              </div>
+              <p class="shortcut-meta" id="keyToggleLayoutMeta">
+                <span data-i18n="settingsDefaultPrefix">Default:</span>
+                <kbd id="keyToggleLayoutDefault">F9</kbd>
+              </p>
+            </div>
+            <input
+              class="shortcut-input"
+              id="keyToggleLayoutInput"
+              type="text"
+              value="F9"
+              readonly
+              autocomplete="off"
+              spellcheck="false"
+              aria-describedby="shortcutHelp keyToggleLayoutMeta"
+            >
+          </div>
 
-  </div>
+          <div class="shortcut-row">
+            <div class="shortcut-copy">
+              <div class="shortcut-label-row">
+                <label class="shortcut-label" for="keyToggleVisibilityInput" data-i18n="labelToggleVisibility">Toggle Visibility</label>
+                <span class="shortcut-badge" id="keyToggleVisibilityBadge" hidden aria-hidden="true"></span>
+              </div>
+              <p class="shortcut-meta" id="keyToggleVisibilityMeta">
+                <span data-i18n="settingsDefaultPrefix">Default:</span>
+                <kbd id="keyToggleVisibilityDefault">F10</kbd>
+              </p>
+            </div>
+            <input
+              class="shortcut-input"
+              id="keyToggleVisibilityInput"
+              type="text"
+              value="F10"
+              readonly
+              autocomplete="off"
+              spellcheck="false"
+              aria-describedby="shortcutHelp keyToggleVisibilityMeta"
+            >
+          </div>
+        </div>
+
+        <p class="settings-status" id="shortcutStatus" role="status" aria-live="polite" aria-atomic="true"></p>
+      </section>
+
+      <section class="settings-section settings-section--actions" aria-labelledby="actionsHeading">
+        <h2 class="settings-section__title" id="actionsHeading" data-i18n="settingsActionsHeading">Actions</h2>
+        <p class="settings-section__hint" data-i18n="settingsResetHint">
+          Resets layout to F9 and visibility to F10.
+        </p>
+        <div class="settings-actions">
+          <button class="ui-button ui-button--secondary" id="resetDefaultsButton" type="button" data-i18n="btnResetDefaults">
+            Reset to defaults
+          </button>
+          <button class="ui-button ui-button--primary" id="closeButton" type="button" data-i18n="btnClose">
+            Close
+          </button>
+        </div>
+      </section>
+    </article>
+  </main>
 
   <script src="../shared/i18n.js"></script>
   <script src="settings.js"></script>

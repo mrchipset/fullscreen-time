@@ -262,5 +262,85 @@
   "btnPrivacy": {
     "message": "隐私政策",
     "description": "Popup button to open privacy section in documentation"
+  },
+  "settingsEyebrow": {
+    "message": "键盘快捷键",
+    "description": "Small label above the shortcut settings page title"
+  },
+  "settingsIntro": {
+    "message": "选择在视频或浏览器全屏时控制 Fullscreen Time 的按键。",
+    "description": "Introductory paragraph on the shortcut settings page"
+  },
+  "settingsSectionShortcuts": {
+    "message": "你的快捷键",
+    "description": "Heading for the shortcut binding section"
+  },
+  "settingsShortcutHelp": {
+    "message": "点击或聚焦输入框开始录制快捷键。按 Esc 取消，按 Delete 解除绑定，按 Tab 移动到下一个控件。",
+    "description": "Instructions for recording shortcuts"
+  },
+  "settingsReservedHint": {
+    "message": "部分浏览器快捷键（包括 F5、F11、F12）无法拦截，因此不能使用。",
+    "description": "Hint listing shortcut keys reserved by the browser"
+  },
+  "settingsDefaultPrefix": {
+    "message": "默认：",
+    "description": "Label before a shortcut's default key"
+  },
+  "settingsResetHint": {
+    "message": "将布局快捷键重置为 F9，显示快捷键重置为 F10。",
+    "description": "Description of the reset to defaults action"
+  },
+  "settingsActionsHeading": {
+    "message": "操作",
+    "description": "Heading for the settings page action buttons"
+  },
+  "stateRecording": {
+    "message": "录制中",
+    "description": "Badge shown while a shortcut is being recorded"
+  },
+  "shortcutUnbound": {
+    "message": "未绑定",
+    "description": "Label shown when a shortcut has no key assigned"
+  },
+  "statusReady": {
+    "message": "就绪。选择一个快捷键输入框即可修改绑定。",
+    "description": "Initial status message on the shortcut settings page"
+  },
+  "statusRecording": {
+    "message": "正在录制{label}。请按快捷键；按 Esc 取消，按 Delete 解除绑定。",
+    "description": "Status message while recording a shortcut, with label placeholder"
+  },
+  "statusSaved": {
+    "message": "已保存。{label}现为 {binding}。",
+    "description": "Status message after saving a shortcut, with label and binding placeholders"
+  },
+  "statusUnbound": {
+    "message": "已清除。{label}现为未绑定。",
+    "description": "Status message after clearing a shortcut, with label placeholder"
+  },
+  "statusCanceled": {
+    "message": "已取消。{label}保持不变。",
+    "description": "Status message after canceling shortcut recording, with label placeholder"
+  },
+  "statusReserved": {
+    "message": "{binding} 是浏览器保留的快捷键，请换一个。",
+    "description": "Status message when a reserved shortcut is pressed, with binding placeholder"
+  },
+  "statusConflict": {
+    "message": "{binding} 已用于{label}。",
+    "description": "Status message when a shortcut conflicts with the other action"
+  },
+  "statusDefaultsRestored": {
+    "message": "快捷键已重置为 F9 和 F10。",
+    "description": "Status message after resetting shortcuts to defaults"
+  },
+  "btnResetDefaults": {
+    "message": "恢复默认",
+    "description": "Button that resets shortcuts to F9 and F10"
+  },
+  "btnClose": {
+    "message": "关闭",
+    "description": "Button that closes the shortcut settings page"
   }
 }

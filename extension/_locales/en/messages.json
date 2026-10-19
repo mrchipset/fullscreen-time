@@ -262,5 +262,85 @@
   "btnPrivacy": {
     "message": "Privacy Policy",
     "description": "Popup button to open privacy section in documentation"
+  },
+  "settingsEyebrow": {
+    "message": "Keyboard shortcuts",
+    "description": "Small label above the shortcut settings page title"
+  },
+  "settingsIntro": {
+    "message": "Choose the keys that control Fullscreen Time while a video or the browser is fullscreen.",
+    "description": "Introductory paragraph on the shortcut settings page"
+  },
+  "settingsSectionShortcuts": {
+    "message": "Your shortcuts",
+    "description": "Heading for the shortcut binding section"
+  },
+  "settingsShortcutHelp": {
+    "message": "Click or focus a field to record a shortcut. Esc cancels, Delete unbinds, and Tab moves to the next control.",
+    "description": "Instructions for recording shortcuts"
+  },
+  "settingsReservedHint": {
+    "message": "Some browser shortcuts, including F5, F11, and F12, cannot be intercepted and cannot be used.",
+    "description": "Hint listing shortcut keys reserved by the browser"
+  },
+  "settingsDefaultPrefix": {
+    "message": "Default:",
+    "description": "Label before a shortcut's default key"
+  },
+  "settingsResetHint": {
+    "message": "Resets layout to F9 and visibility to F10.",
+    "description": "Description of the reset to defaults action"
+  },
+  "settingsActionsHeading": {
+    "message": "Actions",
+    "description": "Heading for the settings page action buttons"
+  },
+  "stateRecording": {
+    "message": "Recording",
+    "description": "Badge shown while a shortcut is being recorded"
+  },
+  "shortcutUnbound": {
+    "message": "Unbound",
+    "description": "Label shown when a shortcut has no key assigned"
+  },
+  "statusReady": {
+    "message": "Ready. Select a shortcut field to change a binding.",
+    "description": "Initial status message on the shortcut settings page"
+  },
+  "statusRecording": {
+    "message": "Recording {label}. Press a shortcut. Esc cancels, Delete unbinds.",
+    "description": "Status message while recording a shortcut, with label placeholder"
+  },
+  "statusSaved": {
+    "message": "Saved. {label} is now {binding}.",
+    "description": "Status message after saving a shortcut, with label and binding placeholders"
+  },
+  "statusUnbound": {
+    "message": "Cleared. {label} is now unbound.",
+    "description": "Status message after clearing a shortcut, with label placeholder"
+  },
+  "statusCanceled": {
+    "message": "Canceled. {label} is unchanged.",
+    "description": "Status message after canceling shortcut recording, with label placeholder"
+  },
+  "statusReserved": {
+    "message": "{binding} is reserved by the browser. Press a different shortcut.",
+    "description": "Status message when a reserved shortcut is pressed, with binding placeholder"
+  },
+  "statusConflict": {
+    "message": "{binding} is already used for {label}.",
+    "description": "Status message when a shortcut conflicts with the other action"
+  },
+  "statusDefaultsRestored": {
+    "message": "Shortcuts reset to F9 and F10.",
+    "description": "Status message after resetting shortcuts to defaults"
+  },
+  "btnResetDefaults": {
+    "message": "Reset to defaults",
+    "description": "Button that resets shortcuts to F9 and F10"
+  },
+  "btnClose": {
+    "message": "Close",
+    "description": "Button that closes the shortcut settings page"
   }
 }
