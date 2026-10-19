@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Fullscreen Time — 全屏时间显示</title>
+  <style>
+    :root {
+      color-scheme: light dark;
+      --bg: #f4f7fc;
+      --surface: #ffffff;
+      --text: #172033;
+      --muted: #5c6b82;
+      --border: #dbe3f0;
+      --accent: #2f63e8;
+      --accent-soft: #eaf0ff;
+      --radius: 16px;
+    }
+    @media (prefers-color-scheme: dark) {
+      :root {
+        --bg: #0b1220;
+        --surface: #121c2e;
+        --text: #e8eefb;
+        --muted: #9aabc5;
+        --border: #263550;
+        --accent: #8fb0ff;
+        --accent-soft: #18294d;
+      }
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      min-height: 100vh;
+      display: grid;
+      place-items: center;
+      padding: 24px;
+      background: var(--bg);
+      color: var(--text);
+      font-family: "Segoe UI", "Microsoft YaHei", "PingFang SC", system-ui, sans-serif;
+      line-height: 1.7;
+    }
+    main {
+      width: min(680px, 100%);
+      padding: clamp(28px, 5vw, 48px);
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      box-shadow: 0 18px 50px rgba(20, 36, 70, 0.08);
+    }
+    .mark {
+      display: inline-grid;
+      place-items: center;
+      width: 46px;
+      height: 46px;
+      border-radius: 14px;
+      background: linear-gradient(145deg, #3a6cf0, #1d43b4);
+      color: #fff;
+      font-family: "Cascadia Code", Consolas, monospace;
+      font-size: 13px;
+      font-weight: 700;
+      letter-spacing: 0.04em;
+    }
+    h1 { margin: 18px 0 6px; font-size: clamp(30px, 6vw, 42px); line-height: 1.2; }
+    .en { color: var(--muted); font-size: 13px; letter-spacing: 0.1em; text-transform: uppercase; }
+    p { color: var(--muted); }
+    .links { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 24px; }
+    a {
+      display: inline-flex;
+      align-items: center;
+      padding: 9px 14px;
+      border: 1px solid var(--border);
+      border-radius: 9px;
+      color: var(--accent);
+      background: var(--accent-soft);
+      text-decoration: none;
+      font-weight: 600;
+      font-size: 14px;
+    }
+    a:hover, a:focus-visible { text-decoration: underline; outline: 2px solid var(--accent); outline-offset: 2px; }
+    footer { margin-top: 28px; font-size: 12px; color: var(--muted); }
+  </style>
+</head>
+<body>
+  <main>
+    <span class="mark">FT</span>
+    <h1>全屏时间显示</h1>
+    <div class="en">Fullscreen Time</div>
+    <p>在视频全屏、浏览器全屏或非视频元素全屏时，显示播放进度和系统时钟。</p>
+    <p>Fullscreen Time shows playback progress and the system clock while a video, the browser, or a non-video element is fullscreen.</p>
+    <div class="links">
+      <a href="privacy-policy.html">隐私政策 / Privacy Policy</a>
+      <a href="https://github.com/mrchipset/fullscreen-time">GitHub 仓库</a>
+      <a href="https://github.com/mrchipset/fullscreen-time/issues">问题反馈 / Issues</a>
+    </div>
+    <footer>Fullscreen Time · V1.0.0 · 2026-10-19</footer>
+  </main>
+</body>
+</html>
