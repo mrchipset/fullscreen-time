@@ -1,109 +1,73 @@
 <!DOCTYPE html>
-<html lang="zh-CN">
+<html lang="en" class="i18n-pending">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title data-i18n="docHtmlTitle"></title>
-  <style>
-    body {
-      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-      max-width: 800px;
-      margin: 0 auto;
-      padding: 40px 20px;
-      background-color: #f5f7fa;
-      color: #333;
-      line-height: 1.6;
-    }
-    h1 {
-      color: #0066cc;
-      border-bottom: 3px solid #0066cc;
-      padding-bottom: 10px;
-    }
-    h2 {
-      color: #0052a3;
-      margin-top: 30px;
-    }
-    .feature {
-      background-color: white;
-      padding: 20px;
-      margin: 15px 0;
-      border-radius: 8px;
-      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-    }
-    code {
-      background-color: #f0f0f0;
-      padding: 2px 6px;
-      border-radius: 3px;
-      font-family: 'Consolas', monospace;
-    }
-    .tip {
-      background-color: #fff3cd;
-      border-left: 4px solid #ffc107;
-      padding: 15px;
-      margin: 20px 0;
-    }
-    .privacy {
-      background-color: #e8f5e9;
-      border-left: 4px solid #4caf50;
-      padding: 15px;
-      margin: 20px 0;
-    }
-  </style>
+  <title data-i18n="docHtmlTitle">Fullscreen Time - Documentation</title>
+  <link rel="stylesheet" href="shared/ui.css">
 </head>
-<body>
-  <h1 data-i18n="docH1Title"></h1>
-  
-  <div class="feature">
-    <h2 data-i18n="docFeatureTitle"></h2>
-    <p data-i18n="docFeaturePara"></p>
-    <ul>
-      <li data-i18n="docFeatureItem1"></li>
-      <li data-i18n="docFeatureItem2"></li>
-      <li data-i18n="docFeatureItem3"></li>
-      <li data-i18n="docFeatureItem4"></li>
-    </ul>
-  </div>
+<body class="doc-body">
+  <main class="doc-page">
+    <div class="doc-shell">
+      <header class="doc-header">
+        <h1 class="doc-title" data-i18n="docH1Title">Fullscreen Time</h1>
+        <p class="doc-lede" data-i18n="docFeaturePara">
+          A browser extension that displays playback time and system time when videos or the browser enter fullscreen.
+        </p>
+      </header>
 
-  <div class="feature">
-    <h2 data-i18n="docHowToTitle"></h2>
-    <ol>
-      <li data-i18n="docHowToStep1"></li>
-      <li data-i18n="docHowToStep2"></li>
-      <li data-i18n="docHowToStep3"></li>
-      <li data-i18n="docHowToStep4"></li>
-    </ol>
-  </div>
+      <section class="doc-card" aria-labelledby="featuresHeading">
+        <h2 id="featuresHeading" data-i18n="docFeatureTitle">Features</h2>
+        <ul class="doc-list">
+          <li data-i18n="docFeatureItem1">Auto-detect video elements on the page</li>
+          <li data-i18n="docFeatureItem2">Display time info during video fullscreen</li>
+          <li data-i18n="docFeatureItem3">Format: <code>Current / Duration | System Time</code></li>
+          <li data-i18n="docFeatureItem4">Customizable display settings</li>
+        </ul>
+      </section>
 
-  <div class="feature">
-    <h2 data-i18n="docSettingsTitle"></h2>
-    <p data-i18n="docSettingShowVideo"></p>
-    <p data-i18n="docSettingShowFullscreen"></p>
-  </div>
+      <section class="doc-card" aria-labelledby="howToHeading">
+        <h2 id="howToHeading" data-i18n="docHowToTitle">How to Use</h2>
+        <ol class="doc-list">
+          <li data-i18n="docHowToStep1">Open any webpage containing a video (YouTube, Bilibili, etc.)</li>
+          <li data-i18n="docHowToStep2">Click the video to enter fullscreen</li>
+          <li data-i18n="docHowToStep3">The clock appears at the top center by default</li>
+          <li data-i18n="docHowToStep4">Click the extension icon to open the settings panel</li>
+        </ol>
+      </section>
 
-  <div class="tip">
-    <span data-i18n="docTip"></span>
-  </div>
+      <section class="doc-card" aria-labelledby="settingsHeading">
+        <h2 id="settingsHeading" data-i18n="docSettingsTitle">Settings</h2>
+        <p data-i18n="docSettingShowVideo"><strong>Video overlay:</strong> Shows playback time and the clock over fullscreen video.</p>
+        <p data-i18n="docSettingShowFullscreen"><strong>Browser / other fullscreen overlay:</strong> Shows the clock in browser fullscreen or in fullscreen on page content without a video. Embedded/iframe players are handled inside the frame; a non-video embed may not show a clock. It never stacks with the video overlay.</p>
+      </section>
 
-  <div class="feature">
-    <h2 data-i18n="docTechTitle"></h2>
-    <ul>
-      <li data-i18n="docTechItem1"></li>
-      <li data-i18n="docTechItem2"></li>
-      <li data-i18n="docTechItem3"></li>
-      <li data-i18n="docTechItem4"></li>
-    </ul>
-  </div>
+      <aside class="doc-callout doc-callout--tip">
+        <p data-i18n="docTip"><strong>Tip:</strong> If the time display doesn't appear, try refreshing the page or reloading the extension.</p>
+      </aside>
 
-  <div id="privacy" class="feature privacy">
-    <h2 data-i18n="docPrivacyTitle"></h2>
-    <p data-i18n="docPrivacyPara"></p>
-  </div>
+      <section class="doc-card" aria-labelledby="techHeading">
+        <h2 id="techHeading" data-i18n="docTechTitle">Tech Stack</h2>
+        <ul class="doc-list">
+          <li data-i18n="docTechItem1">Webpack - Module Bundler</li>
+          <li data-i18n="docTechItem2">Chrome Extension Manifest V3</li>
+          <li data-i18n="docTechItem3">ES6 Modules</li>
+          <li data-i18n="docTechItem4">Chrome Storage API</li>
+        </ul>
+      </section>
 
-  <div class="feature">
-    <h2 data-i18n="docVersionTitle"></h2>
-    <p data-i18n="docVersionLabel"></p>
-    <p data-i18n="docDateLabel"></p>
-  </div>
+      <section id="privacy" class="doc-card doc-card--privacy" aria-labelledby="privacyHeading">
+        <h2 id="privacyHeading" data-i18n="docPrivacyTitle">Privacy Policy</h2>
+        <p data-i18n="docPrivacyPara"></p>
+      </section>
+
+      <section class="doc-card doc-card--meta" aria-labelledby="versionHeading">
+        <h2 id="versionHeading" data-i18n="docVersionTitle">Version Info</h2>
+        <p class="doc-meta" data-i18n="docVersionLabel">Version: 1.0</p>
+        <p class="doc-meta" data-i18n="docDateLabel">Updated: 2026-07-26</p>
+      </section>
+    </div>
+  </main>
 
   <script src="shared/i18n.js"></script>
   <script src="doc.js"></script>

@@ -12,35 +12,35 @@
     "description": "Title of the popup settings panel"
   },
   "labelShowWhenVideoFullscreen": {
-    "message": "Show time on video",
-    "description": "Popup checkbox label"
+    "message": "Video overlay",
+    "description": "Popup toggle label for the video overlay"
   },
   "labelShowOnFullscreen": {
-    "message": "Show on fullscreen",
-    "description": "Popup checkbox label"
+    "message": "Browser / other fullscreen overlay",
+    "description": "Popup toggle label for non-video fullscreen overlays"
   },
   "labelShowSeconds": {
     "message": "Show seconds",
     "description": "Popup checkbox label"
   },
   "labelShowProgress": {
-    "message": "Show progress",
-    "description": "Popup checkbox label"
+    "message": "Show playback progress",
+    "description": "Popup toggle label for playback progress"
   },
   "labelAutoHide": {
-    "message": "Auto-hide when idle (3s)",
-    "description": "Popup checkbox label"
+    "message": "Auto-hide when idle",
+    "description": "Popup toggle label for auto-hide"
   },
   "labelLayoutSection": {
-    "message": "Layout Mode",
-    "description": "Popup section header for layout mode"
+    "message": "Layout",
+    "description": "Popup legend for the layout options"
   },
   "labelLayoutSnap": {
-    "message": "Snap (fixed position)",
+    "message": "Snap to top center",
     "description": "Popup radio button label for snap layout"
   },
   "labelLayoutFloat": {
-    "message": "Float (draggable)",
+    "message": "Float (drag to move)",
     "description": "Popup radio button label for float layout"
   },
   "btnShortcutSettings": {
@@ -108,7 +108,7 @@
     "description": "Documentation section heading for features"
   },
   "docFeaturePara": {
-    "message": "A browser extension that displays the current playback time and system time when videos play in fullscreen.",
+    "message": "A browser extension that displays playback time and system time when videos or the browser enter fullscreen.",
     "description": "Documentation paragraph describing the extension"
   },
   "docFeatureItem1": {
@@ -116,7 +116,7 @@
     "description": "Documentation feature list item"
   },
   "docFeatureItem2": {
-    "message": "Display time info during video fullscreen",
+    "message": "Display playback time and the clock during video fullscreen",
     "description": "Documentation feature list item"
   },
   "docFeatureItem3": {
@@ -140,7 +140,7 @@
     "description": "Documentation usage step"
   },
   "docHowToStep3": {
-    "message": "Time info will automatically appear at the top center of the screen",
+    "message": "The clock appears at the top center by default",
     "description": "Documentation usage step"
   },
   "docHowToStep4": {
@@ -152,12 +152,12 @@
     "description": "Documentation section heading for settings"
   },
   "docSettingShowVideo": {
-    "message": "<strong>Show time on video:</strong> Controls whether time display is enabled",
-    "description": "Documentation description of show-on-video setting"
+    "message": "<strong>Video overlay:</strong> Shows playback time and the clock over fullscreen video.",
+    "description": "Documentation description of the video overlay setting"
   },
   "docSettingShowFullscreen": {
-    "message": "<strong>Show on fullscreen:</strong> Controls whether time only shows in fullscreen",
-    "description": "Documentation description of show-on-fullscreen setting"
+    "message": "<strong>Browser / other fullscreen overlay:</strong> Shows the clock in browser fullscreen or in fullscreen on page content without a video. Embedded/iframe players are handled inside the frame; a non-video embed may not show a clock. It never stacks with the video overlay.",
+    "description": "Documentation description of the non-video fullscreen overlay setting"
   },
   "docTip": {
     "message": "<strong>\ud83d\udca1 Tip:</strong> If the time display doesn't appear, try refreshing the page or reloading the extension.",
@@ -236,8 +236,8 @@
     "description": "Console log when overlay is dismissed"
   },
   "closeBtnTitle": {
-    "message": "Close",
-    "description": "Tooltip/title for the close button on the widget"
+    "message": "Hide clock",
+    "description": "Tooltip and accessible label for the close button on the overlay"
   },
   "langEn": {
     "message": "English",
@@ -256,12 +256,12 @@
     "description": "Privacy policy section title in documentation page"
   },
   "docPrivacyPara": {
-    "message": "Fullscreen Time does not collect, store, or transmit any personal data. The extension only reads video element information to display playback time while you are in fullscreen mode. All settings are stored locally via Chrome Storage API. No data is sent to any server.",
+    "message": "Fullscreen Time stores your settings in Chrome Sync, so they may sync across devices signed in to the same Chrome profile. The extension does not send data to the developer: there is no developer server and no analytics. Video information is read only to display playback time while you are in fullscreen mode.",
     "description": "Privacy policy paragraph in documentation page"
   },
   "btnPrivacy": {
-    "message": "Privacy Policy",
-    "description": "Popup button to open privacy section in documentation"
+    "message": "Privacy",
+    "description": "Popup link to open the privacy section in the documentation"
   },
   "settingsEyebrow": {
     "message": "Keyboard shortcuts",
@@ -342,5 +342,61 @@
   "btnClose": {
     "message": "Close",
     "description": "Button that closes the shortcut settings page"
+  },
+  "popupIntro": {
+    "message": "What appears in fullscreen, and how it behaves.",
+    "description": "Intro text under the popup title"
+  },
+  "popupSectionDisplay": {
+    "message": "Display",
+    "description": "Popup section heading for display content settings"
+  },
+  "popupSectionBehavior": {
+    "message": "Behavior",
+    "description": "Popup section heading for behavior settings"
+  },
+  "popupSectionGeneral": {
+    "message": "General",
+    "description": "Popup section heading for general settings"
+  },
+  "descShowWhenVideoFullscreen": {
+    "message": "Playback time and the clock over fullscreen video.",
+    "description": "Description of the video overlay toggle"
+  },
+  "descShowOnFullscreen": {
+    "message": "Shows the clock in browser fullscreen or in fullscreen on page content without a video. Embedded/iframe players are handled inside the frame; a non-video embed may not show a clock. It never stacks with the video overlay.",
+    "description": "Description of the non-video fullscreen overlay toggle"
+  },
+  "descShowSeconds": {
+    "message": "Include seconds in the system clock.",
+    "description": "Description of the show seconds toggle"
+  },
+  "descShowProgress": {
+    "message": "Show current time and duration in the video overlay.",
+    "description": "Description of the playback progress toggle"
+  },
+  "descAutoHide": {
+    "message": "Fade both overlays after 3 seconds of inactivity.",
+    "description": "Description of the auto-hide toggle"
+  },
+  "descLayout": {
+    "message": "Snap pins the clock to the top center; float remembers where you drag it.",
+    "description": "Description of the layout mode options"
+  },
+  "descLanguage": {
+    "message": "Applies to the popup, overlay, and help pages.",
+    "description": "Description of the language selector"
+  },
+  "btnResetFloatPosition": {
+    "message": "Reset float position",
+    "description": "Button that clears saved floating overlay positions"
+  },
+  "statusFloatPositionReset": {
+    "message": "Float position reset.",
+    "description": "Confirmation shown after resetting the floating overlay position"
+  },
+  "dismissHint": {
+    "message": "Clock hidden. Exit fullscreen to restore.",
+    "description": "Transient toast shown after the user hides the overlay"
   }
 }

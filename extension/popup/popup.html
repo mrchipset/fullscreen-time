@@ -1,146 +1,162 @@
 <!DOCTYPE html>
-<html>
+<html lang="en" class="i18n-pending">
 <head>
   <meta charset="UTF-8">
-  <style>
-    body {
-      width: 300px;
-      padding: 15px;
-      font-family: Arial, sans-serif;
-      background-color: #f5f5f5;
-    }
-    .container {
-      background-color: white;
-      border-radius: 8px;
-      padding: 15px;
-      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-    }
-    h1 {
-      margin: 0 0 15px 0;
-      font-size: 18px;
-      color: #333;
-    }
-    .setting-item {
-      display: flex;
-      align-items: center;
-      margin-bottom: 12px;
-    }
-    .setting-item input[type="checkbox"] {
-      width: 18px;
-      height: 18px;
-      margin-right: 10px;
-      cursor: pointer;
-    }
-    .setting-item label {
-      cursor: pointer;
-      font-size: 14px;
-      color: #333;
-      margin: 0;
-    }
-    .setting-item label:hover {
-      color: #0066cc;
-    }
-    .section-label {
-      font-size: 14px;
-      color: #333;
-      margin: 8px 0 6px 0;
-      font-weight: bold;
-    }
-    .radio-group {
-      padding-left: 10px;
-      margin-bottom: 12px;
-    }
-    .radio-item {
-      display: flex;
-      align-items: center;
-      margin-bottom: 6px;
-    }
-    .radio-item input[type="radio"] {
-      width: 16px;
-      height: 16px;
-      margin-right: 8px;
-      cursor: pointer;
-    }
-    .radio-item label {
-      cursor: pointer;
-      font-size: 13px;
-      color: #555;
-    }
-    .doc-button {
-      width: 100%;
-      margin-top: 15px;
-      padding: 8px 12px;
-      background-color: #0066cc;
-      color: white;
-      border: none;
-      border-radius: 5px;
-      cursor: pointer;
-      font-size: 14px;
-    }
-    .doc-button:hover {
-      background-color: #0052a3;
-    }
-    .divider {
-      height: 1px;
-      background: #eee;
-      margin: 12px 0;
-    }
-  </style>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title data-i18n="popupTitle">Fullscreen Time Settings</title>
+  <link rel="stylesheet" href="../shared/ui.css">
 </head>
-<body>
-  <div class="container">
-    <h1 data-i18n="popupTitle"></h1>
-    
-    <div class="setting-item">
-      <input type="checkbox" id="showWhenVideoFullscreen" checked>
-      <label for="showWhenVideoFullscreen" data-i18n="labelShowWhenVideoFullscreen"></label>
-    </div>
-    
-    <div class="setting-item">
-      <input type="checkbox" id="showOnFullscreen" checked>
-      <label for="showOnFullscreen" data-i18n="labelShowOnFullscreen"></label>
-    </div>
-
-    <div class="setting-item">
-      <input type="checkbox" id="showSeconds" checked>
-      <label for="showSeconds" data-i18n="labelShowSeconds"></label>
-    </div>
-
-    <div class="setting-item">
-      <input type="checkbox" id="showProgress" checked>
-      <label for="showProgress" data-i18n="labelShowProgress"></label>
-    </div>
-
-    <div class="setting-item">
-      <input type="checkbox" id="autoHide">
-      <label for="autoHide" data-i18n="labelAutoHide"></label>
-    </div>
-
-    <div class="section-label" data-i18n="labelLayoutSection"></div>
-    <div class="radio-group">
-      <div class="radio-item">
-        <input type="radio" name="layoutMode" id="layoutSnap" value="snap" checked>
-        <label for="layoutSnap" data-i18n="labelLayoutSnap"></label>
+<body class="popup-body">
+  <main class="popup-shell">
+    <header class="popup-header">
+      <span class="popup-mark" aria-hidden="true">FT</span>
+      <div class="popup-heading">
+        <h1 class="popup-title" data-i18n="popupTitle">Fullscreen Time Settings</h1>
+        <p class="popup-intro" data-i18n="popupIntro">What appears in fullscreen, and how it behaves.</p>
       </div>
-      <div class="radio-item">
-        <input type="radio" name="layoutMode" id="layoutFloat" value="float">
-        <label for="layoutFloat" data-i18n="labelLayoutFloat"></label>
+    </header>
+
+    <section class="popup-section" aria-labelledby="displayHeading">
+      <h2 class="popup-section-title" id="displayHeading" data-i18n="popupSectionDisplay">Display</h2>
+
+      <div class="setting-list">
+        <div class="setting-row">
+          <div class="setting-copy">
+            <label class="setting-label" for="showWhenVideoFullscreen" data-i18n="labelShowWhenVideoFullscreen">Video overlay</label>
+            <p class="setting-description" id="descShowWhenVideoFullscreen" data-i18n="descShowWhenVideoFullscreen">
+              Playback time and the clock over fullscreen video.
+            </p>
+          </div>
+          <input
+            class="switch-input"
+            type="checkbox"
+            id="showWhenVideoFullscreen"
+            checked
+            aria-describedby="descShowWhenVideoFullscreen"
+          >
+        </div>
+
+        <div class="setting-row">
+          <div class="setting-copy">
+            <label class="setting-label" for="showOnFullscreen" data-i18n="labelShowOnFullscreen">Browser / other fullscreen overlay</label>
+            <p class="setting-description" id="descShowOnFullscreen" data-i18n="descShowOnFullscreen">
+              Shows the clock in browser fullscreen or in fullscreen on page content without a video. Embedded/iframe players are handled inside the frame; a non-video embed may not show a clock. It never stacks with the video overlay.
+            </p>
+          </div>
+          <input
+            class="switch-input"
+            type="checkbox"
+            id="showOnFullscreen"
+            checked
+            aria-describedby="descShowOnFullscreen"
+          >
+        </div>
+
+        <div class="setting-row">
+          <div class="setting-copy">
+            <label class="setting-label" for="showSeconds" data-i18n="labelShowSeconds">Show seconds</label>
+            <p class="setting-description" id="descShowSeconds" data-i18n="descShowSeconds">
+              Include seconds in the system clock.
+            </p>
+          </div>
+          <input
+            class="switch-input"
+            type="checkbox"
+            id="showSeconds"
+            checked
+            aria-describedby="descShowSeconds"
+          >
+        </div>
+
+        <div class="setting-row">
+          <div class="setting-copy">
+            <label class="setting-label" for="showProgress" data-i18n="labelShowProgress">Show playback progress</label>
+            <p class="setting-description" id="descShowProgress" data-i18n="descShowProgress">
+              Show current time and duration in the video overlay.
+            </p>
+          </div>
+          <input
+            class="switch-input"
+            type="checkbox"
+            id="showProgress"
+            checked
+            aria-describedby="descShowProgress"
+          >
+        </div>
       </div>
-    </div>
+    </section>
 
-    <div class="divider"></div>
-    <div class="setting-item">
-      <label data-i18n="labelLanguage"></label>
-      <select id="langSelector" style="margin-left:auto;padding:4px 8px;border:1px solid #ccc;border-radius:4px;font-size:13px;">
-        <option value="en" data-i18n="langEn"></option>
-        <option value="zh_CN" data-i18n="langZhCn"></option>
-      </select>
-    </div>
+    <section class="popup-section" aria-labelledby="behaviorHeading">
+      <h2 class="popup-section-title" id="behaviorHeading" data-i18n="popupSectionBehavior">Behavior</h2>
 
-    <button class="doc-button" id="openSettingsButton" style="margin-top:0;" data-i18n="btnShortcutSettings"></button>
-    <button class="doc-button" id="openDocButton" data-i18n="btnDoc"></button>
-    <button class="doc-button" id="openPrivacyButton" data-i18n="btnPrivacy"></button>
-  </div>
+      <div class="setting-list">
+        <div class="setting-row">
+          <div class="setting-copy">
+            <label class="setting-label" for="autoHide" data-i18n="labelAutoHide">Auto-hide when idle</label>
+            <p class="setting-description" id="descAutoHide" data-i18n="descAutoHide">
+              Fade both overlays after 3 seconds of inactivity.
+            </p>
+          </div>
+          <input
+            class="switch-input"
+            type="checkbox"
+            id="autoHide"
+            aria-describedby="descAutoHide"
+          >
+        </div>
+      </div>
+
+      <fieldset class="layout-fieldset">
+        <legend class="layout-legend" data-i18n="labelLayoutSection">Layout</legend>
+        <p class="setting-description" id="descLayout" data-i18n="descLayout">
+          Snap pins the clock to the top center; float remembers where you drag it.
+        </p>
+        <div class="layout-options">
+          <label class="layout-option">
+            <input type="radio" name="layoutMode" id="layoutSnap" value="snap" checked aria-describedby="descLayout">
+            <span class="layout-option-label" data-i18n="labelLayoutSnap">Snap to top center</span>
+          </label>
+          <label class="layout-option">
+            <input type="radio" name="layoutMode" id="layoutFloat" value="float" aria-describedby="descLayout">
+            <span class="layout-option-label" data-i18n="labelLayoutFloat">Float (drag to move)</span>
+          </label>
+        </div>
+      </fieldset>
+
+      <div class="popup-inline-action">
+        <button class="text-link" id="resetFloatButton" type="button" data-i18n="btnResetFloatPosition">Reset float position</button>
+        <p class="popup-status" id="resetFloatStatus" role="status" aria-live="polite"></p>
+      </div>
+    </section>
+
+    <section class="popup-section" aria-labelledby="generalHeading">
+      <h2 class="popup-section-title" id="generalHeading" data-i18n="popupSectionGeneral">General</h2>
+
+      <div class="setting-row setting-row--select">
+        <div class="setting-copy">
+          <label class="setting-label" for="langSelector" data-i18n="labelLanguage">Language</label>
+          <p class="setting-description" id="descLanguage" data-i18n="descLanguage">
+            Applies to the popup, overlay, and help pages.
+          </p>
+        </div>
+        <select class="ui-select" id="langSelector" aria-describedby="descLanguage">
+          <option value="en" data-i18n="langEn">English</option>
+          <option value="zh_CN" data-i18n="langZhCn">中文</option>
+        </select>
+      </div>
+    </section>
+
+    <footer class="popup-footer">
+      <button class="ui-button ui-button--primary popup-primary" id="openSettingsButton" type="button" data-i18n="btnShortcutSettings">
+        Shortcut Settings
+      </button>
+      <div class="popup-links">
+        <button class="text-link" id="openDocButton" type="button" data-i18n="btnDoc">Help</button>
+        <span class="popup-links-separator" aria-hidden="true"></span>
+        <button class="text-link" id="openPrivacyButton" type="button" data-i18n="btnPrivacy">Privacy</button>
+      </div>
+    </footer>
+  </main>
 
   <script src="../shared/i18n.js"></script>
   <script src="popup.js"></script>

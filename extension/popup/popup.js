@@ -7,14 +7,38 @@ const autoHideCheckbox = document.getElementById('autoHide');
 const layoutSnapRadio = document.getElementById('layoutSnap');
 const layoutFloatRadio = document.getElementById('layoutFloat');
 const langSelector = document.getElementById('langSelector');
+const resetFloatButton = document.getElementById('resetFloatButton');
+const resetFloatStatus = document.getElementById('resetFloatStatus');
+
+let resetStatusTimer = null;
+
+function clearResetStatusTimer() {
+  if (resetStatusTimer) {
+    clearTimeout(resetStatusTimer);
+    resetStatusTimer = null;
+  }
+}
+
+function showResetStatus(messageKey) {
+  clearResetStatusTimer();
+  resetFloatStatus.textContent = i18n.t(messageKey);
+  resetStatusTimer = setTimeout(() => {
+    resetFloatStatus.textContent = '';
+    resetStatusTimer = null;
+  }, 3000);
+}
 
 // 页面加载时
 document.addEventListener('DOMContentLoaded', () => {
   // 初始化自定义 i18n（异步加载翻译）
-  i18n.init().then(() => {
-    // 设置语言选择器的值为当前语言
-    langSelector.value = i18n.getCurrentLang();
-  });
+  i18n.init()
+    .then(() => {
+      langSelector.value = i18n.getCurrentLang();
+      document.documentElement.lang = i18n.getCurrentLang() === 'zh_CN' ? 'zh-CN' : 'en';
+    })
+    .finally(() => {
+      document.documentElement.classList.remove('i18n-pending');
+    });
 
   chrome.storage.sync.get(
     {
@@ -42,7 +66,11 @@ document.addEventListener('DOMContentLoaded', () => {
 
 // 语言切换
 langSelector.addEventListener('change', (e) => {
-  i18n.switchLang(e.target.value);
+  i18n.switchLang(e.target.value).then(() => {
+    document.documentElement.lang = e.target.value === 'zh_CN' ? 'zh-CN' : 'en';
+  });
+  clearResetStatusTimer();
+  resetFloatStatus.textContent = '';
 });
 
 // 监听checkbox变化
@@ -83,6 +111,16 @@ layoutFloatRadio.addEventListener('change', () => {
     chrome.storage.sync.set({ layoutMode: 'float' });
     console.log(i18n.t('msgLayoutFloated'));
   }
+});
+
+// 重置浮动位置
+resetFloatButton.addEventListener('click', () => {
+  chrome.storage.sync.remove(
+    ['floatPositionVideo', 'floatPositionWindow', 'floatPosition'],
+    () => {
+      showResetStatus('statusFloatPositionReset');
+    }
+  );
 });
 
 // 打开设置页面

@@ -12,12 +12,12 @@
     "description": "Title of the popup settings panel"
   },
   "labelShowWhenVideoFullscreen": {
-    "message": "在视频中显示时间",
-    "description": "Popup checkbox label"
+    "message": "视频浮层",
+    "description": "Popup toggle label for the video overlay"
   },
   "labelShowOnFullscreen": {
-    "message": "在全屏时显示",
-    "description": "Popup checkbox label"
+    "message": "浏览器或其他无视频全屏浮层",
+    "description": "Popup toggle label for non-video fullscreen overlays"
   },
   "labelShowSeconds": {
     "message": "显示秒数",
@@ -25,18 +25,18 @@
   },
   "labelShowProgress": {
     "message": "显示播放进度",
-    "description": "Popup checkbox label"
+    "description": "Popup toggle label for playback progress"
   },
   "labelAutoHide": {
-    "message": "空闲自动隐藏（3秒）",
-    "description": "Popup checkbox label"
+    "message": "空闲时自动隐藏",
+    "description": "Popup toggle label for auto-hide"
   },
   "labelLayoutSection": {
-    "message": "布局模式",
-    "description": "Popup section header for layout mode"
+    "message": "布局",
+    "description": "Popup legend for the layout options"
   },
   "labelLayoutSnap": {
-    "message": "磁吸（固定位置）",
+    "message": "固定在顶部中央",
     "description": "Popup radio button label for snap layout"
   },
   "labelLayoutFloat": {
@@ -108,7 +108,7 @@
     "description": "Documentation section heading for features"
   },
   "docFeaturePara": {
-    "message": "这是一个浏览器扩展，用于在视频全屏时显示当前播放时间和系统时间。",
+    "message": "一个在视频或浏览器全屏时显示播放时间和系统时间的浏览器扩展。",
     "description": "Documentation paragraph describing the extension"
   },
   "docFeatureItem1": {
@@ -116,7 +116,7 @@
     "description": "Documentation feature list item"
   },
   "docFeatureItem2": {
-    "message": "在视频全屏时显示时间信息",
+    "message": "在视频全屏时显示播放时间与时钟",
     "description": "Documentation feature list item"
   },
   "docFeatureItem3": {
@@ -140,7 +140,7 @@
     "description": "Documentation usage step"
   },
   "docHowToStep3": {
-    "message": "时间信息会自动显示在屏幕顶部中央",
+    "message": "时钟默认显示在屏幕顶部中央",
     "description": "Documentation usage step"
   },
   "docHowToStep4": {
@@ -152,12 +152,12 @@
     "description": "Documentation section heading for settings"
   },
   "docSettingShowVideo": {
-    "message": "<strong>在视频中显示时间：</strong> 控制是否启用时间显示功能",
-    "description": "Documentation description of show-on-video setting"
+    "message": "<strong>视频浮层：</strong> 在视频全屏时显示播放时间与时钟。",
+    "description": "Documentation description of the video overlay setting"
   },
   "docSettingShowFullscreen": {
-    "message": "<strong>在全屏时显示：</strong> 控制是否只在全屏时显示时间",
-    "description": "Documentation description of show-on-fullscreen setting"
+    "message": "<strong>浏览器或其他无视频全屏浮层：</strong> 在浏览器全屏，或不含视频的页面内容全屏中显示时钟。嵌入式/iframe 播放器由子框架处理，非视频嵌入内容可能不显示时钟；不会与视频浮层叠加。",
+    "description": "Documentation description of the non-video fullscreen overlay setting"
   },
   "docTip": {
     "message": "<strong>\ud83d\udca1 提示：</strong> 如果时间显示没有出现，请尝试刷新页面或重新加载扩展。",
@@ -236,8 +236,8 @@
     "description": "Console log when overlay is dismissed"
   },
   "closeBtnTitle": {
-    "message": "关闭",
-    "description": "Tooltip/title for the close button on the widget"
+    "message": "隐藏时钟",
+    "description": "Tooltip and accessible label for the close button on the overlay"
   },
   "langEn": {
     "message": "English",
@@ -256,12 +256,12 @@
     "description": "Privacy policy section title in documentation page"
   },
   "docPrivacyPara": {
-    "message": "Fullscreen Time 不会收集、存储或传输任何个人数据。该扩展仅在您进入全屏模式时读取视频元素信息以显示播放时间。所有设置均通过 Chrome Storage API 本地存储。不会向任何服务器发送数据。",
+    "message": "Fullscreen Time 将设置存储在 Chrome 同步中，因此可能会在登录同一 Chrome 账户的设备之间同步。本扩展不会向开发者发送数据：没有开发者服务器，也没有分析统计。仅在您进入全屏模式时读取视频信息以显示播放时间。",
     "description": "Privacy policy paragraph in documentation page"
   },
   "btnPrivacy": {
-    "message": "隐私政策",
-    "description": "Popup button to open privacy section in documentation"
+    "message": "隐私",
+    "description": "Popup link to open the privacy section in the documentation"
   },
   "settingsEyebrow": {
     "message": "键盘快捷键",
@@ -342,5 +342,61 @@
   "btnClose": {
     "message": "关闭",
     "description": "Button that closes the shortcut settings page"
+  },
+  "popupIntro": {
+    "message": "设置全屏时显示的内容与行为。",
+    "description": "Intro text under the popup title"
+  },
+  "popupSectionDisplay": {
+    "message": "显示内容",
+    "description": "Popup section heading for display content settings"
+  },
+  "popupSectionBehavior": {
+    "message": "行为",
+    "description": "Popup section heading for behavior settings"
+  },
+  "popupSectionGeneral": {
+    "message": "通用",
+    "description": "Popup section heading for general settings"
+  },
+  "descShowWhenVideoFullscreen": {
+    "message": "在视频全屏时显示播放时间与时钟。",
+    "description": "Description of the video overlay toggle"
+  },
+  "descShowOnFullscreen": {
+    "message": "在浏览器全屏，或不含视频的页面内容全屏中显示时钟。嵌入式/iframe 播放器由子框架处理，非视频嵌入内容可能不显示时钟；不会与视频浮层叠加。",
+    "description": "Description of the non-video fullscreen overlay toggle"
+  },
+  "descShowSeconds": {
+    "message": "在系统时钟中显示秒数。",
+    "description": "Description of the show seconds toggle"
+  },
+  "descShowProgress": {
+    "message": "在视频浮层中显示当前播放时间与总时长。",
+    "description": "Description of the playback progress toggle"
+  },
+  "descAutoHide": {
+    "message": "两种浮层在空闲 3 秒后自动淡出。",
+    "description": "Description of the auto-hide toggle"
+  },
+  "descLayout": {
+    "message": "固定模式将时钟固定在顶部中央；浮动模式会记住拖动位置。",
+    "description": "Description of the layout mode options"
+  },
+  "descLanguage": {
+    "message": "应用于弹窗、浮层和帮助页面。",
+    "description": "Description of the language selector"
+  },
+  "btnResetFloatPosition": {
+    "message": "重置浮动位置",
+    "description": "Button that clears saved floating overlay positions"
+  },
+  "statusFloatPositionReset": {
+    "message": "浮动位置已重置。",
+    "description": "Confirmation shown after resetting the floating overlay position"
+  },
+  "dismissHint": {
+    "message": "时钟已隐藏，退出全屏后恢复。",
+    "description": "Transient toast shown after the user hides the overlay"
   }
 }

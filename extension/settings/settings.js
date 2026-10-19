@@ -355,6 +355,23 @@ function loadBindings() {
   });
 }
 
+function setupLanguageListener() {
+  document.addEventListener('fs-time-lang-change', () => {
+    // Keep the active recorder state intact; only refresh translated text.
+    const recordingKey = activeRecorder;
+
+    Object.keys(ACTIONS).forEach(renderRow);
+
+    if (recordingKey) {
+      setStatus('statusRecording', {
+        label: getActionLabel(recordingKey)
+      }, 'neutral');
+    } else {
+      setStatus('statusReady');
+    }
+  });
+}
+
 function setupStorageListener() {
   chrome.storage.onChanged.addListener((changes, areaName) => {
     if (areaName !== 'sync') return;
@@ -421,6 +438,7 @@ async function init() {
   await loadBindings();
   bindEvents();
   setupStorageListener();
+  setupLanguageListener();
   setStatus('statusReady');
 }
 
