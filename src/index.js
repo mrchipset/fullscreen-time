@@ -6,6 +6,12 @@ import {
   FULLSCREEN_EVENTS
 } from './widgets';
 import { t, init, reloadFromStorage } from './i18n';
+import {
+  DEFAULT_KEY_TOGGLE_LAYOUT,
+  DEFAULT_KEY_TOGGLE_VISIBILITY,
+  buildKeyString,
+  isEditableTarget
+} from './shortcutKeys';
 
 const IS_TOP_FRAME = window.top === window;
 const MAX_SCAN_RETRIES = 5;
@@ -33,6 +39,28 @@ const DEFAULT_SETTINGS = {
 };
 
 const settings = Object.assign({}, DEFAULT_SETTINGS);
+
+// Shortcut bindings are cached so the keydown path stays synchronous.
+const shortcutKeys = {
+  keyToggleLayout: DEFAULT_KEY_TOGGLE_LAYOUT,
+  keyToggleVisibility: DEFAULT_KEY_TOGGLE_VISIBILITY
+};
+
+function normalizeStoredShortcut(value) {
+  // Normalize legacy Space bindings to the canonical "Space" name.
+  // Bare " " => "Space"; "Ctrl+ " => "Ctrl+Space".
+  if (value === ' ') return 'Space';
+  if (value.endsWith('+ ')) return `${value.slice(0, -1)}Space`;
+  return value;
+}
+
+function readStoredShortcut(value, fallback) {
+  // Missing/non-string => default; empty string => explicitly disabled;
+  // any other string => binding (normalized if needed).
+  if (typeof value !== 'string') return fallback;
+  if (value === '') return '';
+  return normalizeStoredShortcut(value);
+}
 
 const SETTING_KEYS = [
   'showWhenVideoFullscreen',
@@ -84,9 +112,38 @@ function distributeSettings() {
 
 function loadSettings() {
   chrome.storage.sync.get(
-    Object.assign({ floatPosition: null }, DEFAULT_SETTINGS),
+    Object.assign({
+      floatPosition: null,
+      keyToggleLayout: DEFAULT_KEY_TOGGLE_LAYOUT,
+      keyToggleVisibility: DEFAULT_KEY_TOGGLE_VISIBILITY
+    }, DEFAULT_SETTINGS),
     (items) => {
       const legacy = items.floatPosition;
+
+      const normalizedLayout = readStoredShortcut(
+        items.keyToggleLayout,
+        DEFAULT_KEY_TOGGLE_LAYOUT
+      );
+      const normalizedVisibility = readStoredShortcut(
+        items.keyToggleVisibility,
+        DEFAULT_KEY_TOGGLE_VISIBILITY
+      );
+
+      shortcutKeys.keyToggleLayout = normalizedLayout;
+      shortcutKeys.keyToggleVisibility = normalizedVisibility;
+
+      // One-time normalization migration for legacy Space bindings (or other
+      // corrected values). Normalization is idempotent, so this cannot loop.
+      const shortcutUpdates = {};
+      if (normalizedLayout !== items.keyToggleLayout) {
+        shortcutUpdates.keyToggleLayout = normalizedLayout;
+      }
+      if (normalizedVisibility !== items.keyToggleVisibility) {
+        shortcutUpdates.keyToggleVisibility = normalizedVisibility;
+      }
+      if (Object.keys(shortcutUpdates).length > 0) {
+        chrome.storage.sync.set(shortcutUpdates);
+      }
 
       settings.showWhenVideoFullscreen = items.showWhenVideoFullscreen !== false;
       settings.showOnFullscreen = items.showOnFullscreen !== false;
@@ -139,6 +196,19 @@ function handleStorageChanged(changes, namespace) {
       changed = true;
     }
   });
+
+  if (Object.prototype.hasOwnProperty.call(changes, 'keyToggleLayout')) {
+    shortcutKeys.keyToggleLayout = readStoredShortcut(
+      changes.keyToggleLayout.newValue,
+      DEFAULT_KEY_TOGGLE_LAYOUT
+    );
+  }
+  if (Object.prototype.hasOwnProperty.call(changes, 'keyToggleVisibility')) {
+    shortcutKeys.keyToggleVisibility = readStoredShortcut(
+      changes.keyToggleVisibility.newValue,
+      DEFAULT_KEY_TOGGLE_VISIBILITY
+    );
+  }
 
   const languageChanged = Object.prototype.hasOwnProperty.call(changes, 'language');
 
@@ -323,16 +393,6 @@ window.addEventListener('orientationchange', handleResize);
 // 被快捷键临时改动的设置，退出全屏时恢复原值
 const _tempOverrides = {};
 
-function buildKeyString(e) {
-  const parts = [];
-  if (e.ctrlKey) parts.push('Ctrl');
-  if (e.altKey) parts.push('Alt');
-  if (e.shiftKey) parts.push('Shift');
-  if (e.key === 'Control' || e.key === 'Alt' || e.key === 'Shift' || e.key === 'Meta') return null;
-  parts.push(e.key);
-  return parts.join('+');
-}
-
 // 将某个设置值应用到所有 widget 实例（不写 storage）
 function applySettingToWidgets(settingKey, value) {
   if (!Object.prototype.hasOwnProperty.call(settings, settingKey)) return;
@@ -382,43 +442,44 @@ function handleDismiss(e) {
 document.addEventListener('fs-time-dismiss', handleDismiss);
 
 function handleKeydown(e) {
+  // Reserved browser key / key-repeat / IME composition.
+  if (e.key === 'Escape' || e.repeat || e.isComposing) return;
+
+  // Never steal keys while the user is typing.
+  if (isEditableTarget(e.target)) return;
+
   const isFs = getFullscreenElement() || checkIsBrowserFullscreen();
   if (!isFs) return;
-
-  // ESC 有浏览器退出全屏的默认行为，不应进入快捷键逻辑
-  if (e.key === 'Escape') return;
 
   const pressed = buildKeyString(e);
   if (!pressed) return;
 
-  chrome.storage.sync.get(
-    ['keyToggleLayout', 'keyToggleVisibility'],
-    (items) => {
-      if (pressed === items.keyToggleLayout) {
-        e.preventDefault();
-        e.stopPropagation();
-        // 从集中设置读取当前布局模式（storage 未被 shortcut 写过）
-        const currentMode = settings.layoutMode;
-        const newMode = currentMode === 'float' ? 'snap' : 'float';
-        tempToggle('layoutMode', newMode, currentMode);
-        logTop(`[${t('msgLayoutToggle')}] ${newMode === 'float' ? t('msgFloat') : t('msgSnap')}`);
-      }
+  // Synchronous cache check: no async storage read in the keydown path.
+  if (pressed === shortcutKeys.keyToggleLayout) {
+    e.preventDefault();
+    e.stopPropagation();
+    // 从集中设置读取当前布局模式（storage 未被 shortcut 写过）
+    const currentMode = settings.layoutMode;
+    const newMode = currentMode === 'float' ? 'snap' : 'float';
+    tempToggle('layoutMode', newMode, currentMode);
+    logTop(`[${t('msgLayoutToggle')}] ${newMode === 'float' ? t('msgFloat') : t('msgSnap')}`);
+    return;
+  }
 
-      if (pressed === items.keyToggleVisibility) {
-        e.preventDefault();
-        e.stopPropagation();
-        const inVideoFs = !!getFullscreenElement();
-        const settingKey = inVideoFs ? 'showWhenVideoFullscreen' : 'showOnFullscreen';
-        // 从集中设置读取当前状态（storage 从未被 shortcut 写过）
-        const currentVal = settings[settingKey];
-        tempToggle(settingKey, !currentVal, currentVal);
-        logTop(t(!currentVal ? 'msgVisibilityOn' : 'msgVisibilityOff'));
-      }
-    }
-  );
+  if (pressed === shortcutKeys.keyToggleVisibility) {
+    e.preventDefault();
+    e.stopPropagation();
+    const inVideoFs = !!getFullscreenElement();
+    const settingKey = inVideoFs ? 'showWhenVideoFullscreen' : 'showOnFullscreen';
+    // 从集中设置读取当前状态（storage 从未被 shortcut 写过）
+    const currentVal = settings[settingKey];
+    tempToggle(settingKey, !currentVal, currentVal);
+    logTop(t(!currentVal ? 'msgVisibilityOn' : 'msgVisibilityOff'));
+  }
 }
 
-document.addEventListener('keydown', handleKeydown);
+// Capture phase so page handlers cannot swallow the shortcut first.
+document.addEventListener('keydown', handleKeydown, true);
 
 // --- teardown ------------------------------------------------------------
 
@@ -435,7 +496,7 @@ function teardown() {
   window.removeEventListener('resize', checkFullscreenExit);
 
   chrome.storage.onChanged.removeListener(handleStorageChanged);
-  document.removeEventListener('keydown', handleKeydown);
+  document.removeEventListener('keydown', handleKeydown, true);
   document.removeEventListener('fs-time-dismiss', handleDismiss);
 
   trackedVideos.forEach((video) => {
