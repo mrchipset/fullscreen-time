@@ -1,4 +1,4 @@
-# Chrome Web Store Listing (English)
+﻿# Chrome Web Store Listing (English)
 
 ## Name
 
@@ -59,9 +59,9 @@ English, Chinese (Simplified)
 
 ## Store screenshots (1280×800)
 
-1. `store/screenshots/01-overlay.png` — video fullscreen overlay
-2. `store/screenshots/02-popup.png` — popup settings
-3. `store/screenshots/03-settings.png` — shortcut settings
+1. `store/screenshots/en/01-overlay.png` — video fullscreen overlay
+2. `store/screenshots/en/02-popup.png` — popup settings
+3. `store/screenshots/en/03-settings.png` — shortcut settings
 
 ## Support URL
 

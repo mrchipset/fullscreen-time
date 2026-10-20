@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="assets/banner.png" alt="Fullscreen Time — playback progress and clock overlay" width="100%">
+  <img src="assets/banner-en.png" alt="Fullscreen Time — playback progress and clock overlay" width="100%">
 </p>
 
 <p align="center">
@@ -32,7 +32,7 @@ A Chrome / Edge extension (Manifest V3) that overlays playback progress and the 
 
 | Video fullscreen | Popup settings | Shortcut settings |
 | --- | --- | --- |
-| <img src="store/screenshots/01-overlay.png" width="320" alt="Video fullscreen overlay"> | <img src="store/screenshots/02-popup.png" width="320" alt="Popup settings"> | <img src="store/screenshots/03-settings.png" width="320" alt="Shortcut settings"> |
+| <img src="store/screenshots/en/01-overlay.png" width="320" alt="Video fullscreen overlay"> | <img src="store/screenshots/en/02-popup.png" width="320" alt="Popup settings"> | <img src="store/screenshots/en/03-settings.png" width="320" alt="Shortcut settings"> |
 
 ## Install
 

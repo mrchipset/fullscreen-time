@@ -1,0 +1,303 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Fullscreen Time — Shortcut settings</title>
+<style>
+  * { box-sizing: border-box; }
+
+  :root {
+    --bg-0: #070d18;
+    --bg-1: #0a1424;
+    --ink: #f7faff;
+    --ink-2: #b8c9e2;
+    --ink-3: #95a8c3;
+    --accent: #6f97ff;
+    --accent-soft: #a9c4ff;
+  }
+
+  html, body { margin: 0; width: 1280px; height: 800px; overflow: hidden; }
+
+  body {
+    font-family: "Segoe UI Variable Display", "Segoe UI", "Microsoft YaHei UI", "Helvetica Neue", system-ui, sans-serif;
+    color: var(--ink);
+    background:
+      radial-gradient(760px 600px at 15% 14%, rgba(44, 85, 190, 0.25), transparent 64%),
+      radial-gradient(820px 660px at 88% 86%, rgba(62, 106, 255, 0.16), transparent 66%),
+      linear-gradient(145deg, var(--bg-1) 0%, #08111e 60%, var(--bg-0) 100%);
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+  }
+
+  .stage { position: relative; width: 1280px; height: 800px; overflow: hidden; isolation: isolate; }
+
+  .stage::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+    background-image:
+      linear-gradient(rgba(255, 255, 255, 0.035) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(255, 255, 255, 0.035) 1px, transparent 1px);
+    background-size: 56px 56px;
+    -webkit-mask-image: linear-gradient(180deg, rgba(0, 0, 0, 0.65), transparent 64%);
+    mask-image: linear-gradient(180deg, rgba(0, 0, 0, 0.65), transparent 64%);
+    pointer-events: none;
+  }
+
+  .stage::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+    background: radial-gradient(122% 122% at 50% 44%, transparent 56%, rgba(3, 7, 15, 0.4) 100%);
+    pointer-events: none;
+  }
+
+  /* ---------- Brand ---------- */
+
+  .brand {
+    position: absolute;
+    top: 44px;
+    left: 72px;
+    z-index: 2;
+    display: flex;
+    align-items: center;
+    gap: 13px;
+  }
+
+  .mark {
+    display: grid;
+    place-items: center;
+    width: 42px;
+    height: 42px;
+    border-radius: 13px;
+    background: linear-gradient(160deg, #fdfefe 0%, #e8effc 100%);
+    border: 1px solid rgba(255, 255, 255, 0.78);
+    box-shadow:
+      0 12px 28px rgba(2, 8, 22, 0.4),
+      inset 0 1px 0 rgba(255, 255, 255, 0.95);
+  }
+
+  .mark img { display: block; width: 26px; height: 26px; }
+
+  .brand-name { font-size: 17px; font-weight: 700; letter-spacing: 0.01em; }
+
+  /* ---------- Copy ---------- */
+
+  .copy {
+    position: absolute;
+    top: 150px;
+    left: 72px;
+    z-index: 2;
+    width: 560px;
+  }
+
+  .eyebrow {
+    display: inline-flex;
+    align-items: center;
+    gap: 9px;
+    margin: 0 0 20px;
+    padding: 7px 12px;
+    border: 1px solid rgba(126, 162, 255, 0.28);
+    border-radius: 999px;
+    background: rgba(22, 44, 84, 0.5);
+    color: var(--accent-soft);
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    white-space: nowrap;
+  }
+
+  .eyebrow::before {
+    content: "";
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: var(--accent);
+    box-shadow: 0 0 0 4px rgba(111, 151, 255, 0.12);
+  }
+
+  h1 {
+    margin: 0;
+    font-size: 62px;
+    line-height: 1.06;
+    font-weight: 700;
+    letter-spacing: -0.045em;
+    background: linear-gradient(180deg, #ffffff 20%, #cadbf9 100%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+  }
+
+  .lead {
+    margin: 20px 0 0;
+    max-width: 560px;
+    color: var(--ink-2);
+    font-size: 17.5px;
+    line-height: 1.65;
+    letter-spacing: 0.005em;
+  }
+
+  .bullets { display: grid; gap: 15px; margin-top: 32px; }
+
+  .bullet {
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+    padding-left: 2px;
+  }
+
+  .bullet-mark {
+    flex: 0 0 auto;
+    width: 7px;
+    height: 7px;
+    margin-top: 7px;
+    border-radius: 50%;
+    background: #5d8cff;
+    box-shadow: 0 0 0 4px rgba(93, 140, 255, 0.12);
+  }
+
+  .bullet-title {
+    margin: 0;
+    color: #eef4ff;
+    font-size: 14px;
+    font-weight: 700;
+    line-height: 1.4;
+  }
+
+  .bullet-desc {
+    margin: 2px 0 0;
+    color: var(--ink-3);
+    font-size: 11.5px;
+    line-height: 1.45;
+  }
+
+  .bottom-note {
+    position: absolute;
+    left: 74px;
+    bottom: 44px;
+    z-index: 2;
+    color: #7f94b0;
+    font-size: 11.5px;
+    letter-spacing: 0.04em;
+    white-space: nowrap;
+  }
+
+  /* ---------- Settings card ---------- */
+
+  .shot-wrap {
+    position: absolute;
+    top: 75px;
+    right: 64px;
+    z-index: 2;
+    width: 500px;
+    height: 650px;
+  }
+
+  .shot-wrap::before {
+    content: "";
+    position: absolute;
+    inset: -44px -38px;
+    background: radial-gradient(52% 52% at 50% 50%, rgba(72, 118, 255, 0.2), transparent 72%);
+    filter: blur(4px);
+    pointer-events: none;
+  }
+
+  .shot-card {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    padding: 20px;
+    border: 1px solid rgba(184, 205, 255, 0.24);
+    border-radius: 26px;
+    background: linear-gradient(180deg, #f5f8fe, #eaf0fa);
+    box-shadow:
+      0 38px 92px rgba(0, 0, 0, 0.48),
+      0 12px 32px rgba(0, 0, 0, 0.26),
+      inset 0 1px 0 rgba(255, 255, 255, 0.9);
+  }
+
+  .settings-viewport {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    border-radius: 14px;
+    background: #eef4fb;
+    box-shadow: inset 0 0 0 1px rgba(21, 39, 72, 0.08);
+  }
+
+  /* Actual English settings capture, cropped to the panel and scaled to fill
+     the card. 1800px source shown at 708px CSS (0.393x); the full panel,
+     including its bottom edge, remains visible. */
+  .settings-viewport img {
+    position: absolute;
+    top: -8px;
+    left: 50%;
+    display: block;
+    width: 708px;
+    height: auto;
+    transform: translateX(-50%);
+  }
+</style>
+</head>
+<body>
+  <div class="stage">
+    <div class="brand">
+      <span class="mark" aria-hidden="true">
+        <img src="../extension/icons/icon.svg" alt="">
+      </span>
+      <span class="brand-name">Fullscreen Time</span>
+    </div>
+
+    <div class="copy">
+      <div class="eyebrow">SHORTCUT SETTINGS</div>
+      <h1>Custom shortcuts</h1>
+      <p class="lead">Keep F9 / F10 defaults, or record your own combination.</p>
+
+      <div class="bullets">
+        <div class="bullet">
+          <span class="bullet-mark"></span>
+          <div>
+            <p class="bullet-title">F9 / F10 defaults</p>
+            <p class="bullet-desc">Layout and visibility</p>
+          </div>
+        </div>
+        <div class="bullet">
+          <span class="bullet-mark"></span>
+          <div>
+            <p class="bullet-title">Conflict &amp; reserved-key checks</p>
+            <p class="bullet-desc">Clear feedback</p>
+          </div>
+        </div>
+        <div class="bullet">
+          <span class="bullet-mark"></span>
+          <div>
+            <p class="bullet-title">Esc cancel · Delete unbind</p>
+            <p class="bullet-desc">Keyboard complete</p>
+          </div>
+        </div>
+        <div class="bullet">
+          <span class="bullet-mark"></span>
+          <div>
+            <p class="bullet-title">Cross-page sync</p>
+            <p class="bullet-desc">Updates open tabs</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="bottom-note">Settings saved to Chrome Sync · Recordings persist</div>
+
+    <div class="shot-wrap">
+      <div class="shot-card">
+        <div class="settings-viewport">
+          <img src="source/settings-en.png" alt="Fullscreen Time shortcut settings page in English with F9 and F10 bindings">
+        </div>
+      </div>
+    </div>
+  </div>
+</body>
+</html>
