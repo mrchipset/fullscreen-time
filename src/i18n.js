@@ -12,6 +12,30 @@ let _initPromise = null;
 let _loadToken = 0;
 
 /**
+ * Detect the initial language from the Chrome UI language, falling back to
+ * the browser navigator locale. Any Chinese locale (zh, zh-CN, zh-TW,
+ * zh-Hans, ...) maps to zh_CN; everything else defaults to English.
+ */
+function detectDefaultLang() {
+  let uiLang = '';
+  try {
+    if (typeof chrome !== 'undefined' && chrome.i18n &&
+        typeof chrome.i18n.getUILanguage === 'function') {
+      uiLang = chrome.i18n.getUILanguage();
+    }
+  } catch (e) {
+    uiLang = '';
+  }
+
+  const raw = String(
+    uiLang || navigator.language ||
+    (navigator.languages && navigator.languages[0]) || 'en'
+  ).toLowerCase();
+
+  return raw.indexOf('zh') === 0 ? 'zh_CN' : 'en';
+}
+
+/**
  * Translate a message key.
  */
 export function t(key) {
@@ -39,9 +63,9 @@ export function init() {
   _initPromise = new Promise((resolve) => {
     chrome.storage.sync.get(STORAGE_KEY, (items) => {
       const stored = items[STORAGE_KEY];
-      const browserLang = navigator.language || 'en';
-      const mapped = browserLang.replace('-', '_');
-      const bestLang = stored || (SUPPORTED_LANGS.includes(mapped) ? mapped : 'en');
+      const bestLang = SUPPORTED_LANGS.includes(stored)
+        ? stored
+        : detectDefaultLang();
       loadLang(bestLang).then(() => resolve());
     });
   });
