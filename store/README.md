@@ -47,7 +47,10 @@ Compress-Archive -Path "extension\*" -DestinationPath "store\fullscreen-time-1.0
 
 - 商店图标：`extension/icons/icon128.png`（128×128）。
 - 截图：`store/screenshots/01-overlay.png`、`02-popup.png`、`03-settings.png`（1280×800）。
-- 如需要小型宣传图，可另做 440×280；非必须。
+- 宣传图：
+  - `store/promo/small-440x280.png`（440×280）。
+  - `store/promo/marquee-1400x560.png`（1400×560）。
+- 宣传图源文件：`store/promo/small-440x280.html`、`store/promo/marquee-1400x560.html`（以 2× 渲染后导出，便于复现）。
 - `store/source/` 只用于生成截图，不随扩展上传。
 
 ## 5. 隐私政策 URL 与 Pages workflow

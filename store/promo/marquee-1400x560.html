@@ -1,0 +1,374 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Fullscreen Time — 1400×560 promo marquee</title>
+<style>
+  * { box-sizing: border-box; }
+
+  :root {
+    --bg-0: #070d18;
+    --bg-1: #0a1424;
+    --ink: #f7faff;
+    --ink-2: #b9c9e0;
+    --ink-3: #8da3c0;
+    --accent: #6f97ff;
+    --accent-soft: #a9c4ff;
+    --line: rgba(150, 181, 255, 0.22);
+  }
+
+  html, body { margin: 0; width: 1400px; height: 560px; overflow: hidden; }
+
+  body {
+    font-family: "Segoe UI Variable Display", "Segoe UI", "Microsoft YaHei UI", "Helvetica Neue", system-ui, sans-serif;
+    color: var(--ink);
+    background:
+      radial-gradient(850px 620px at 12% 15%, rgba(44, 85, 190, 0.28), transparent 64%),
+      radial-gradient(900px 700px at 92% 78%, rgba(62, 106, 255, 0.18), transparent 66%),
+      linear-gradient(145deg, var(--bg-1) 0%, #08111e 58%, var(--bg-0) 100%);
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+  }
+
+  .stage {
+    position: relative;
+    width: 1400px;
+    height: 560px;
+    overflow: hidden;
+    isolation: isolate;
+  }
+
+  .stage::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+    background-image:
+      linear-gradient(rgba(255, 255, 255, 0.035) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(255, 255, 255, 0.035) 1px, transparent 1px);
+    background-size: 56px 56px;
+    -webkit-mask-image: linear-gradient(180deg, rgba(0, 0, 0, 0.68), transparent 66%);
+    mask-image: linear-gradient(180deg, rgba(0, 0, 0, 0.68), transparent 66%);
+    pointer-events: none;
+  }
+
+  .stage::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+    background: radial-gradient(125% 125% at 50% 44%, transparent 55%, rgba(3, 7, 15, 0.42) 100%);
+    pointer-events: none;
+  }
+
+  /* ---------- Brand and copy ---------- */
+
+  .brand {
+    position: absolute;
+    top: 56px;
+    left: 80px;
+    z-index: 2;
+    display: flex;
+    align-items: center;
+    gap: 14px;
+  }
+
+  .mark {
+    display: grid;
+    place-items: center;
+    width: 44px;
+    height: 44px;
+    border-radius: 13px;
+    background: linear-gradient(160deg, #fdfefe 0%, #e8effc 100%);
+    border: 1px solid rgba(255, 255, 255, 0.82);
+    box-shadow:
+      0 14px 30px rgba(2, 8, 22, 0.42),
+      inset 0 1px 0 rgba(255, 255, 255, 0.96);
+  }
+
+  .mark img { display: block; width: 27px; height: 27px; }
+
+  .brand-name {
+    font-size: 18px;
+    font-weight: 700;
+    letter-spacing: 0.005em;
+  }
+
+  .copy {
+    position: absolute;
+    top: 144px;
+    left: 80px;
+    z-index: 2;
+    width: 680px;
+  }
+
+  .eyebrow {
+    display: inline-flex;
+    align-items: center;
+    gap: 9px;
+    padding: 7px 13px;
+    border: 1px solid rgba(126, 162, 255, 0.28);
+    border-radius: 999px;
+    background: rgba(22, 44, 84, 0.5);
+    color: var(--accent-soft);
+    font-size: 10.5px;
+    font-weight: 700;
+    line-height: 1.2;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    white-space: nowrap;
+  }
+
+  .eyebrow::before {
+    content: "";
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: var(--accent);
+    box-shadow: 0 0 0 4px rgba(111, 151, 255, 0.13);
+  }
+
+  h1 {
+    margin: 22px 0 0;
+    font-size: 66px;
+    font-weight: 700;
+    line-height: 1.02;
+    letter-spacing: -0.045em;
+    background: linear-gradient(180deg, #ffffff 18%, #c7d8f7 100%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+  }
+
+  .lead {
+    margin: 18px 0 0;
+    max-width: 660px;
+    color: var(--ink-2);
+    font-size: 18px;
+    font-weight: 400;
+    line-height: 1.55;
+    letter-spacing: 0.005em;
+  }
+
+  .lead-zh {
+    margin: 8px 0 0;
+    color: var(--ink-3);
+    font-size: 13.5px;
+    font-weight: 400;
+    line-height: 1.6;
+    letter-spacing: 0.01em;
+  }
+
+  .chips {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 9px;
+    margin-top: 28px;
+  }
+
+  .chip {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    height: 37px;
+    padding: 0 13px;
+    border: 1px solid var(--line);
+    border-radius: 10px;
+    background: linear-gradient(180deg, rgba(38, 64, 112, 0.52), rgba(19, 36, 66, 0.5));
+    color: #cfddf4;
+    font-size: 12.5px;
+    font-weight: 600;
+    line-height: 1;
+    letter-spacing: 0.005em;
+    white-space: nowrap;
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.05);
+  }
+
+  .chip::before {
+    content: "";
+    flex: 0 0 auto;
+    width: 5px;
+    height: 5px;
+    border-radius: 50%;
+    background: var(--accent);
+    box-shadow: 0 0 0 3px rgba(111, 151, 255, 0.12);
+  }
+
+  /* ---------- Product visual ---------- */
+
+  .visual {
+    position: absolute;
+    top: 96px;
+    right: 80px;
+    z-index: 2;
+    width: 520px;
+    height: 400px;
+  }
+
+  .visual::before {
+    content: "";
+    position: absolute;
+    inset: -54px -44px;
+    background: radial-gradient(52% 52% at 50% 50%, rgba(72, 118, 255, 0.22), transparent 72%);
+    filter: blur(5px);
+    pointer-events: none;
+  }
+
+  .screen {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    border: 1px solid rgba(184, 205, 255, 0.24);
+    border-radius: 30px;
+    background:
+      radial-gradient(380px 300px at 82% 12%, rgba(72, 118, 255, 0.28), transparent 70%),
+      radial-gradient(420px 360px at 12% 100%, rgba(28, 67, 160, 0.24), transparent 72%),
+      linear-gradient(160deg, #0f1b30 0%, #0a1425 58%, #070f1c 100%);
+    box-shadow:
+      0 44px 100px rgba(1, 6, 18, 0.56),
+      0 14px 34px rgba(1, 6, 18, 0.32),
+      inset 0 1px 0 rgba(255, 255, 255, 0.1);
+  }
+
+  .screen::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background-image:
+      linear-gradient(rgba(255, 255, 255, 0.04) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(255, 255, 255, 0.04) 1px, transparent 1px);
+    background-size: 48px 48px;
+    -webkit-mask-image: radial-gradient(78% 76% at 50% 50%, rgba(0, 0, 0, 0.85), transparent 100%);
+    mask-image: radial-gradient(78% 76% at 50% 50%, rgba(0, 0, 0, 0.85), transparent 100%);
+    pointer-events: none;
+  }
+
+  .screen::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background:
+      linear-gradient(135deg, rgba(255, 255, 255, 0.055) 0%, rgba(255, 255, 255, 0) 36%),
+      radial-gradient(120% 120% at 50% 50%, transparent 48%, rgba(2, 6, 14, 0.4) 100%);
+    pointer-events: none;
+  }
+
+  .corner {
+    position: absolute;
+    z-index: 2;
+    width: 28px;
+    height: 28px;
+    border: 0 solid rgba(170, 200, 255, 0.3);
+    pointer-events: none;
+  }
+
+  .corner.tl { top: 22px; left: 22px; border-top-width: 1px; border-left-width: 1px; border-top-left-radius: 8px; }
+  .corner.tr { top: 22px; right: 22px; border-top-width: 1px; border-right-width: 1px; border-top-right-radius: 8px; }
+  .corner.bl { bottom: 22px; left: 22px; border-bottom-width: 1px; border-left-width: 1px; border-bottom-left-radius: 8px; }
+  .corner.br { bottom: 22px; right: 22px; border-bottom-width: 1px; border-right-width: 1px; border-bottom-right-radius: 8px; }
+
+  .hud {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    z-index: 3;
+    width: 356px;
+    transform: translate(-50%, -50%);
+    padding: 24px 26px;
+    border: 1px solid rgba(160, 190, 255, 0.28);
+    border-radius: 20px;
+    background: linear-gradient(180deg, rgba(12, 26, 48, 0.82), rgba(7, 17, 32, 0.9));
+    box-shadow:
+      0 26px 60px rgba(0, 0, 0, 0.46),
+      0 0 48px rgba(72, 118, 255, 0.16),
+      inset 0 1px 0 rgba(255, 255, 255, 0.08);
+    -webkit-backdrop-filter: blur(10px);
+    backdrop-filter: blur(10px);
+  }
+
+  .hud-clock {
+    color: #f8fbff;
+    font-family: "Cascadia Code", Consolas, monospace;
+    font-size: 52px;
+    font-weight: 600;
+    line-height: 1;
+    letter-spacing: 0.005em;
+    font-variant-numeric: tabular-nums;
+    text-shadow: 0 3px 26px rgba(80, 130, 255, 0.2);
+  }
+
+  .hud-divider {
+    height: 1px;
+    margin: 18px 0 15px;
+    background: rgba(150, 181, 255, 0.16);
+  }
+
+  .hud-play {
+    color: var(--accent-soft);
+    font-family: "Cascadia Code", Consolas, monospace;
+    font-size: 13px;
+    font-weight: 500;
+    line-height: 1.2;
+    letter-spacing: 0.06em;
+    font-variant-numeric: tabular-nums;
+  }
+
+  .hud-bar {
+    height: 5px;
+    margin-top: 8px;
+    overflow: hidden;
+    border-radius: 999px;
+    background: rgba(255, 255, 255, 0.1);
+  }
+
+  .hud-bar span {
+    display: block;
+    width: 42%;
+    height: 100%;
+    border-radius: inherit;
+    background: linear-gradient(90deg, #5d8cff, #9fc0ff);
+    box-shadow: 0 0 12px rgba(93, 140, 255, 0.55);
+  }
+</style>
+</head>
+<body>
+  <div class="stage">
+    <div class="brand">
+      <span class="mark" aria-hidden="true">
+        <img src="../../extension/icons/icon.svg" alt="">
+      </span>
+      <span class="brand-name">Fullscreen Time</span>
+    </div>
+
+    <div class="copy">
+      <div class="eyebrow">CHROME EXTENSION · MANIFEST V3</div>
+      <h1>Keep time in view.<br>Stay in fullscreen.</h1>
+      <p class="lead">Playback progress and the system clock for any video — no need to exit fullscreen.</p>
+      <p class="lead-zh">全屏时也能看到播放进度与系统时钟</p>
+
+      <div class="chips">
+        <span class="chip">Video overlay</span>
+        <span class="chip">F9 / F10</span>
+        <span class="chip">EN / 中文</span>
+      </div>
+    </div>
+
+    <div class="visual">
+      <div class="screen">
+        <span class="corner tl"></span>
+        <span class="corner tr"></span>
+        <span class="corner bl"></span>
+        <span class="corner br"></span>
+
+        <div class="hud" aria-hidden="true">
+          <div class="hud-clock">12:48:36</div>
+          <div class="hud-divider"></div>
+          <div class="hud-play">01:24 / 03:10</div>
+          <div class="hud-bar"><span></span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</body>
+</html>
