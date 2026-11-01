@@ -4,7 +4,7 @@
   "description": "Chrome 扩展：在全屏时显示时间浮层，支持快捷键操作",
   "keywords": ["chrome-extension", "fullscreen", "time-overlay", "video"],
   "author": "",
-  "license": "ISC",
+  "license": "MIT",
   "scripts": {
     "clean": "if (Test-Path 'extension/content.js') { Remove-Item 'extension/content.js' }; if (Test-Path 'extension/content.js.map') { Remove-Item 'extension/content.js.map' }",
     "build-dev": "webpack --mode development",

@@ -111,6 +111,10 @@ The extension does not collect, sell, or transmit data to the developer or third
 - Repository policy source: `docs/privacy-policy.md`
 - In-extension privacy section: `extension/doc.html#privacy`
 
+## License
+
+Released under the [MIT License](LICENSE). You may use, modify, and redistribute the code, including commercially, as long as the copyright notice and permission notice are retained.
+
 ## Links
 
 - GitHub: https://github.com/mrchipset/fullscreen-time

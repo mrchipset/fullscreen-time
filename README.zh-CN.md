@@ -111,6 +111,10 @@ store/                # Chrome Web Store 素材与文案
 - 仓库内隐私政策：`docs/privacy-policy.md`
 - 扩展内隐私说明：`extension/doc.html#privacy`
 
+## 许可证
+
+本项目基于 [MIT License](LICENSE) 发布。在保留版权声明和许可声明的前提下，可自由使用、修改和再分发，包括商业用途。
+
 ## 相关链接
 
 - GitHub 仓库：https://github.com/mrchipset/fullscreen-time
