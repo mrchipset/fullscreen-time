@@ -12,8 +12,17 @@ node_modules/
 # Deepwork local session state
 .slim/deepwork/
 
-# Project-local agent skills (installed per machine)
+# Project-local agent skills and tooling (installed per machine)
 .agents/
+.claude/
+.opencode/
+.playwright-mcp/
+opencode.json
+skills-lock.json
+
+# Editor state; keep the shared debug configuration
+.vscode/*
+!.vscode/launch.json
 
 # OS generated files
 .DS_Store
@@ -28,3 +37,10 @@ copyright/*
 
 # Chrome Web Store build artifact
 store/*.zip
+
+# Scratch artifacts from local debugging (repo-root only)
+/*.yml
+/*.png
+/*.docx
+check_content.ps1
+
