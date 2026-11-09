@@ -13,13 +13,19 @@ pnpm run build-prod
 
 - `extension/content.js` 为生产压缩版本；
 - 不存在 `extension/content.js.map`；
-- `manifest.json` 的 version 为 `1.0.0`；
+- `manifest.json` 的 version 与本次发布号一致（当前 `1.0.1`）；
 - 图标 `icon16.png` / `icon32.png` / `icon48.png` / `icon128.png` 均为正方形。
 
 打包（ZIP 根目录必须直接是 `manifest.json`）：
 
 ```powershell
-Compress-Archive -Path "extension\*" -DestinationPath "store\fullscreen-time-1.0.0.zip" -Force
+Compress-Archive -Path "extension\*" -DestinationPath "store\fullscreen-time-<version>.zip" -Force
+```
+
+Git Bash / Linux / macOS 打包（不要用 `Compress-Archive`：它会写入反斜杠路径条目，且压缩率明显更差）：
+
+```bash
+cd extension && zip -r -X ../store/fullscreen-time-<version>.zip . -x "*.map" && cd ..
 ```
 
 不要把 `store/`、`docs/`、`copyright/`、`testpage/`、`node_modules/` 或截图打进 ZIP。
@@ -33,8 +39,8 @@ Compress-Archive -Path "extension\*" -DestinationPath "store\fullscreen-time-1.0
 
 ## 3. 创建条目并上传
 
-1. 点击 **New item**，上传 `store/fullscreen-time-1.0.0.zip`。
-2. 商店名称建议：`Fullscreen Time — 全屏时间显示`。
+1. 点击 **New item**（新条目）或进入已有条目 → **Package**，上传 `store/fullscreen-time-<version>.zip`。
+2. **名称不要在这里填**：manifest 使用 `__MSG_extName__`，商店显示 `extension/_locales/*/messages.json` 的 `extName`。改名要改 `extName` 并发布新版本，否则后台改了不起作用。当前值：`Fullscreen Time: Clock & Playback Overlay`（en） / `Fullscreen Time：全屏时间显示`（zh_CN）。
 3. 摘要与详细描述可直接使用：
    - `store/listing-zh.md`
    - `store/listing-en.md`
@@ -46,7 +52,9 @@ Compress-Archive -Path "extension\*" -DestinationPath "store\fullscreen-time-1.0
 ## 4. 商店素材
 
 - 商店图标：`extension/icons/icon128.png`（128×128）。
-- 截图：`store/screenshots/01-overlay.png`、`02-popup.png`、`03-settings.png`（1280×800）。
+- 截图：`store/screenshots/01-overlay-fix.png`（中文首图）、`02-popup.png`、`03-settings.png`（1280×800）；英文同套在 `store/screenshots/en/`。
+- **首图用 `*-overlay-fix.png`**，不要用旧的 `01-overlay.png`：旧图底部保留了被压暗的播放器进度条，且文案重复三层。
+- 新首图由 `store/tools/render_covers.py` 生成（Pillow，底图 `store/source/overlay.png`，1280×800）。修改文案后重跑：`python store/tools/render_covers.py`（需要 Pillow，脚本内路径按本机绝对路径写，换机器时改 `REPO` 常量）。
 - 宣传图：
   - `store/promo/small-440x280.png`（440×280）。
   - `store/promo/marquee-1400x560.png`（1400×560）。
@@ -116,14 +124,23 @@ workflow 只发布 `site/`，不会发布 `docs/` 下的内部测试/评审文�
 
 ## 10. 当前版本检查清单
 
-- [x] `manifest.json` version = `1.0.0`
+**v1.0.1（待发布）**
+
+- [x] `extName` 已带副标题：en `Fullscreen Time: Clock & Playback Overlay`、zh_CN `Fullscreen Time：全屏时间显示`
+- [x] 摘要按「结果导向」重写（见两份 listing）
+- [x] 新首图 `store/screenshots/01-overlay-fix.png` 与 `store/screenshots/en/01-overlay-fix.png`
+- [x] README 与 `site/index.html` 加入商店安装按钮
+- [x] ZIP 已生成：`store/fullscreen-time-1.0.1.zip`（21 个条目，根目录含 `manifest.json`，无反斜杠路径）
+- [ ] 在干净 Chrome 配置中加载 `fullscreen-time-1.0.1.zip`，确认 `chrome://extensions` 显示新名称
+- [ ] 开发者后台 Package 上传 1.0.1，并把三张截图替换为 `*-overlay-fix.png`
+- [ ] Privacy practices 与权限说明无改动，可沿用原提交内容
+
+**v1.0.0（已上架）**
+
 - [x] `minimum_chrome_version` = `114`
 - [x] `homepage_url` = GitHub 仓库
 - [x] 16/32/48/128 正方形图标
 - [x] 隐私政策源稿（`docs/privacy-policy.md`）+ 发布页（`site/privacy-policy.html`）
-- [x] 中英文 listing 草稿
-- [x] 1280×800 商店截图（`store/screenshots/01-overlay.png`、`02-popup.png`、`03-settings.png`）
-- [x] ZIP 已生成：`store/fullscreen-time-1.0.0.zip`（根目录含 `manifest.json`）
 - [x] GitHub Pages workflow（`.github/workflows/pages.yml`，发布 `site/`）
-- [ ] GitHub Pages 隐私政策 URL 可访问
-- [ ] 干净 Chrome 配置中加载 ZIP 测试
+- [x] GitHub Pages 隐私政策 URL 可访问（2026-11-09 实测 200）
+

@@ -8,6 +8,15 @@
 
 # Fullscreen Time
 
+<p>
+  <a href="https://chromewebstore.google.com/detail/mmbiocdjckammlfdcafklhfjdlkdffcp">
+    <img src="https://img.shields.io/badge/Chrome%20Web%20Store-Add%20to%20Chrome-4285F4?logo=googlechrome&logoColor=white" alt="Install from the Chrome Web Store">
+  </a>
+  <a href="https://github.com/mrchipset/fullscreen-time/issues">
+    <img src="https://img.shields.io/badge/Microsoft%20Edge-coming%20soon-5C6B82" alt="Microsoft Edge Add-ons coming soon">
+  </a>
+</p>
+
 A Chrome / Edge extension (Manifest V3) that overlays playback progress and the system clock at the top of the screen while a video, the browser, or a non-video element is fullscreen. No need to leave fullscreen and no interruption to playback.
 
 - Works with native `<video>` fullscreen, player-container fullscreen, F11 browser fullscreen, and regular element fullscreen
@@ -35,6 +44,11 @@ A Chrome / Edge extension (Manifest V3) that overlays playback progress and the 
 | <img src="store/screenshots/en/01-overlay.png" width="320" alt="Video fullscreen overlay"> | <img src="store/screenshots/en/02-popup.png" width="320" alt="Popup settings"> | <img src="store/screenshots/en/03-settings.png" width="320" alt="Shortcut settings"> |
 
 ## Install
+
+| Store | Status | Link |
+| --- | --- | --- |
+| Chrome Web Store | Live, v1.0.1 | [Add to Chrome](https://chromewebstore.google.com/detail/mmbiocdjckammlfdcafklhfjdlkdffcp) |
+| Microsoft Edge Add-ons | In preparation | — |
 
 Requirements: Chrome or Edge (Chromium) **114+**; Node.js 22+ and pnpm are only needed for building.
 
@@ -117,9 +131,10 @@ Released under the [MIT License](LICENSE). You may use, modify, and redistribute
 
 ## Links
 
+- Chrome Web Store: https://chromewebstore.google.com/detail/mmbiocdjckammlfdcafklhfjdlkdffcp
 - GitHub: https://github.com/mrchipset/fullscreen-time
 - Issues: https://github.com/mrchipset/fullscreen-time/issues
 - Testing SOP (Chinese): [docs/testing-sop.md](docs/testing-sop.md)
 - Chrome Web Store preparation: [store/README.md](store/README.md)
 
-Current version: `V1.0.0`
+Current version: `V1.0.1`

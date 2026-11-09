@@ -1,12 +1,16 @@
 # Chrome Web Store 列表文案（中文）
 
-## 名称
+## 名称（≤45 字符）
 
-全屏时间显示 — Fullscreen Time
+Fullscreen Time：全屏时间显示
+
+> **注意**：manifest 使用 `__MSG_`，商店显示的是
+> `extension/_locales/zh_CN/messages.json` 里的 `extName`，**不是**后台这一栏。
+> 改名必须改 `extName` 并发布新版本，两边保持一致。
 
 ## 摘要（≤132 字符）
 
-视频或浏览器全屏时，在屏幕顶部显示播放进度和系统时钟；支持自定义布局、快捷键与中英文界面。
+看视频全屏时也能盯着时间和剩余进度，不用退出全屏。
 
 ## 详细描述
 

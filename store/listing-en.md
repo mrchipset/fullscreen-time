@@ -1,12 +1,16 @@
-﻿# Chrome Web Store Listing (English)
+# Chrome Web Store Listing (English)
 
-## Name
+## Name (≤45 characters)
 
-Fullscreen Time — Clock & Playback Overlay
+Fullscreen Time: Clock & Playback Overlay
+
+> **Important:** the manifest uses `__MSG_`, so the store shows `extName` from
+> `extension/_locales/en/messages.json`, **not** this field. To change the name you
+> must edit `extName` and publish a new version. Keep the two in sync.
 
 ## Summary (≤132 characters)
 
-Show playback progress and the system clock at the top of the screen while a video or the browser is fullscreen.
+Keep an eye on the clock and remaining playback time while a video is fullscreen — no more exiting fullscreen.
 
 ## Detailed description
 

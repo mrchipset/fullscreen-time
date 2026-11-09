@@ -8,6 +8,15 @@
 
 # Fullscreen Time — 全屏时间显示
 
+<p>
+  <a href="https://chromewebstore.google.com/detail/mmbiocdjckammlfdcafklhfjdlkdffcp">
+    <img src="https://img.shields.io/badge/Chrome%20%E5%BA%94%E7%94%A8%E5%95%86%E5%BA%97-%E5%AE%89%E8%A3%85-4285F4?logo=googlechrome&logoColor=white" alt="从 Chrome 应用商店安装">
+  </a>
+  <a href="https://github.com/mrchipset/fullscreen-time/issues">
+    <img src="https://img.shields.io/badge/Edge%20%E5%95%86%E5%BA%97-%E7%AD%B9%E5%A4%87%E4%B8%AD-5C6B82" alt="Edge 商店筹备中">
+  </a>
+</p>
+
 一款 Chrome / Edge（Manifest V3）扩展：在视频、浏览器或非视频元素全屏时，把播放进度和系统时钟叠加在屏幕顶部。无需退出全屏，也不会打断视频播放。
 
 - 支持原生 `<video>` 全屏、播放器容器全屏、F11 浏览器全屏和普通元素全屏
@@ -35,6 +44,11 @@
 | <img src="store/screenshots/01-overlay.png" width="320" alt="视频全屏浮层"> | <img src="store/screenshots/02-popup.png" width="320" alt="弹窗设置"> | <img src="store/screenshots/03-settings.png" width="320" alt="快捷键设置"> |
 
 ## 安装
+
+| 商店 | 状态 | 链接 |
+| --- | --- | --- |
+| Chrome 应用商店 | 已上架，v1.0.1 | [安装扩展](https://chromewebstore.google.com/detail/mmbiocdjckammlfdcafklhfjdlkdffcp) |
+| Microsoft Edge 加载项 | 筹备中 | — |
 
 环境要求：Chrome 或 Edge（Chromium）**114+**；Node.js 22+、pnpm 仅构建时需要。
 
@@ -117,9 +131,10 @@ store/                # Chrome Web Store 素材与文案
 
 ## 相关链接
 
+- Chrome 应用商店：https://chromewebstore.google.com/detail/mmbiocdjckammlfdcafklhfjdlkdffcp
 - GitHub 仓库：https://github.com/mrchipset/fullscreen-time
 - 问题反馈：https://github.com/mrchipset/fullscreen-time/issues
 - 测试 SOP：[docs/testing-sop.md](docs/testing-sop.md)
 - Chrome Web Store 发布材料：[store/README.md](store/README.md)
 
-当前版本：`V1.0.0`
+当前版本：`V1.0.1`

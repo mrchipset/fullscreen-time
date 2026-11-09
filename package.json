@@ -1,6 +1,6 @@
 {
   "name": "fullscreen-time",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Chrome 扩展：在全屏时显示时间浮层，支持快捷键操作",
   "keywords": ["chrome-extension", "fullscreen", "time-overlay", "video"],
   "author": "",

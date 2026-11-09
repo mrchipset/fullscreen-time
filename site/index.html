@@ -69,6 +69,33 @@
     h1 { margin: 18px 0 6px; font-size: clamp(30px, 6vw, 42px); line-height: 1.2; }
     .en { color: var(--muted); font-size: 13px; letter-spacing: 0.1em; text-transform: uppercase; }
     p { color: var(--muted); }
+    .install { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 26px; }
+    .install a {
+      display: inline-flex;
+      align-items: center;
+      gap: 9px;
+      padding: 11px 18px;
+      border: 1px solid var(--accent);
+      border-radius: 10px;
+      background: var(--accent);
+      color: #fff;
+      text-decoration: none;
+      font-weight: 700;
+      font-size: 15px;
+    }
+    .install a.secondary {
+      background: var(--accent-soft);
+      color: var(--accent);
+      border-color: var(--border);
+    }
+    .install a[aria-disabled="true"] {
+      background: var(--surface);
+      color: var(--muted);
+      border-color: var(--border);
+      cursor: not-allowed;
+      pointer-events: none;
+    }
+    .install a:hover, .install a:focus-visible { text-decoration: underline; outline: 2px solid var(--accent); outline-offset: 2px; }
     .links { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 24px; }
     a {
       display: inline-flex;
@@ -93,12 +120,23 @@
     <div class="en">Fullscreen Time</div>
     <p>在视频全屏、浏览器全屏或非视频元素全屏时，显示播放进度和系统时钟。</p>
     <p>Fullscreen Time shows playback progress and the system clock while a video, the browser, or a non-video element is fullscreen.</p>
+
+    <!-- 商店上线后把 href 换成真实链接，并删除 aria-disabled / title -->
+    <div class="install">
+      <a href="https://chromewebstore.google.com/detail/fullscreen-time/mmbiocdjckammlfdcafklhfjdlkdffcp">
+        安装 Chrome 扩展 / Add to Chrome
+      </a>
+      <a class="secondary" href="https://github.com/mrchipset/fullscreen-time/issues" aria-disabled="true" title="Edge 商店正在筹备中 / Coming to Microsoft Edge Add-ons">
+        Edge 版本筹备中 / Coming to Edge
+      </a>
+    </div>
+
     <div class="links">
       <a href="privacy-policy.html">隐私政策 / Privacy Policy</a>
       <a href="https://github.com/mrchipset/fullscreen-time">GitHub 仓库</a>
       <a href="https://github.com/mrchipset/fullscreen-time/issues">问题反馈 / Issues</a>
     </div>
-    <footer>Fullscreen Time · V1.0.0 · 2026-10-19</footer>
+    <footer>Fullscreen Time · V1.0.1 · 2026-11-09</footer>
   </main>
 </body>
 </html>
