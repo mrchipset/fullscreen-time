@@ -172,7 +172,7 @@
     "description": "Documentation tech stack list item"
   },
   "docTechItem2": {
-    "message": "Chrome Extension Manifest V3",
+    "message": "Browser Extension Manifest V3",
     "description": "Documentation tech stack list item"
   },
   "docTechItem3": {
@@ -188,11 +188,11 @@
     "description": "Documentation section heading for version info"
   },
   "docVersionLabel": {
-    "message": "版本：1.0.0",
+    "message": "版本：1.0.1",
     "description": "Documentation version label"
   },
   "docDateLabel": {
-    "message": "更新日期：2026-10-19",
+    "message": "更新日期：2026-11-09",
     "description": "Documentation update date label"
   },
   "msgLoaded": {
@@ -256,7 +256,7 @@
     "description": "Privacy policy section title in documentation page"
   },
   "docPrivacyPara": {
-    "message": "Fullscreen Time 将设置存储在 Chrome 同步中，因此可能会在登录同一 Chrome 账户的设备之间同步。本扩展不会向开发者发送数据：没有开发者服务器，也没有分析统计。仅在您进入全屏模式时读取视频信息以显示播放时间。",
+    "message": "Fullscreen Time 将设置存储在浏览器同步存储中，因此可能会在登录同一浏览器账户的设备之间同步。本扩展不会向开发者发送数据：没有开发者服务器，也没有分析统计。仅在您进入全屏模式时读取视频信息以显示播放时间。",
     "description": "Privacy policy paragraph in documentation page"
   },
   "btnPrivacy": {
@@ -404,7 +404,7 @@
     "description": "About section heading on the documentation page"
   },
   "docAboutText": {
-    "message": "Fullscreen Time 是一款开源 Chrome 扩展，可在视频或浏览器全屏时显示播放进度与系统时间。完整功能见本说明书；软件没有开发者服务器，也不会收集数据。",
+    "message": "Fullscreen Time 是一款开源浏览器扩展，可在视频或浏览器全屏时显示播放进度与系统时间。完整功能见本说明书；软件没有开发者服务器，也不会收集数据。",
     "description": "About paragraph on the documentation page"
   },
   "docAboutRepoLabel": {

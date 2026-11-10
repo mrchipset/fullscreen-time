@@ -41,7 +41,7 @@ A Chrome / Edge extension (Manifest V3) that overlays playback progress and the 
 
 | Video fullscreen | Popup settings | Shortcut settings |
 | --- | --- | --- |
-| <img src="store/screenshots/en/01-overlay.png" width="320" alt="Video fullscreen overlay"> | <img src="store/screenshots/en/02-popup.png" width="320" alt="Popup settings"> | <img src="store/screenshots/en/03-settings.png" width="320" alt="Shortcut settings"> |
+| <img src="store/screenshots/en/01-overlay-fix.png" width="320" alt="Video fullscreen overlay"> | <img src="store/screenshots/en/02-popup.png" width="320" alt="Popup settings"> | <img src="store/screenshots/en/03-settings.png" width="320" alt="Shortcut settings"> |
 
 ## Install
 

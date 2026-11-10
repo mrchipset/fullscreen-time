@@ -115,12 +115,12 @@
     <h1>隐私政策 / Privacy Policy</h1>
     <p class="meta">
       软件名称 / Software: 全屏时间显示（Fullscreen Time）<br>
-      版本 / Version: V1.0.0<br>
-      生效日期 / Effective date: 2026-10-19
+      版本 / Version: V1.0.1<br>
+      生效日期 / Effective date: 2026-11-09
     </p>
 
     <div class="notice">
-      本软件不收集、不出售、不向开发者或第三方发送个人数据。设置通过 Chrome Sync 保存，可能随登录同一账户的设备同步。
+      本软件不收集、不出售、不向开发者或第三方发送个人数据。设置通过浏览器同步存储保存，可能随登录同一账户的设备同步。
     </div>
 
     <h2>1. 适用范围 / Scope</h2>
@@ -148,10 +148,10 @@
     <p>这些信息仅在浏览器本地用于计算浮层显示内容，不会被上传、保存到开发者服务器或与第三方共享。</p>
     <p>While a video is fullscreen, the extension reads the current playback time, duration (when available), and system time locally. These values are not uploaded, stored on a developer server, or shared with third parties.</p>
 
-    <h2>4. 设置的保存与同步 / Settings and Chrome Sync</h2>
-    <p>本软件使用 <code>chrome.storage.sync</code> 保存显示开关、布局模式与浮动位置、界面语言和快捷键绑定。如果用户登录 Chrome 并启用同步，这些设置可能通过 Google Chrome Sync 在登录同一账户的设备之间同步。</p>
-    <p>Chrome Sync 由用户账户与 Google 管理，开发者无法访问其中的数据。用户可以在 Chrome 同步设置中管理或清除这些数据；卸载扩展或清除扩展数据也会删除本地设置。</p>
-    <p>Settings (display options, layout, float positions, language, shortcut bindings) are stored in <code>chrome.storage.sync</code>. If Chrome Sync is enabled, settings may sync across devices signed into the same Chrome account. Chrome Sync is managed by the user and Google; the developer cannot access it.</p>
+    <h2>4. 设置的保存与同步 / Settings and browser sync</h2>
+    <p>本软件使用 <code>chrome.storage.sync</code> 保存显示开关、布局模式与浮动位置、界面语言和快捷键绑定。该存储由浏览器提供的账户同步服务托管：如果用户在一款 Chromium 浏览器（如 Chrome、Microsoft Edge）中登录并启用同步，这些设置可能在该账户登录的设备之间同步。</p>
+    <p>同步存储由用户账户与对应浏览器厂商管理，开发者无法访问其中的数据。用户可以在浏览器的同步设置中管理或清除这些数据；卸载扩展或清除扩展数据也会删除本地设置。</p>
+    <p>Settings (display options, layout, float positions, language, shortcut bindings) are stored in <code>chrome.storage.sync</code>. This storage is backed by the browser's account sync service: if sync is enabled in a Chromium browser (such as Chrome or Microsoft Edge), settings may sync across devices signed into that account. Sync storage is managed by the user and the browser vendor; the developer cannot access it.</p>
 
     <h2>5. 权限说明 / Permissions</h2>
     <ul>
@@ -163,16 +163,16 @@
     </ul>
 
     <h2>6. 第三方服务 / Third parties</h2>
-    <p>本软件运行时不调用开发者服务器，不加载远程脚本，不集成第三方统计、广告或数据分析服务。Chrome Sync 属于浏览器提供的可选同步功能，受 Google 的隐私政策约束。</p>
-    <p>There is no developer server, remote code, advertising SDK, third-party analytics, or tracking script. Chrome Sync is an optional browser feature governed by Google's privacy policy.</p>
+    <p>本软件运行时不调用开发者服务器，不加载远程脚本，不集成第三方统计、广告或数据分析服务。浏览器账户同步属于浏览器提供的可选功能，受对应浏览器厂商的隐私政策约束。</p>
+    <p>There is no developer server, remote code, advertising SDK, third-party analytics, or tracking script. Browser account sync is an optional feature of the browser and is governed by the browser vendor's privacy policy.</p>
 
     <h2>7. 儿童隐私 / Children's privacy</h2>
     <p>本软件不面向儿童收集任何个人信息，也不包含广告或社交功能。</p>
     <p>The extension does not collect personal information from children and contains no ads or social features.</p>
 
     <h2>8. 数据保留与删除 / Retention and deletion</h2>
-    <p>本软件不保留开发者侧数据。设置保存在用户浏览器的 <code>chrome.storage.sync</code> 中；用户可通过 Chrome 同步设置清除，或通过卸载扩展删除本地数据。</p>
-    <p>No developer-side data is retained. Settings live in the user's browser storage and can be cleared through Chrome Sync settings or by uninstalling the extension.</p>
+    <p>本软件不保留开发者侧数据。设置保存在用户浏览器的 <code>chrome.storage.sync</code> 中；用户可通过浏览器的同步设置清除，或通过卸载扩展删除本地数据。</p>
+    <p>No developer-side data is retained. Settings live in the user's browser storage and can be cleared through the browser's sync settings or by uninstalling the extension.</p>
 
     <h2>9. 政策变更 / Changes</h2>
     <p>如果未来版本增加网络请求、数据处理或新的权限，我们会在扩展页面和本政策中明确说明，并在必要时更新版本号与生效日期。</p>
@@ -185,7 +185,7 @@
 
     <hr>
     <footer>
-      全屏时间显示 / Fullscreen Time · V1.0.0 · 2026-10-19<br>
+      全屏时间显示 / Fullscreen Time · V1.0.1 · 2026-11-09<br>
       源代码 / Source: <a href="https://github.com/mrchipset/fullscreen-time" rel="noopener noreferrer">github.com/mrchipset/fullscreen-time</a>
     </footer>
   </main>

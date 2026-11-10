@@ -31,7 +31,7 @@ Fullscreen Time：全屏时间显示
 
 - Chrome 或 Edge（Chromium）114 及以上。
 - 运行时不需要开发者服务器，不加载远程代码，不包含分析统计。
-- 设置保存在 Chrome Sync 中，可能随登录同一 Chrome 账户的设备同步；开发者无法访问这些数据。
+- 设置保存在浏览器同步存储中，可能随登录同一浏览器账户的设备同步；开发者无法访问这些数据。
 
 权限说明：
 
@@ -63,7 +63,7 @@ Productivity（生产力工具）
 
 ## 商店截图（1280×800）
 
-1. `store/screenshots/01-overlay.png` — 视频全屏浮层
+1. `store/screenshots/01-overlay-fix.png` — 视频全屏浮层
 2. `store/screenshots/02-popup.png` — 弹窗设置
 3. `store/screenshots/03-settings.png` — 快捷键设置
 

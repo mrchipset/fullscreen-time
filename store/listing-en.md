@@ -31,7 +31,7 @@ Requirements:
 
 - Chrome or Edge (Chromium) 114+.
 - No developer server, remote code or analytics at runtime.
-- Settings are stored in Chrome Sync and may sync across devices signed into the same Chrome account; the developer cannot access them.
+- Settings are stored in the browser's sync storage and may sync across devices signed into the same browser account; the developer cannot access them.
 
 Permissions:
 
@@ -63,7 +63,7 @@ English, Chinese (Simplified)
 
 ## Store screenshots (1280×800)
 
-1. `store/screenshots/en/01-overlay.png` — video fullscreen overlay
+1. `store/screenshots/en/01-overlay-fix.png` — video fullscreen overlay
 2. `store/screenshots/en/02-popup.png` — popup settings
 3. `store/screenshots/en/03-settings.png` — shortcut settings
 

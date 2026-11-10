@@ -1,8 +1,8 @@
 # 隐私政策 / Privacy Policy
 
 **软件名称：** 全屏时间显示（Fullscreen Time）
-**版本：** V1.0.0
-**生效日期：** 2026-10-19
+**版本：** V1.0.1
+**生效日期：** 2026-11-09
 
 ## 1. 适用范围
 
@@ -39,7 +39,7 @@
 - 界面语言；
 - 快捷键绑定。
 
-如果用户登录 Chrome 并启用同步，这些设置可能通过 Google Chrome Sync 在登录同一账户的设备之间同步。Chrome Sync 由用户账户与 Google 管理，开发者无法访问其中的数据。用户可以在 Chrome 同步设置中管理或清除这些数据；卸载扩展或清除扩展数据也会删除本地设置。
+该存储由浏览器提供的账户同步服务托管：如果用户在一款 Chromium 浏览器（如 Chrome、Microsoft Edge）中登录并启用同步，这些设置可能在该账户登录的设备之间同步。同步存储由用户账户与对应浏览器厂商管理，开发者无法访问其中的数据。用户可以在浏览器的同步设置中管理或清除这些数据；卸载扩展或清除扩展数据也会删除本地设置。
 
 ## 5. 权限说明
 
@@ -51,7 +51,7 @@
 
 ## 6. 第三方服务
 
-本软件运行时不调用开发者服务器，不加载远程脚本，不集成第三方统计、广告或数据分析服务。Chrome Sync 属于浏览器提供的可选同步功能，受 Google 的隐私政策约束。
+本软件运行时不调用开发者服务器，不加载远程脚本，不集成第三方统计、广告或数据分析服务。浏览器账户同步属于浏览器提供的可选功能，受对应浏览器厂商的隐私政策约束。
 
 ## 7. 儿童隐私
 
@@ -59,7 +59,7 @@
 
 ## 8. 数据保留与删除
 
-本软件不保留开发者侧数据。设置保存在用户浏览器的 `chrome.storage.sync` 中；用户可通过 Chrome 同步设置清除，或通过卸载扩展删除本地数据。
+本软件不保留开发者侧数据。设置保存在用户浏览器的 `chrome.storage.sync` 中；用户可通过浏览器的同步设置清除，或通过卸载扩展删除本地数据。
 
 ## 9. 政策变更
 
@@ -76,8 +76,8 @@ https://github.com/mrchipset/fullscreen-time/issues
 # Privacy Policy (English)
 
 **Software:** Fullscreen Time
-**Version:** V1.0.0
-**Effective date:** 2026-10-19
+**Version:** V1.0.1
+**Effective date:** 2026-11-09
 
 Fullscreen Time is a Chrome/Edge extension that shows playback progress and the system clock while a video, the browser, or a non-video element is fullscreen.
 
@@ -85,10 +85,10 @@ We do not collect, sell, or transmit personal data, page content, forms, browsin
 
 While a video is fullscreen, the extension reads the current playback time, duration (when available), and system time locally to render the overlay. These values are not uploaded or shared.
 
-Settings (display toggles, layout, float positions, language, shortcut bindings) are stored in `chrome.storage.sync`. If Chrome Sync is enabled, settings may sync across devices signed into the same Chrome account; the developer cannot access them. Users can clear them in Chrome Sync settings or by uninstalling the extension.
+Settings (display toggles, layout, float positions, language, shortcut bindings) are stored in `chrome.storage.sync`. This storage is backed by the browser's account sync service: if sync is enabled in a Chromium browser (such as Chrome or Microsoft Edge), settings may sync across devices signed into that account. Sync storage is managed by the user and the browser vendor; the developer cannot access it. Users can clear them in the browser's sync settings or by uninstalling the extension.
 
 Permissions: `storage` saves settings; the content script on all sites detects videos and fullscreen state; `all_frames`, `match_about_blank`, and `match_origin_as_fallback` support embedded players; `_locales/*` web-accessible resources provide local language files; `file:///*` supports local video files only when the user explicitly allows file URL access.
 
-No third-party analytics or remote code is used. Chrome Sync is an optional browser feature governed by Google's privacy policy.
+No third-party analytics or remote code is used. Browser account sync is an optional feature of the browser and is governed by the browser vendor's privacy policy.
 
 Contact: https://github.com/mrchipset/fullscreen-time/issues

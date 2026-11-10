@@ -41,7 +41,7 @@
 
 | 视频全屏 | 弹窗设置 | 快捷键设置 |
 | --- | --- | --- |
-| <img src="store/screenshots/01-overlay.png" width="320" alt="视频全屏浮层"> | <img src="store/screenshots/02-popup.png" width="320" alt="弹窗设置"> | <img src="store/screenshots/03-settings.png" width="320" alt="快捷键设置"> |
+| <img src="store/screenshots/01-overlay-fix.png" width="320" alt="视频全屏浮层"> | <img src="store/screenshots/02-popup.png" width="320" alt="弹窗设置"> | <img src="store/screenshots/03-settings.png" width="320" alt="快捷键设置"> |
 
 ## 安装
 

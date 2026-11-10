@@ -172,7 +172,7 @@
     "description": "Documentation tech stack list item"
   },
   "docTechItem2": {
-    "message": "Chrome Extension Manifest V3",
+    "message": "Browser Extension Manifest V3",
     "description": "Documentation tech stack list item"
   },
   "docTechItem3": {
@@ -188,11 +188,11 @@
     "description": "Documentation section heading for version info"
   },
   "docVersionLabel": {
-    "message": "Version: 1.0.0",
+    "message": "Version: 1.0.1",
     "description": "Documentation version label"
   },
   "docDateLabel": {
-    "message": "Updated: 2026-10-19",
+    "message": "Updated: 2026-11-09",
     "description": "Documentation update date label"
   },
   "msgLoaded": {
@@ -256,7 +256,7 @@
     "description": "Privacy policy section title in documentation page"
   },
   "docPrivacyPara": {
-    "message": "Fullscreen Time stores your settings in Chrome Sync, so they may sync across devices signed in to the same Chrome profile. The extension does not send data to the developer: there is no developer server and no analytics. Video information is read only to display playback time while you are in fullscreen mode.",
+    "message": "Fullscreen Time stores your settings in the browser's sync storage, so they may sync across devices signed in to the same browser profile. The extension does not send data to the developer: there is no developer server and no analytics. Video information is read only to display playback time while you are in fullscreen mode.",
     "description": "Privacy policy paragraph in documentation page"
   },
   "btnPrivacy": {
@@ -404,7 +404,7 @@
     "description": "About section heading on the documentation page"
   },
   "docAboutText": {
-    "message": "Fullscreen Time is an open-source Chrome extension that shows playback progress and system time when a video or the browser is fullscreen. Features are described in this manual; the software has no developer server and does not collect data.",
+    "message": "Fullscreen Time is an open-source browser extension that shows playback progress and system time when a video or the browser is fullscreen. Features are described in this manual; the software has no developer server and does not collect data.",
     "description": "About paragraph on the documentation page"
   },
   "docAboutRepoLabel": {
